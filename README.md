@@ -12,6 +12,8 @@
 
 Ce repository contient l'application partage simplifié.
 
+! La documentation est à mettre à jour
+
 ## Infrastructure & Déploiement
 
 Ce projet fonctionne de manière autonome en local avec des conteneurs docker.
