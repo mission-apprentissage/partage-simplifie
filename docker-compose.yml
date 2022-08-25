@@ -1,0 +1,50 @@
+version: "2.4"
+services:
+  reverse_proxy:
+    image: partage_simplifie_reverse_proxy
+    container_name: partage_simplifie_reverse_proxy
+    build:
+      context: reverse_proxy
+    mem_limit: 256m
+    restart: unless-stopped
+    ports:
+      - 80:80
+    networks:
+      - partage_simplifie_network
+    depends_on:
+      - server
+      - ui
+
+  ui:
+    image: partage_simplifie_ui
+    container_name: partage_simplifie_ui
+    build:
+      context: ui
+    networks:
+      - partage_simplifie_network
+    depends_on:
+      - server
+
+  server:
+    image: partage_simplifie_server
+    container_name: partage_simplifie_server
+    build:
+      context: server
+    restart: unless-stopped
+    networks:
+      - partage_simplifie_network
+    depends_on:
+      - mongodb
+    environment:
+      - PARTAGE_SIMPLIFIE_MONGODB_URI=mongodb://mongodb:27017/partage-simplifie?retryWrites=true&w=majority
+
+  mongodb:
+    image: mongo:5.0.2-focal
+    container_name: partage_simplifie_mongodb
+    restart: unless-stopped
+    networks:
+      - partage_simplifie_network
+
+networks:
+  partage_simplifie_network:
+    name: partage_simplifie_network

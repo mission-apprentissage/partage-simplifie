@@ -1,0 +1,50 @@
+# Override containers for local / dev environnement
+version: "2.4"
+services:
+  reverse_proxy:
+    volumes:
+      - partage_simplifie_nginx_data:/data
+
+  ui:
+    stdin_open: true
+    build:
+      context: ui
+      dockerfile: Dockerfile.dev
+      args:
+        - REACT_APP_ENV=local
+    volumes:
+      - ./ui:/app # Allows source folders to be watched
+      - ./ui/.env:/app/.env
+      - "/app/node_modules"
+    environment:
+      - WATCHPACK_POLLING=true # Used for hot reload
+      - WDS_SOCKET_PORT=0 # Used for exposing docker ws for create-react-app v5+
+
+  server:
+    command: [ "yarn", "debug" ]
+    ports:
+      - "127.0.0.1:9229:9229" # Allows remote debugging
+    volumes:
+      - ./server/src:/app/src # Allows source folders to be watched
+      - ./server/config:/app/config
+      - ./server/.env:/app/.env
+      - partage_simplifie_server_data:/data
+    env_file:
+      - ./server/.env
+
+  mongodb:
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - partage_simplifie_mongodb_data:/data
+
+volumes:
+  partage_simplifie_mongodb_data:
+    driver: local
+    name: partage_simplifie_mongodb_data
+  partage_simplifie_nginx_data:
+    driver: local
+    name: partage_simplifie_nginx_data
+  partage_simplifie_server_data:
+    driver: local
+    name: partage_simplifie_server_data

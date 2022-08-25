@@ -1,0 +1,49 @@
+#!/bin/sh
+
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# A hook script to verify that we don't commit files that could contain sensible data or credentials like json, yml, csv, xls(x) or .env
+function prevent_sensible_files_commit() {
+  cd "${SCRIPT_DIR}/../.."
+  local sensible_files_pattern="\.(csv|xls|xls(x?)|json|env)$"
+  local exception="package.json$"
+  local files
+  files=$(git diff --cached --name-only | grep -v -E "$exception" | grep -E "$sensible_files_pattern") || true
+
+  if [ -z "$files" ]; then
+    make lint
+    make test
+  else
+    echo
+    echo "ERROR: Preventing commit of potentially sensible files:"
+    echo
+    echo "$files" | sed "s/^/   /"
+    echo
+    echo "Either reset those files, add them to .gitignore or remove them."
+    echo
+    echo "If you know what you are doing, please double-check that you are not commiting"
+    echo "any credentials, password or sensible data and run git commit again with --no-verify."
+    echo
+    exit 1
+  fi
+  cd -
+}
+
+# A hook script to verify that we don't force push on master / main / develop branch
+function prevent_force_push() {
+  BRANCH=`git rev-parse --abbrev-ref HEAD`
+  PUSH_COMMAND=`ps -ocommand= -p $PPID`
+
+  if [[ "$BRANCH" =~ ^(master|main|develop)$ && "$PUSH_COMMAND" =~ force|delete|-f ]]; then
+    echo
+    echo "Prevented force-push to $BRANCH. This is a very dangerous command."
+    echo "If you really want to do this, use --no-verify to bypass this pre-push hook."
+    echo
+    exit 1
+  fi
+
+  exit 0
+}
+
+prevent_sensible_files_commit
+prevent_force_push
