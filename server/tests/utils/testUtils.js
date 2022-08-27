@@ -1,10 +1,10 @@
-// eslint-disable-next-line node/no-unpublished-require
-const axiosist = require("axiosist");
-const createServices = require("../../src/services/services");
-const server = require("../../src/http/server");
-const { getDatabase } = require("../../src/model/db/mongodbClient");
+import axiosist from "axiosist";
 
-const startServer = async () => {
+import { createServices } from "../../src/services/services.js";
+import server from "../../src/http/server.js";
+import { getDatabase } from "../../src/model/db/mongodbClient.js";
+
+export const startServer = async () => {
   const db = getDatabase();
   const services = await createServices({ db });
 
@@ -17,15 +17,10 @@ const startServer = async () => {
   };
 };
 
-const wait = async (time) => {
+export const wait = async (time) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
     }, time);
   });
-};
-
-module.exports = {
-  startServer,
-  wait,
 };

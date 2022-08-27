@@ -1,9 +1,9 @@
-const bunyan = require("bunyan");
-const config = require("../../../config");
-const { consoleStream } = require("./logger.console");
-const { jsonStream } = require("./logger.json");
-const { mongodbStream } = require("./logger.mongodb.js");
-const { slackStream } = require("./logger.slack");
+import bunyan from "bunyan";
+import { config } from "../../../config/index.js";
+import { consoleStream } from "./logger.console.js";
+import { jsonStream } from "./logger.json.js";
+import { mongodbStream } from "./logger.mongodb.js";
+import { slackStream } from "./logger.slack.js";
 
 /**
  * Valeurs possibles des logs streams
@@ -37,8 +37,14 @@ const createStreams = () => {
 /**
  * Création du logger
  */
-module.exports = bunyan.createLogger({
+export const logger = bunyan.createLogger({
   name: config.appName,
   serializers: bunyan.stdSerializers,
+  err: function (err) {
+    return {
+      ...bunyan.stdSerializers.err(err),
+      ...(err.errInfo ? { errInfo: err.errInfo } : {}),
+    };
+  },
   streams: createStreams(),
 });

@@ -1,7 +1,7 @@
-const Joi = require("joi");
-const { BaseFactory } = require("./baseFactory");
+import Joi from "joi";
+import { BaseFactory } from "./baseFactory.js";
 
-class JobEventsFactory extends BaseFactory {
+export class JobEventsFactory extends BaseFactory {
   /**
    * Crée un JobEvents Entry à partir de props
    * @param {*} props
@@ -24,5 +24,3 @@ class JobEventsFactory extends BaseFactory {
     };
   }
 }
-
-module.exports = { JobEventsFactory };

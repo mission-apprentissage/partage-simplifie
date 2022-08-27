@@ -1,14 +1,14 @@
-const { connectToMongo } = require("../model/db/mongodbClient");
-const createUserEventsService = require("./userEventsService");
-const createJobEventsService = require("./jobEventsService");
+import { connectToMongodb } from "../model/db/mongodbClient.js";
+import createUserEventsService from "./userEventsService.js";
+import createJobEventsService from "./jobEventsService.js";
 
-module.exports = async (options = {}) => {
+export const createServices = async (options = {}) => {
   const userEvents = options.userEvents || createUserEventsService();
   const jobEvents = options.jobEvents || createJobEventsService();
 
   return {
     userEvents,
     jobEvents,
-    db: options.db || (await connectToMongo()).db,
+    db: options.db || (await connectToMongodb()).db,
   };
 };

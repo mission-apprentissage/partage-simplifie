@@ -1,8 +1,8 @@
-const assert = require("assert").strict;
-const jobEventsService = require("../../../src/services/jobEventsService");
-const { JOB_STATUS } = require("../../../src/common/constants/jobsConstants");
-const { dbCollection } = require("../../../src/model/db/mongodbClient");
-const { COLLECTIONS_NAMES } = require("../../../src/model/collections");
+import { strict as assert } from "assert";
+import jobEventsService from "../../../src/services/jobEventsService.js";
+import { JOB_STATUS } from "../../../src/common/constants/jobsConstants.js";
+import { dbCollection } from "../../../src/model/db/mongodbClient.js";
+import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 
 describe("Service JobEvents", () => {
   describe("create", () => {

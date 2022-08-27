@@ -1,9 +1,8 @@
-// eslint-disable-next-line node/no-unpublished-require
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const { connectToMongodb, getDatabase } = require("../../src/model/db/mongodbClient");
-const { configureValidation, clearAllCollections } = require("../../src/model/db/mongodbUtils");
+import { MongoMemoryServer } from "mongodb-memory-server";
 
-const { createIndexes } = require("../../src/model/indexes");
+import { connectToMongodb, getDatabase } from "../../src/model/db/mongodbClient.js";
+import { configureValidation, clearAllCollections } from "../../src/model/db/mongodbUtils.js";
+import { createIndexes } from "../../src/model/indexes/index.js";
 
 let mongodHolder;
 
@@ -11,7 +10,7 @@ let mongodHolder;
  * Démarrage de la mongodb en mémoire
  * On ne démarre pas l'initialisation de la collection logs capped car inutile pour les tests
  */
-const startMongodb = async () => {
+export const startMongodb = async () => {
   mongodHolder = await MongoMemoryServer.create({ binary: { version: "5.0.2" } });
   let uri = mongodHolder.getUri();
   let client = await connectToMongodb(uri);
@@ -24,7 +23,7 @@ const startMongodb = async () => {
 /*
  * Arrêt de la mongodb
  */
-const stopMongodb = () => {
+export const stopMongodb = () => {
   return mongodHolder.stop();
 };
 
@@ -32,12 +31,6 @@ const stopMongodb = () => {
  * Clear de la mongodb en mémoire
  * Vu qu'on ne capped pas la collection logs, on peut tout clear sans pb
  */
-const clearMongodb = async () => {
+export const clearMongodb = async () => {
   await clearAllCollections();
-};
-
-module.exports = {
-  startMongodb,
-  stopMongodb,
-  clearMongodb,
 };

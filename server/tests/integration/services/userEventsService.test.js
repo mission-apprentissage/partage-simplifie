@@ -1,7 +1,7 @@
-const assert = require("assert").strict;
-const { COLLECTIONS_NAMES } = require("../../../src/model/collections");
-const { dbCollection } = require("../../../src/model/db/mongodbClient");
-const userEventsService = require("../../../src/services/userEventsService");
+import { strict as assert } from "assert";
+import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
+import { dbCollection } from "../../../src/model/db/mongodbClient.js";
+import userEventsService from "../../../src/services/userEventsService.js";
 
 describe("Service UserEvents", () => {
   describe("create", () => {

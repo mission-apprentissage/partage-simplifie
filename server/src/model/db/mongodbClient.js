@@ -1,12 +1,12 @@
-const config = require("../../../config");
-const { MongoClient } = require("mongodb");
+import { config } from "../../../config/index.js";
+import { MongoClient } from "mongodb";
 
 let clientHolder;
 
 /**
  * Vérification de la connexion mongodb
  */
-const ensureInitialization = () => {
+export const ensureInitialization = () => {
   if (!clientHolder) {
     throw new Error("Database connection does not exist. Please call connectToMongodb before.");
   }
@@ -17,7 +17,7 @@ const ensureInitialization = () => {
  * @param {*} uri
  * @returns
  */
-const connectToMongodb = async (uri = config.mongodb.uri) => {
+export const connectToMongodb = async (uri = config.mongodb.uri) => {
   let client = await new MongoClient(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -32,7 +32,7 @@ const connectToMongodb = async (uri = config.mongodb.uri) => {
  * Fermeture de la connexion mongodb
  * @returns
  */
-const closeMongodbConnection = () => {
+export const closeMongodbConnection = () => {
   ensureInitialization();
   return clientHolder.close();
 };
@@ -41,7 +41,7 @@ const closeMongodbConnection = () => {
  * Récupère la db depuis la connexion mongodb
  * @returns
  */
-const getDatabase = () => {
+export const getDatabase = () => {
   ensureInitialization();
   return clientHolder.db();
 };
@@ -51,15 +51,7 @@ const getDatabase = () => {
  * @param {*} name
  * @returns
  */
-const dbCollection = (name) => {
+export const dbCollection = (name) => {
   ensureInitialization();
   return clientHolder.db().collection(name);
-};
-
-module.exports = {
-  connectToMongodb,
-  closeMongodbConnection,
-  dbCollection,
-  getDatabase,
-  ensureInitialization,
 };

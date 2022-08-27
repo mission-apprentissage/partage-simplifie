@@ -1,7 +1,7 @@
-const logger = require("../../common/logger");
-const { createIndexes, dropIndexes } = require("../../model/indexes/index");
+import { logger } from "../../common/logger/logger.js";
+import { createIndexes, dropIndexes } from "../../model/indexes/index.js";
 
-module.exports.runCreateIndexes = async () => {
+export const runCreateIndexes = async () => {
   logger.info("Drop all existing indexes...");
   await dropIndexes();
 

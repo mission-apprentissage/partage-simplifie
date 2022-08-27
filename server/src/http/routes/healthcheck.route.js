@@ -1,12 +1,12 @@
-const express = require("express");
-const logger = require("../../common/logger");
-const config = require("../../../config");
-const tryCatch = require("../middlewares/tryCatchMiddleware");
-const packageJson = require("../../../package.json");
-const { dbCollection } = require("../../model/db/mongodbClient");
-const { COLLECTIONS_NAMES } = require("../../model/collections");
+import express from "express";
+import { logger } from "../../common/logger/logger.js";
+import { config } from "../../../config/index.js";
+import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
+import { packageJson } from "../../common/utils/esmUtils.js";
+import { dbCollection } from "../../model/db/mongodbClient.js";
+import { COLLECTIONS_NAMES } from "../../model/collections/index.js";
 
-module.exports = () => {
+export default () => {
   const router = express.Router();
 
   router.get(

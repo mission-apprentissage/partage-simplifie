@@ -1,6 +1,6 @@
-const assert = require("assert").strict;
-const config = require("../../../config");
-const { startServer } = require("../../utils/testUtils");
+import { strict as assert } from "assert";
+import { config } from "../../../config/index.js";
+import { startServer } from "../../utils/testUtils.js";
 
 describe("API Route Healthcheck", () => {
   it("Vérifie que la route healthcheck fonctionne", async () => {

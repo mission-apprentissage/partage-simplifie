@@ -1,28 +1,28 @@
-const number = (custom = {}) => {
+export const number = (custom = {}) => {
   return { bsonType: "number", ...custom };
 };
 
-const integer = (custom = {}) => {
+export const integer = (custom = {}) => {
   return { bsonType: "int", ...custom };
 };
 
-const objectId = (custom = {}) => {
+export const objectId = (custom = {}) => {
   return { bsonType: "objectId", ...custom };
 };
 
-const string = (custom = {}) => {
+export const string = (custom = {}) => {
   return { bsonType: "string", ...custom };
 };
 
-const boolean = (custom = {}) => {
+export const boolean = (custom = {}) => {
   return { bsonType: "bool", ...custom };
 };
 
-const date = (custom = {}) => {
+export const date = (custom = {}) => {
   return { bsonType: "date", ...custom };
 };
 
-const arrayOf = (items, custom = {}) => {
+export const arrayOf = (items, custom = {}) => {
   return {
     bsonType: "array",
     ...custom,
@@ -30,14 +30,14 @@ const arrayOf = (items, custom = {}) => {
   };
 };
 
-const array = (custom = {}) => {
+export const array = (custom = {}) => {
   return {
     bsonType: "array",
     ...custom,
   };
 };
 
-const object = (properties, custom = {}) => {
+export const object = (properties, custom = {}) => {
   return {
     bsonType: "object",
     additionalProperties: false,
@@ -45,5 +45,3 @@ const object = (properties, custom = {}) => {
     properties,
   };
 };
-
-module.exports = { number, integer, objectId, string, boolean, date, array, arrayOf, object };

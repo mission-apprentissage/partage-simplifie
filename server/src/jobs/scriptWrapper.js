@@ -1,9 +1,9 @@
-const { connectToMongodb, getDatabase, closeMongodbConnection } = require("../model/db/mongodbClient");
-const { configureMongoDb } = require("../model/db/mongodbUtils");
-const createServices = require("../services/services");
-const logger = require("../common/logger");
-const { formatDuration, intervalToDuration } = require("date-fns");
-const { JOB_STATUS } = require("../common/constants/jobsConstants");
+import { connectToMongodb, getDatabase, closeMongodbConnection } from "../model/db/mongodbClient.js";
+import { configureMongoDb } from "../model/db/mongodbUtils.js";
+import { createServices } from "../services/services.js";
+import { logger } from "../common/logger/logger.js";
+import { formatDuration, intervalToDuration } from "date-fns";
+import { JOB_STATUS } from "../common/constants/jobsConstants.js";
 
 process.on("unhandledRejection", (e) => console.log(e));
 process.on("uncaughtException", (e) => console.log(e));
@@ -34,7 +34,7 @@ const exit = async (rawError) => {
  * @param {*} job
  * @param {*} jobName
  */
-const runScript = async (job, jobName) => {
+export const runScript = async (job, jobName) => {
   const startDate = new Date();
 
   // Start db connection & services injection
@@ -62,5 +62,3 @@ const runScript = async (job, jobName) => {
     await services.jobEvents.create({ jobname: jobName, action: JOB_STATUS.ended, date: new Date() });
   }
 };
-
-module.exports = { runScript };

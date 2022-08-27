@@ -1,9 +1,9 @@
-const server = require("./http/server");
-const logger = require("./common/logger");
-const config = require("../config");
-const createServices = require("./services/services");
-const { connectToMongodb, getDatabase } = require("./model/db/mongodbClient");
-const { configureMongoDb } = require("./model/db/mongodbUtils");
+import server from "./http/server.js";
+import { logger } from "./common/logger/logger.js";
+import { config } from "../config/index.js";
+import { createServices } from "./services/services.js";
+import { connectToMongodb, getDatabase } from "./model/db/mongodbClient.js";
+import { configureMongoDb } from "./model/db/mongodbUtils.js";
 
 process.on("unhandledRejection", (e) => logger.error("An unexpected error occurred", e));
 process.on("uncaughtException", (e) => logger.error("An unexpected error occurred", e));

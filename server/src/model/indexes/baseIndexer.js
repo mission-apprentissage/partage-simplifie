@@ -1,10 +1,10 @@
-const { dbCollection } = require("../../model/db/mongodbClient");
-const { doesCollectionExistInDb } = require("../../model/db/mongodbUtils");
+import { dbCollection } from "../../model/db/mongodbClient.js";
+import { doesCollectionExistInDb } from "../../model/db/mongodbUtils.js";
 
 /**
  * Classe BaseIndexer de base
  */
-class BaseIndexer {
+export class BaseIndexer {
   /**
    * Constructeur
    * @param {array} collectionName Nom de la collection
@@ -41,5 +41,3 @@ class BaseIndexer {
     }
   }
 }
-
-module.exports = { BaseIndexer };

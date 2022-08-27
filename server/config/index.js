@@ -1,8 +1,8 @@
-const env = require("env-var");
+import env from "env-var";
 
-module.exports = {
+export const config = {
   appName: env.get("PARTAGE_SIMPLIFIE_NAME").default("Partage simplifié").asString(),
-  env: env.get("PARTAGE_SIMPLIFIE_ENV").required().asString(),
+  env: env.get("PARTAGE_SIMPLIFIE_ENV").default("local").asString(),
   publicUrl: env.get("PARTAGE_SIMPLIFIE_PUBLIC_URL").default("http://localhost").asString(),
   mongodb: {
     uri: env

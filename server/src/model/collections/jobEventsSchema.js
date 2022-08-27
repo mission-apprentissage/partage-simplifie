@@ -1,4 +1,4 @@
-const { date, object, objectId, string } = require("./jsonSchema/jsonSchemaTypes.js");
+import { date, object, objectId, string } from "./jsonSchema/jsonSchemaTypes.js";
 
 const name = "jobEvents";
 
@@ -19,4 +19,4 @@ const schema = () => {
   );
 };
 
-module.exports = { name, schema, indexes };
+export default { name, indexes, schema };
