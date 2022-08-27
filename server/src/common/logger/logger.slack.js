@@ -1,12 +1,12 @@
-const BunyanSlack = require("bunyan-slack");
-const util = require("util");
-const throttle = require("lodash.throttle");
+import BunyanSlack from "bunyan-slack";
+import util from "util";
+import throttle from "lodash.throttle";
 
 /**
  * Envoi les logs dans Slack
  * @returns
  */
-const slackStream = (slackWebhookUrl, envName) => {
+export const slackStream = (slackWebhookUrl, envName) => {
   const stream = new BunyanSlack(
     {
       webhook_url: slackWebhookUrl,
@@ -36,5 +36,3 @@ const slackStream = (slackWebhookUrl, envName) => {
     stream,
   };
 };
-
-module.exports = { slackStream };

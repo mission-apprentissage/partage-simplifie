@@ -1,6 +1,6 @@
-const { JobEventsFactory } = require("../factory/jobEventsFactory");
-const { dbCollection } = require("../model/db/mongodbClient");
-const { COLLECTIONS_NAMES } = require("../model/collections");
+import { JobEventsFactory } from "../factory/jobEventsFactory.js";
+import { dbCollection } from "../model/db/mongodbClient.js";
+import { COLLECTIONS_NAMES } from "../model/collections/index.js";
 
 /**
  * Création d'un JobEvent
@@ -27,4 +27,4 @@ const isJobInAction = async (jobname, action) => {
   return lastJobEvent?.action === action ?? false;
 };
 
-module.exports = () => ({ create, isJobInAction });
+export default () => ({ create, isJobInAction });

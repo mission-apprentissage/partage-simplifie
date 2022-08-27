@@ -1,6 +1,6 @@
-const nock = require("nock"); // eslint-disable-line node/no-unpublished-require
-const { startMongodb, stopMongodb, clearMongodb } = require("./mongoUtils");
-const { nockExternalApis } = require("./nockApis");
+import nock from "nock";
+import { startMongodb, stopMongodb, clearMongodb } from "./mongoUtils.js";
+import { nockExternalApis } from "./nockApis/index.js";
 
 const LOCAL_HOST = "127.0.0.1";
 const MONGODB_MEMORY_SERVER_DL_HOST = "fastdl.mongodb.org";
@@ -12,12 +12,12 @@ nock.enableNetConnect((host) => {
 });
 
 // connect to mongodb and create indexes before running tests
-exports.mochaGlobalSetup = async () => {
+export const mochaGlobalSetup = async () => {
   await startMongodb();
 };
 
 // hooks that will be used in every test suite
-exports.mochaHooks = {
+export const mochaHooks = {
   beforeEach: () => {
     nockExternalApis();
   },
@@ -28,6 +28,6 @@ exports.mochaHooks = {
 };
 
 // close mongo connection when all tests have been run
-exports.mochaGlobalTeardown = async () => {
+export const mochaGlobalTeardown = async () => {
   await stopMongodb();
 };

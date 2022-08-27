@@ -1,11 +1,11 @@
-const PrettyStream = require("bunyan-prettystream");
+import PrettyStream from "bunyan-prettystream";
 
 /**
  * Envoi les logs dans la console
  * @param {*} outputName
  * @returns
  */
-const consoleStream = (level) => {
+export const consoleStream = (level) => {
   const pretty = new PrettyStream();
   pretty.pipe(process.stdout);
   return {
@@ -14,5 +14,3 @@ const consoleStream = (level) => {
     stream: pretty,
   };
 };
-
-module.exports = { consoleStream };

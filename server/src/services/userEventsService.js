@@ -1,6 +1,6 @@
-const { UserEventsFactory } = require("../factory/userEventsFactory");
-const { COLLECTIONS_NAMES } = require("../model/collections");
-const { dbCollection } = require("../model/db/mongodbClient");
+import { UserEventsFactory } from "../factory/userEventsFactory.js";
+import { COLLECTIONS_NAMES } from "../model/collections/index.js";
+import { dbCollection } from "../model/db/mongodbClient.js";
 
 const create = async ({ username, type, data }) => {
   const userEventEntity = UserEventsFactory.create({ username, type, data });
@@ -8,4 +8,4 @@ const create = async ({ username, type, data }) => {
   return;
 };
 
-module.exports = () => ({ create });
+export default () => ({ create });

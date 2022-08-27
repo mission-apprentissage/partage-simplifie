@@ -1,2 +1,1 @@
-const nockExternalApis = () => {};
-module.exports = { nockExternalApis };
+export const nockExternalApis = () => {};

@@ -1,8 +1,8 @@
-const { program: cli } = require("commander");
-const { JOB_NAMES } = require("../common/constants/jobsConstants");
-const { runCreateIndexes } = require("./create-indexes");
-const { runScript } = require("./scriptWrapper");
-const { runTest } = require("./test");
+import { program as cli } from "commander";
+import { JOB_NAMES } from "../common/constants/jobsConstants.js";
+import { runCreateIndexes } from "./create-indexes/index.js";
+import { runScript } from "./scriptWrapper.js";
+import { runTest } from "./test/index.js";
 
 /**
  * Job de test

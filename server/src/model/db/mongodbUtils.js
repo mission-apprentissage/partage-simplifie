@@ -1,7 +1,7 @@
-const config = require("../../../config");
-const logger = require("../../common/logger");
-const { COLLECTIONS_SCHEMAS, COLLECTIONS_NAMES } = require("../collections");
-const { getDatabase, ensureInitialization } = require("./mongodbClient");
+import { config } from "../../../config/index.js";
+import { logger } from "../../common/logger/logger.js";
+import { COLLECTIONS_SCHEMAS, COLLECTIONS_NAMES } from "../collections/index.js";
+import { getDatabase, ensureInitialization } from "./mongodbClient.js";
 
 /**
  * Création d'une collection si elle n'existe pas
@@ -20,7 +20,7 @@ const createCollectionIfNeeded = async (name) => {
  * Clear de toutes les collections
  * @returns
  */
-const clearAllCollections = async () => {
+export const clearAllCollections = async () => {
   let collections = await getDatabase().collections();
   return Promise.all(collections.map((c) => c.deleteMany({})));
 };
@@ -29,7 +29,7 @@ const clearAllCollections = async () => {
  * Vérification de l'existence d'une collection
  * @param {*} name
  */
-const doesCollectionExistInDb = async (name) => {
+export const doesCollectionExistInDb = async (name) => {
   let db = getDatabase();
   let collections = await db.listCollections().toArray();
   return collections.some((c) => c.name === name);
@@ -38,7 +38,7 @@ const doesCollectionExistInDb = async (name) => {
 /***
  * Configuration de la validation des collections
  */
-const configureValidation = async () => {
+export const configureValidation = async () => {
   await ensureInitialization();
 
   await Promise.all(
@@ -94,14 +94,7 @@ const configureLogsCappedCollection = async () => {
 /**
  * Configuration de la mongodb, lance toute les étapes nécessaires pour l'initialisation de la base
  */
-const configureMongoDb = async () => {
+export const configureMongoDb = async () => {
   await configureLogsCappedCollection();
   await configureValidation();
-};
-
-module.exports = {
-  configureMongoDb,
-  doesCollectionExistInDb,
-  clearAllCollections,
-  configureValidation,
 };

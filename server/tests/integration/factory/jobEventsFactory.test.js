@@ -1,5 +1,5 @@
-const assert = require("assert").strict;
-const { JobEventsFactory } = require("../../../src/factory/jobEventsFactory");
+import { strict as assert } from "assert";
+import { JobEventsFactory } from "../../../src/factory/jobEventsFactory.js";
 
 describe("Factory JobEvents", () => {
   describe("create", () => {

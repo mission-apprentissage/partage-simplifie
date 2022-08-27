@@ -1,7 +1,7 @@
 /**
  * Classe Factory de base
  */
-class BaseFactory {
+export class BaseFactory {
   constructor(props) {
     Object.entries(props).map(([key, value]) => (this[key] = value));
   }
@@ -11,5 +11,3 @@ class BaseFactory {
     throw new Error("Method 'create()' must be implemented.");
   }
 }
-
-module.exports = { BaseFactory };

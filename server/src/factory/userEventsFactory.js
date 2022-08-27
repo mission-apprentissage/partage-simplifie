@@ -1,7 +1,7 @@
-const Joi = require("joi");
-const { BaseFactory } = require("./baseFactory");
+import Joi from "joi";
+import { BaseFactory } from "./baseFactory.js";
 
-class UserEventsFactory extends BaseFactory {
+export class UserEventsFactory extends BaseFactory {
   /**
    * Crée un UserEvent Entry à partir de props
    * @param {*} props
@@ -25,4 +25,4 @@ class UserEventsFactory extends BaseFactory {
   }
 }
 
-module.exports = { UserEventsFactory };
+export default { UserEventsFactory };

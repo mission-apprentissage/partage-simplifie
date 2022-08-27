@@ -1,12 +1,12 @@
-const { writeData } = require("oleoduc");
-const { dbCollection } = require("../../model/db/mongodbClient");
+import { writeData } from "oleoduc";
+import { dbCollection } from "../../model/db/mongodbClient.js";
 
 /**
  * Envoi les logs dans un json
  * @param {*} outputName
  * @returns
  */
-const mongodbStream = (level) => {
+export const mongodbStream = (level) => {
   return {
     name: "mongodb",
     type: "raw",
@@ -14,5 +14,3 @@ const mongodbStream = (level) => {
     stream: writeData((data) => dbCollection("logs").insertOne(data)),
   };
 };
-
-module.exports = { mongodbStream };

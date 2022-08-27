@@ -1,21 +1,19 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+import express from "express";
+import bodyParser from "body-parser";
+import logMiddleware from "./middlewares/logMiddleware.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
+import healthcheckRouter from "./routes/healthcheck.route.js";
 
-const logMiddleware = require("./middlewares/logMiddleware");
-const errorMiddleware = require("./middlewares/errorMiddleware");
-
-const healthcheckRouter = require("./routes/healthcheck.route");
-
-module.exports = async (services) => {
+// TODO remove when using services
+// eslint-disable-next-line no-unused-vars
+export default async (services) => {
   const app = express();
 
   app.use(bodyParser.json());
   app.use(logMiddleware());
 
   // open routes
-  app.use("/api/healthcheck", healthcheckRouter(services));
-
-  // admin routes
+  app.use("/api/healthcheck", healthcheckRouter());
 
   app.use(errorMiddleware());
 
