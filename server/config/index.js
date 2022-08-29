@@ -10,6 +10,13 @@ export const config = {
       .default("mongodb://127.0.0.1:27017/partage-simplifie?retryWrites=true&w=majority")
       .asString(),
   },
+  auth: {
+    passwordHashRounds: env.get("PARTAGE_SIMPLIFIE_AUTH_PASSWORD_HASH_ROUNDS").default(10000).asInt(),
+    user: {
+      jwtSecret: env.get("PARTAGE_SIMPLIFIE_AUTH_USER_JWT_SECRET").required().asString(),
+      expiresIn: env.get("PARTAGE_SIMPLIFIE_AUTH_USER_JWT_SECRET_EXPIRES").default("24h").asString(),
+    },
+  },
   log: {
     type: env.get("PARTAGE_SIMPLIFIE_LOG_TYPE").default("console").asString(),
     level: env.get("PARTAGE_SIMPLIFIE_LOG_LEVEL").default("info").asString(),
