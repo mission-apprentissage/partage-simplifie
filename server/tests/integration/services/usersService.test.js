@@ -4,6 +4,7 @@ import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import usersService from "../../../src/services/usersService.js";
 import { differenceInCalendarDays, differenceInHours, subMinutes } from "date-fns";
+import { ObjectId } from "mongodb";
 
 describe("Service Users", () => {
   describe("createUser", () => {
@@ -296,6 +297,137 @@ describe("Service Users", () => {
           return true;
         }
       );
+    });
+  });
+
+  describe("authenticate", () => {
+    it("Vérifie que le mot de passe est valide", async () => {
+      const { createUser, authenticate } = await usersService();
+
+      // Création du user
+      await createUser({
+        email: "user@test.fr",
+        username: "user",
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const user = await authenticate("user", "password");
+      assert.equal(user.username === "user", true);
+    });
+
+    it("Vérifie que le mot de passe est invalide", async () => {
+      const { createUser, authenticate } = await usersService();
+
+      // Création du user
+      await createUser({
+        email: "user@test.fr",
+        username: "user",
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const user = await authenticate("user", "INVALID");
+      assert.equal(user, null);
+    });
+  });
+
+  describe("getUser", () => {
+    it("renvoie le bon utilisateur quand le username fourni est valide", async () => {
+      const { createUser, getUser } = await usersService();
+
+      const usernameTest = "userTest";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: "user@test.fr",
+        username: usernameTest,
+        role: ROLES.CFA,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      const gettedUser = await getUser(found.username);
+      assert.equal(gettedUser.username === found.username, true);
+      assert.equal(gettedUser.role === ROLES.CFA, true);
+      assert.equal(gettedUser._id !== null, true);
+    });
+
+    it("ne renvoie pas le bon utilisateur quand le username fourni n'est pas valide", async () => {
+      const { createUser, getUser } = await usersService();
+
+      const usernameTest = "userTest";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: "user@test.fr",
+        username: usernameTest,
+        role: ROLES.CFA,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      await assert.rejects(getUser("basUser"), { message: "Unable to find user" });
+    });
+  });
+
+  describe("getUserById", () => {
+    it("renvoie le bon utilisateur quand l'id fourni est valide", async () => {
+      const { createUser, getUserById } = await usersService();
+
+      const usernameTest = "userTest";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: "user@test.fr",
+        username: usernameTest,
+        role: ROLES.CFA,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      const gettedUser = await getUserById(found._id);
+      assert.equal(gettedUser.username === found.username, true);
+      assert.equal(gettedUser.role === ROLES.CFA, true);
+      assert.equal(gettedUser._id !== null, true);
+    });
+
+    it("ne renvoie pas le bon utilisateur quand l'id fourni n'est pas valide", async () => {
+      const { createUser, getUserById } = await usersService();
+
+      const usernameTest = "userTest";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: "user@test.fr",
+        username: usernameTest,
+        role: ROLES.CFA,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      const objectId = new ObjectId();
+      await assert.rejects(getUserById(objectId), { message: "Unable to find user" });
     });
   });
 });
