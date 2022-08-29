@@ -6,11 +6,11 @@ import usersService from "../../../src/services/usersService.js";
 import { differenceInCalendarDays, differenceInHours, subMinutes } from "date-fns";
 
 describe("Service Users", () => {
-  describe("create", () => {
+  describe("createUser", () => {
     it("Permet de créer un utilisateur avec les champs obligatoires et un username", async () => {
-      const { create } = await usersService();
+      const { createUser } = await usersService();
 
-      const insertedId = await create({
+      const insertedId = await createUser({
         email: "user@test.fr",
         username: "user",
         password: "password",
@@ -26,9 +26,9 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec les champs obligatoires sans username", async () => {
-      const { create } = await usersService();
+      const { createUser } = await usersService();
 
-      const insertedId = await create({
+      const insertedId = await createUser({
         email: "user@test.fr",
         password: "password",
         role: ROLES.CFA,
@@ -43,9 +43,9 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec mot de passe random quand pas de mot de passe fourni", async () => {
-      const { create } = await usersService();
+      const { createUser } = await usersService();
 
-      const insertedId = await create({
+      const insertedId = await createUser({
         email: "user@test.fr",
         role: ROLES.CFA,
       });
@@ -59,9 +59,9 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec le role administrateur", async () => {
-      const { create } = await usersService();
+      const { createUser } = await usersService();
 
-      const insertedId = await create({
+      const insertedId = await createUser({
         email: "user@test.fr",
         role: ROLES.ADMINISTRATOR,
       });
@@ -75,7 +75,7 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec tous les champs optionnels", async () => {
-      const { create } = await usersService();
+      const { createUser } = await usersService();
 
       const testUsername = "user";
       const testEmail = "user@email.fr";
@@ -87,7 +87,7 @@ describe("Service Users", () => {
       const testOutilsGestion = ["outil1", "outil2"];
       const testNom_etablissement = "nom_etablissement";
 
-      const insertedId = await create({
+      const insertedId = await createUser({
         email: testEmail,
         username: testUsername,
         role: testRole,
@@ -116,13 +116,13 @@ describe("Service Users", () => {
 
   describe("generatePasswordUpdateToken", () => {
     it("Génère un token avec expiration à +48h", async () => {
-      const { create, generatePasswordUpdateToken } = await usersService();
+      const { createUser, generatePasswordUpdateToken } = await usersService();
 
       const testUserEmail = "user@test.fr";
       const testUsername = "user";
 
       // Création du user
-      const insertedId = await create({
+      const insertedId = await createUser({
         email: testUserEmail,
         username: testUsername,
         role: ROLES.CFA,
@@ -139,10 +139,10 @@ describe("Service Users", () => {
     });
 
     it("Renvoie une erreur quand le user n'est pas trouvé", async () => {
-      const { create, generatePasswordUpdateToken } = await usersService();
+      const { createUser, generatePasswordUpdateToken } = await usersService();
 
       // create user
-      await create({ email: "KO@test.Fr", username: "KO", role: ROLES.CFA });
+      await createUser({ email: "KO@test.Fr", username: "KO", role: ROLES.CFA });
 
       await assert.rejects(
         () => generatePasswordUpdateToken("user"),
@@ -156,10 +156,10 @@ describe("Service Users", () => {
 
   describe("updatePassword", () => {
     it("modifie le mot de passe d'un user et invalide le token d'update", async () => {
-      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
 
       // Création du user
-      const insertedId = await create({
+      const insertedId = await createUser({
         email: "user@test.fr",
         username: "user",
         role: ROLES.CFA,
@@ -179,10 +179,10 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur quand le token passé ne permet pas de retrouver le user", async () => {
-      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
 
       // Création du user
-      await create({
+      await createUser({
         email: "user@test.fr",
         username: "user",
         role: ROLES.CFA,
@@ -201,10 +201,10 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque le nouveau mot de passe est trop court", async () => {
-      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
 
       // Création du user
-      await create({
+      await createUser({
         email: "user@test.fr",
         username: "user",
         role: ROLES.CFA,
@@ -225,10 +225,10 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque l'update est fait plus de 24h après la création du token", async () => {
-      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
 
       // Création du user
-      await create({
+      await createUser({
         email: "user@test.fr",
         username: "user",
         role: ROLES.CFA,
@@ -254,10 +254,10 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque l'update est tenté avec un token null", async () => {
-      const { create, updatePassword } = await usersService();
+      const { createUser, updatePassword } = await usersService();
 
       // Création du user
-      await create({
+      await createUser({
         email: "user@test.fr",
         username: "user",
         role: ROLES.CFA,
@@ -273,10 +273,10 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque l'update a déjà été fait", async () => {
-      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
 
       // Création du user
-      await create({
+      await createUser({
         email: "user@test.fr",
         username: "user",
         role: ROLES.CFA,

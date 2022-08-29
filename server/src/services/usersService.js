@@ -16,7 +16,7 @@ const PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS = 48;
  * @param {*} userProps
  * @returns
  */
-const create = async (userProps) => {
+const createUser = async (userProps) => {
   // Champs obligatoires
   const email = userProps.email;
   const role = userProps.role || ROLES.cfa;
@@ -129,4 +129,4 @@ const updatePassword = async (updateToken, password) => {
   return updated;
 };
 
-export default () => ({ create, generatePasswordUpdateToken, updatePassword });
+export default () => ({ createUser, generatePasswordUpdateToken, updatePassword });
