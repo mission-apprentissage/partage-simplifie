@@ -4,7 +4,7 @@ import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
 import { createUserToken } from "../../common/utils/jwtUtils.js";
 
 export default ({ users, userEvents }) => {
-  const router = express.Router(); // eslint-disable-line new-cap
+  const router = express.Router();
 
   router.post(
     "/",

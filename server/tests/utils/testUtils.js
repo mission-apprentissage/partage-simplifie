@@ -11,9 +11,23 @@ export const startServer = async () => {
   const app = await server(services);
   const httpClient = axiosist(app);
 
+  const createAndLogUser = async (email, password, role, options) => {
+    await services.users.createUser({ email, password, role, ...options });
+
+    const response = await httpClient.post("/api/login", {
+      username: email,
+      password: password,
+    });
+
+    return {
+      Authorization: "Bearer " + response.data.access_token,
+    };
+  };
+
   return {
     httpClient,
     services,
+    createAndLogUser,
   };
 };
 
