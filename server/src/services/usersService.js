@@ -5,6 +5,7 @@ import { COLLECTIONS_NAMES } from "../model/collections/index.js";
 import { dbCollection } from "../model/db/mongodbClient.js";
 import { addHours, isBefore } from "date-fns";
 import { validatePassword } from "../domain/password.js";
+import { config } from "../../config/index.js";
 
 const PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS = 48;
 
@@ -207,6 +208,13 @@ const getUserById = async (_id) => {
  */
 const getAllUsers = async () => await dbCollection(COLLECTIONS_NAMES.Users).find().toArray();
 
+/**
+ * Méthode de récupération du lien de maj de mot de passe
+ * @param {*} token
+ * @returns
+ */
+const getUpdatePasswordLink = (token) => `${config.publicUrl}/modifier-mot-de-passe?token=${token}`;
+
 export default () => ({
   createUser,
   generatePasswordUpdateToken,
@@ -215,4 +223,5 @@ export default () => ({
   getUserById,
   getUser,
   getAllUsers,
+  getUpdatePasswordLink,
 });
