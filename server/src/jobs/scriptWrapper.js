@@ -43,14 +43,14 @@ export const runScript = async (job, jobName) => {
   const db = getDatabase();
   const services = await createServices({ db });
 
-  await services.jobEvents.create({ jobname: jobName, action: JOB_STATUS.started });
+  await services.jobEvents.createJobEvent({ jobname: jobName, action: JOB_STATUS.started });
 
   try {
     await job(services);
 
     const endDate = new Date();
     const duration = formatDuration(intervalToDuration({ start: startDate, end: endDate }));
-    await services.jobEvents.create({
+    await services.jobEvents.createJobEvent({
       jobname: jobName,
       action: JOB_STATUS.executed,
       data: { startDate, endDate, duration },
@@ -59,6 +59,6 @@ export const runScript = async (job, jobName) => {
   } catch (e) {
     await exit(e);
   } finally {
-    await services.jobEvents.create({ jobname: jobName, action: JOB_STATUS.ended, date: new Date() });
+    await services.jobEvents.createJobEvent({ jobname: jobName, action: JOB_STATUS.ended, date: new Date() });
   }
 };
