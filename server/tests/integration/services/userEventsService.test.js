@@ -6,7 +6,7 @@ import userEventsService from "../../../src/services/userEventsService.js";
 describe("Service UserEvents", () => {
   describe("createUserEvent", () => {
     it("Permet de créer un userEvent et de le sauver en base", async () => {
-      const { create } = userEventsService();
+      const { createUserEvent } = userEventsService();
 
       await createUserEvent({ username: "testUser", type: "any", data: { hello: "world" } });
       const foundInDb = await dbCollection(COLLECTIONS_NAMES.UserEvents).findOne({ username: "testUser" });
