@@ -1,3 +1,4 @@
+import { logger } from "../common/logger/logger.js";
 import Joi from "joi";
 import { ROLES } from "../common/constants/roles.js";
 import { BaseFactory } from "./baseFactory.js";
@@ -25,7 +26,11 @@ export class UsersFactory extends BaseFactory {
     });
 
     const { error } = schema.validate(props);
-    if (error) return null;
+
+    if (error) {
+      logger.error(error);
+      return null;
+    }
 
     return {
       ...props,
