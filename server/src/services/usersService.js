@@ -201,4 +201,18 @@ const getUserById = async (_id) => {
   return user;
 };
 
-export default () => ({ createUser, generatePasswordUpdateToken, updatePassword, authenticate, getUserById, getUser });
+/**
+ * Méthode de récupération de la liste des utilisateurs en base
+ * @returns
+ */
+const getAllUsers = async () => await dbCollection(COLLECTIONS_NAMES.Users).find().toArray();
+
+export default () => ({
+  createUser,
+  generatePasswordUpdateToken,
+  updatePassword,
+  authenticate,
+  getUserById,
+  getUser,
+  getAllUsers,
+});

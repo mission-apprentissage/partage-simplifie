@@ -430,4 +430,59 @@ describe("Service Users", () => {
       await assert.rejects(getUserById(objectId), { message: "Unable to find user" });
     });
   });
+
+  describe("getAllUsers", () => {
+    it("renvoie une liste d'utilisateurs", async () => {
+      const { createUser, getAllUsers } = usersService();
+
+      await createUser({
+        email: "test1@mail.com",
+        role: ROLES.CFA,
+        nom: "NOM1",
+        prenom: "PRENOM1",
+        fonction: "FONCTION1",
+        telephone: "TELEPHONE1",
+        outils_gestion: ["test1", "test2"],
+        nom_etablissement: "ETABLISSEMENT1",
+      });
+
+      await createUser({
+        email: "test2@mail.com",
+        role: ROLES.CFA,
+        nom: "NOM2",
+        prenom: "PRENOM2",
+        fonction: "FONCTION2",
+        telephone: "TELEPHONE2",
+        outils_gestion: ["test1", "test2", "test3"],
+        nom_etablissement: "ETABLISSEMENT2",
+      });
+
+      const allUsers = await getAllUsers();
+      assert.equal(allUsers.length, 2);
+
+      // Utilisateur 1
+      assert.ok(allUsers[0]._id);
+      assert.equal(allUsers[0].username, "test1@mail.com");
+      assert.equal(allUsers[0].email, "test1@mail.com");
+      assert.equal(allUsers[0].role, ROLES.CFA);
+      assert.equal(allUsers[0].nom, "NOM1");
+      assert.equal(allUsers[0].prenom, "PRENOM1");
+      assert.equal(allUsers[0].fonction, "FONCTION1");
+      assert.equal(allUsers[0].telephone, "TELEPHONE1");
+      assert.deepEqual(allUsers[0].outils_gestion, ["test1", "test2"]);
+      assert.equal(allUsers[0].nom_etablissement, "ETABLISSEMENT1");
+
+      // Utilisateur 2
+      assert.ok(allUsers[1]._id);
+      assert.equal(allUsers[1].username, "test2@mail.com");
+      assert.equal(allUsers[1].email, "test2@mail.com");
+      assert.equal(allUsers[1].role, ROLES.CFA);
+      assert.equal(allUsers[1].nom, "NOM2");
+      assert.equal(allUsers[1].prenom, "PRENOM2");
+      assert.equal(allUsers[1].fonction, "FONCTION2");
+      assert.equal(allUsers[1].telephone, "TELEPHONE2");
+      assert.deepEqual(allUsers[1].outils_gestion, ["test1", "test2", "test3"]);
+      assert.equal(allUsers[1].nom_etablissement, "ETABLISSEMENT2");
+    });
+  });
 });
