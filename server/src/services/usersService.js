@@ -1,5 +1,5 @@
 import { ROLES } from "../common/constants/roles.js";
-import { generateRandomAlphanumericPhrase, hash } from "../common/utils/cryptoUtils.js";
+import { compare, generateRandomAlphanumericPhrase, hash, isTooWeak } from "../common/utils/cryptoUtils.js";
 import { UsersFactory } from "../factory/usersFactory.js";
 import { COLLECTIONS_NAMES } from "../model/collections/index.js";
 import { dbCollection } from "../model/db/mongodbClient.js";
@@ -129,4 +129,76 @@ const updatePassword = async (updateToken, password) => {
   return updated;
 };
 
-export default () => ({ createUser, generatePasswordUpdateToken, updatePassword });
+/**
+ * Méthode de rehash du password de l'utilisateur
+ * @param {*} user
+ * @param {*} password
+ * @returns
+ */
+const rehashPassword = async (userId, password) => {
+  const updated = await dbCollection(COLLECTIONS_NAMES.Users).findOneAndUpdate(
+    { _id: userId },
+    {
+      $set: {
+        password: hash(password),
+      },
+    },
+    { new: true }
+  );
+
+  return updated;
+};
+
+/**
+ * Méthode d'authentification de l'utilisateur
+ * compare les hash des mots de passe
+ * @param {*} username
+ * @param {*} password
+ * @returns
+ */
+const authenticate = async (username, password) => {
+  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ username });
+  if (!user) {
+    return null;
+  }
+
+  const current = user.password;
+  if (compare(password, current)) {
+    if (isTooWeak(current)) {
+      await rehashPassword(user, password);
+    }
+    return user;
+  }
+  return null;
+};
+
+/**
+ * Méthode de récupération d'un user depuis son username
+ * @param {*} username
+ * @returns
+ */
+const getUser = async (username) => {
+  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ username });
+  if (!user) {
+    throw new Error(`Unable to find user`);
+  }
+
+  return user;
+};
+
+/**
+ * Méthode de récupération d'un user depuis son id
+ * @param {*} _id
+ * @returns
+ */
+const getUserById = async (_id) => {
+  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: _id });
+
+  if (!user) {
+    throw new Error(`Unable to find user`);
+  }
+
+  return user;
+};
+
+export default () => ({ createUser, generatePasswordUpdateToken, updatePassword, authenticate, getUserById, getUser });
