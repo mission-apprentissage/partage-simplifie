@@ -1,7 +1,7 @@
 import passport from "passport";
-import config from "../../../config/index.js";
+import { config } from "../../../config/index.js";
 
-import { JwtStrategy, ExtractJwt } from "passport-jwt";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 
 export default ({ users }) => {
   const findUser = async (username) => {
