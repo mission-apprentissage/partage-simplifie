@@ -7,7 +7,7 @@ import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 describe("Service JobEvents", () => {
   describe("createJobEvent", () => {
     it("Permet de créer un jobEvent et de le sauver en base", async () => {
-      const { create } = jobEventsService();
+      const { createJobEvent } = jobEventsService();
 
       await createJobEvent({ jobname: "testJob", action: "any", data: { hello: "world" } });
       const foundInDb = await dbCollection(COLLECTIONS_NAMES.JobEvents).findOne({ jobname: "testJob" });
@@ -23,7 +23,7 @@ describe("Service JobEvents", () => {
 
   describe("isJobInAction", () => {
     it("Permet de vérifier si le job courant est dans l'action terminée", async () => {
-      const { createJobEvent, isJobInAction } = await jobEventsService();
+      const { createJobEvent, isJobInAction } = jobEventsService();
 
       const testJobName = "TEST-JOB";
 
@@ -37,7 +37,7 @@ describe("Service JobEvents", () => {
     });
 
     it("Permet de vérifier si le job courant n'est pas dans l'action terminée", async () => {
-      const { createJobEvent, isJobInAction } = await jobEventsService();
+      const { createJobEvent, isJobInAction } = jobEventsService();
 
       const testJobName = "TEST-JOB";
 

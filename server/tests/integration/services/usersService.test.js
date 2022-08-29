@@ -8,7 +8,7 @@ import { differenceInCalendarDays, differenceInHours, subMinutes } from "date-fn
 describe("Service Users", () => {
   describe("createUser", () => {
     it("Permet de créer un utilisateur avec les champs obligatoires et un username", async () => {
-      const { createUser } = await usersService();
+      const { createUser } = usersService();
 
       const insertedId = await createUser({
         email: "user@test.fr",
@@ -26,7 +26,7 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec les champs obligatoires sans username", async () => {
-      const { createUser } = await usersService();
+      const { createUser } = usersService();
 
       const insertedId = await createUser({
         email: "user@test.fr",
@@ -43,7 +43,7 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec mot de passe random quand pas de mot de passe fourni", async () => {
-      const { createUser } = await usersService();
+      const { createUser } = usersService();
 
       const insertedId = await createUser({
         email: "user@test.fr",
@@ -59,7 +59,7 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec le role administrateur", async () => {
-      const { createUser } = await usersService();
+      const { createUser } = usersService();
 
       const insertedId = await createUser({
         email: "user@test.fr",
@@ -75,7 +75,7 @@ describe("Service Users", () => {
     });
 
     it("Permet de créer un utilisateur avec tous les champs optionnels", async () => {
-      const { createUser } = await usersService();
+      const { createUser } = usersService();
 
       const testUsername = "user";
       const testEmail = "user@email.fr";
@@ -116,7 +116,7 @@ describe("Service Users", () => {
 
   describe("generatePasswordUpdateToken", () => {
     it("Génère un token avec expiration à +48h", async () => {
-      const { createUser, generatePasswordUpdateToken } = await usersService();
+      const { createUser, generatePasswordUpdateToken } = usersService();
 
       const testUserEmail = "user@test.fr";
       const testUsername = "user";
@@ -139,7 +139,7 @@ describe("Service Users", () => {
     });
 
     it("Renvoie une erreur quand le user n'est pas trouvé", async () => {
-      const { createUser, generatePasswordUpdateToken } = await usersService();
+      const { createUser, generatePasswordUpdateToken } = usersService();
 
       // create user
       await createUser({ email: "KO@test.Fr", username: "KO", role: ROLES.CFA });
@@ -156,7 +156,7 @@ describe("Service Users", () => {
 
   describe("updatePassword", () => {
     it("modifie le mot de passe d'un user et invalide le token d'update", async () => {
-      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = usersService();
 
       // Création du user
       const insertedId = await createUser({
@@ -179,7 +179,7 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur quand le token passé ne permet pas de retrouver le user", async () => {
-      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = usersService();
 
       // Création du user
       await createUser({
@@ -201,7 +201,7 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque le nouveau mot de passe est trop court", async () => {
-      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = usersService();
 
       // Création du user
       await createUser({
@@ -225,7 +225,7 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque l'update est fait plus de 24h après la création du token", async () => {
-      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = usersService();
 
       // Création du user
       await createUser({
@@ -254,7 +254,7 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque l'update est tenté avec un token null", async () => {
-      const { createUser, updatePassword } = await usersService();
+      const { createUser, updatePassword } = usersService();
 
       // Création du user
       await createUser({
@@ -273,7 +273,7 @@ describe("Service Users", () => {
     });
 
     it("renvoie une erreur lorsque l'update a déjà été fait", async () => {
-      const { createUser, updatePassword, generatePasswordUpdateToken } = await usersService();
+      const { createUser, updatePassword, generatePasswordUpdateToken } = usersService();
 
       // Création du user
       await createUser({
