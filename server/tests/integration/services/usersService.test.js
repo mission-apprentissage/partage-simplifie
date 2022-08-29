@@ -3,6 +3,7 @@ import { ROLES } from "../../../src/common/constants/roles.js";
 import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import usersService from "../../../src/services/usersService.js";
+import { differenceInCalendarDays, differenceInHours, subMinutes } from "date-fns";
 
 describe("Service Users", () => {
   describe("create", () => {
@@ -110,6 +111,191 @@ describe("Service Users", () => {
       assert.equal(found.telephone, testTelephone);
       assert.deepEqual(found.outils_gestion, testOutilsGestion);
       assert.deepEqual(found.nom_etablissement, testNom_etablissement);
+    });
+  });
+
+  describe("generatePasswordUpdateToken", () => {
+    it("Génère un token avec expiration à +48h", async () => {
+      const { create, generatePasswordUpdateToken } = await usersService();
+
+      const testUserEmail = "user@test.fr";
+      const testUsername = "user";
+
+      // Création du user
+      const insertedId = await create({
+        email: testUserEmail,
+        username: testUsername,
+        role: ROLES.CFA,
+      });
+
+      // Génération du token et récupération du user en bdd
+      const token = await generatePasswordUpdateToken(testUsername);
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.password_update_token, token);
+      // password token should expire in 48h
+      assert.equal(differenceInHours(found.password_update_token_expiry, new Date()), 47);
+      assert.equal(differenceInCalendarDays(found.password_update_token_expiry, new Date()), 2);
+    });
+
+    it("Renvoie une erreur quand le user n'est pas trouvé", async () => {
+      const { create, generatePasswordUpdateToken } = await usersService();
+
+      // create user
+      await create({ email: "KO@test.Fr", username: "KO", role: ROLES.CFA });
+
+      await assert.rejects(
+        () => generatePasswordUpdateToken("user"),
+        (err) => {
+          assert.equal(err.message, "User not found");
+          return true;
+        }
+      );
+    });
+  });
+
+  describe("updatePassword", () => {
+    it("modifie le mot de passe d'un user et invalide le token d'update", async () => {
+      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+
+      // Création du user
+      const insertedId = await create({
+        email: "user@test.fr",
+        username: "user",
+        role: ROLES.CFA,
+      });
+
+      const foundBeforeUpdate = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      // generate update token
+      const token = await generatePasswordUpdateToken("user");
+      await updatePassword(token, "new-password-strong");
+
+      const foundAfterUpdate = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.notEqual(foundAfterUpdate.password, foundBeforeUpdate.password);
+      assert.equal(foundAfterUpdate.password_update_token, null);
+      assert.equal(foundAfterUpdate.password_update_token_expiry, null);
+    });
+
+    it("renvoie une erreur quand le token passé ne permet pas de retrouver le user", async () => {
+      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+
+      // Création du user
+      await create({
+        email: "user@test.fr",
+        username: "user",
+        role: ROLES.CFA,
+      });
+
+      // generate update token
+      await generatePasswordUpdateToken("user");
+
+      await assert.rejects(
+        () => updatePassword("wrong token", "new-password-strong"),
+        (err) => {
+          assert.equal(err.message, "User not found");
+          return true;
+        }
+      );
+    });
+
+    it("renvoie une erreur lorsque le nouveau mot de passe est trop court", async () => {
+      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+
+      // Création du user
+      await create({
+        email: "user@test.fr",
+        username: "user",
+        role: ROLES.CFA,
+      });
+
+      // generate update token
+      const token = await generatePasswordUpdateToken("user");
+
+      const shortPassword = "hello-world";
+
+      await assert.rejects(
+        () => updatePassword(token, shortPassword),
+        (err) => {
+          assert.equal(err.message, "Password must be valid (at least 16 characters)");
+          return true;
+        }
+      );
+    });
+
+    it("renvoie une erreur lorsque l'update est fait plus de 24h après la création du token", async () => {
+      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+
+      // Création du user
+      await create({
+        email: "user@test.fr",
+        username: "user",
+        role: ROLES.CFA,
+      });
+
+      // generate update token
+      const token = await generatePasswordUpdateToken("user");
+
+      // force password_update_token_expiry to 10 minutes ago
+      await dbCollection(COLLECTIONS_NAMES.Users).findOneAndUpdate(
+        { username: "user" },
+        { $set: { password_update_token_expiry: subMinutes(new Date(), 10) } },
+        { new: true }
+      );
+
+      await assert.rejects(
+        () => updatePassword(token, "super-long-strong-password"),
+        (err) => {
+          assert.equal(err.message, "Password update token has expired");
+          return true;
+        }
+      );
+    });
+
+    it("renvoie une erreur lorsque l'update est tenté avec un token null", async () => {
+      const { create, updatePassword } = await usersService();
+
+      // Création du user
+      await create({
+        email: "user@test.fr",
+        username: "user",
+        role: ROLES.CFA,
+      });
+
+      await assert.rejects(
+        () => updatePassword(null, "super-long-strong-password"),
+        (err) => {
+          assert.equal(err.message, "User not found");
+          return true;
+        }
+      );
+    });
+
+    it("renvoie une erreur lorsque l'update a déjà été fait", async () => {
+      const { create, updatePassword, generatePasswordUpdateToken } = await usersService();
+
+      // Création du user
+      await create({
+        email: "user@test.fr",
+        username: "user",
+        role: ROLES.CFA,
+      });
+
+      // generate update token
+      const token = await generatePasswordUpdateToken("user");
+
+      // update password first time
+      await updatePassword(token, "new-password-strong");
+
+      // try again
+      await assert.rejects(
+        () => updatePassword(token, "super-long-strong-password"),
+        (err) => {
+          assert.equal(err.message, "User not found");
+          return true;
+        }
+      );
     });
   });
 });
