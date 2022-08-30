@@ -7,9 +7,9 @@ export const NAVIGATION_PAGES = {
     path: "/mon-espace",
     title: "Mon espace",
   },
-  Admin: {
-    path: "/admin",
-    title: "Accueil Administrateur",
+  GestionUtilisateurs: {
+    path: "/admin/gestion-utilisateurs",
+    title: "Gestion des utilisateurs",
   },
   ModifierMotDePasse: {
     path: "/modifier-mot-de-passe",

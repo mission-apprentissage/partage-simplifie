@@ -5,7 +5,7 @@ import ProtectedRoute from "./common/auth/ProtectedRoute";
 import { ROLES } from "./common/auth/roles.js";
 import { NAVIGATION_PAGES } from "./common/constants/navigationPages.js";
 import Page404 from "./pages/404/Page404";
-import AdminHomePage from "./pages/admin/AdminHomePage.js";
+import GestionUtilisateursPage from "./pages/admin/gestion-utilisateurs/GestionUtilisateursPage.js";
 import EspaceCfaPage from "./pages/espace-cfa/EspaceCfaPage.js";
 import { HomePage } from "./pages/home/";
 import ModifierMotDePassePage from "./pages/modifier-mot-de-passe/ModifierMotDePassePage.js";
@@ -36,9 +36,9 @@ const App = () => {
 
         {/* Admin Pages */}
         <ProtectedRoute
-          path={NAVIGATION_PAGES.Admin.path}
+          path={NAVIGATION_PAGES.GestionUtilisateurs.path}
           exact
-          component={AdminHomePage}
+          component={GestionUtilisateursPage}
           authorizedRole={ROLES.ADMINISTRATOR}
         />
 
