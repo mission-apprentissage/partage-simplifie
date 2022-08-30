@@ -7,6 +7,8 @@ import rolesMiddleware from "./middlewares/rolesMiddleware.js";
 import healthcheckRouter from "./routes/healthcheck.route.js";
 import loginRouter from "./routes/login.route.js";
 import usersRouter from "./routes/users.route.js";
+import updatePasswordRouter from "./routes/update-password.route.js";
+
 import { ROLES } from "../common/constants/roles.js";
 
 export default async (services) => {
@@ -21,6 +23,7 @@ export default async (services) => {
   // open routes
   app.use("/api/healthcheck", healthcheckRouter());
   app.use("/api/login", loginRouter(services));
+  app.use("/api/update-password", updatePasswordRouter(services));
 
   // admin routes
   app.use("/api/users", requireAuthentication, adminOnly, usersRouter(services));
