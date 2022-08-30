@@ -124,10 +124,10 @@ const updatePassword = async (updateToken, password) => {
         password_update_token_expiry: null,
       },
     },
-    { new: true }
+    { returnDocument: "after" }
   );
 
-  return updated;
+  return updated.value;
 };
 
 /**
@@ -144,7 +144,7 @@ const rehashPassword = async (userId, password) => {
         password: hash(password),
       },
     },
-    { new: true }
+    { returnDocument: "after" }
   );
 
   return updated;
