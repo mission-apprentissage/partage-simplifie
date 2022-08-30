@@ -6,6 +6,7 @@ import { dbCollection } from "../model/db/mongodbClient.js";
 import { addHours, isBefore } from "date-fns";
 import { validatePassword } from "../domain/password.js";
 import { config } from "../../config/index.js";
+import { escapeRegExp } from "../common/utils/regexUtils.js";
 
 const PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS = 48;
 
@@ -215,6 +216,30 @@ const getAllUsers = async () => await dbCollection(COLLECTIONS_NAMES.Users).find
  */
 const getUpdatePasswordLink = (token) => `${config.publicUrl}/modifier-mot-de-passe?token=${token}`;
 
+/**
+ * Méthode de recherche d'utilisateurs selon plusieurs critères
+ * @param {*} searchCriteria
+ * @returns
+ */
+const searchUsers = async (searchCriteria) => {
+  const { searchTerm } = searchCriteria;
+
+  const matchStage = {};
+  if (searchTerm) {
+    matchStage.$or = [
+      { username: new RegExp(escapeRegExp(searchTerm), "i") },
+      { email: new RegExp(escapeRegExp(searchTerm), "i") },
+      { nom_etablissement: new RegExp(escapeRegExp(searchTerm), "i") },
+    ];
+  }
+
+  const sortStage = { nom_etablissement: 1 };
+
+  const found = await dbCollection(COLLECTIONS_NAMES.Users).aggregate([{ $match: matchStage }, { $sort: sortStage }]);
+
+  return found.toArray();
+};
+
 export default () => ({
   createUser,
   generatePasswordUpdateToken,
@@ -224,4 +249,5 @@ export default () => ({
   getUser,
   getAllUsers,
   getUpdatePasswordLink,
+  searchUsers,
 });

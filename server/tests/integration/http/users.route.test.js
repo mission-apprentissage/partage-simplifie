@@ -136,4 +136,116 @@ describe("API Route Login", () => {
       assert.equal(differenceInCalendarDays(expiryDate, new Date()), 2);
     });
   });
+
+  describe("POST /users/search", () => {
+    it("sends a 401 HTTP response when user is not authenticated", async () => {
+      const { httpClient } = await startServer();
+      const response = await httpClient.post("/api/users/search");
+
+      assert.equal(response.status, 401);
+    });
+
+    it("sends a 403 HTTP response when user is not admin", async () => {
+      const { httpClient, createAndLogUser } = await startServer();
+      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.CFA);
+      const response = await httpClient.post("/api/users/search", { searchTerm: "blabla" }, { headers: bearerToken });
+
+      assert.equal(response.status, 403);
+    });
+
+    it("sends a 200 HTTP empty response when no match", async () => {
+      const { httpClient, createAndLogUser } = await startServer();
+      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.ADMINISTRATOR);
+      const response = await httpClient.post("/api/users/search", { searchTerm: "blabla" }, { headers: bearerToken });
+
+      assert.equal(response.status, 200);
+      assert.deepEqual(response.data, []);
+    });
+
+    it("sends a 200 HTTP response with results when match on username", async () => {
+      const { httpClient, services, createAndLogUser } = await startServer();
+      const bearerToken = await createAndLogUser("user1@test.fr", "password", ROLES.ADMINISTRATOR);
+
+      await services.users.createUser({
+        email: "user2@test.fr",
+        username: "user2@test.fr",
+        password: "password",
+        nom_etablissement: "nom2",
+        role: ROLES.CFA,
+      });
+
+      await services.users.createUser({
+        email: "user3@test.fr",
+        username: "user3@test.fr",
+        password: "password",
+        nom_etablissement: "nom3",
+        role: ROLES.CFA,
+      });
+
+      const response = await httpClient.post("/api/users/search", { searchTerm: "user" }, { headers: bearerToken });
+
+      assert.strictEqual(response.status, 200);
+      assert.strictEqual(response.data.length, 3);
+      assert.deepEqual(response.data[0].username, "user1@test.fr");
+      assert.deepEqual(response.data[1].username, "user2@test.fr");
+      assert.deepEqual(response.data[2].username, "user3@test.fr");
+    });
+
+    it("sends a 200 HTTP response with results when match on email", async () => {
+      const { httpClient, services, createAndLogUser } = await startServer();
+      const bearerToken = await createAndLogUser("user1@test.fr", "password", ROLES.ADMINISTRATOR);
+
+      await services.users.createUser({
+        email: "user2@test.fr",
+        username: "user2@test.fr",
+        password: "password",
+        nom_etablissement: "nom2",
+        role: ROLES.CFA,
+      });
+
+      await services.users.createUser({
+        email: "user3@test.fr",
+        username: "user3@test.fr",
+        password: "password",
+        nom_etablissement: "nom3",
+        role: ROLES.CFA,
+      });
+
+      const response = await httpClient.post("/api/users/search", { searchTerm: "test.fr" }, { headers: bearerToken });
+
+      assert.strictEqual(response.status, 200);
+      assert.strictEqual(response.data.length, 3);
+      assert.deepEqual(response.data[0].username, "user1@test.fr");
+      assert.deepEqual(response.data[1].username, "user2@test.fr");
+      assert.deepEqual(response.data[2].username, "user3@test.fr");
+    });
+
+    it("sends a 200 HTTP response with results when match on organisme", async () => {
+      const { httpClient, services, createAndLogUser } = await startServer();
+      const bearerToken = await createAndLogUser("user1@test.fr", "password", ROLES.ADMINISTRATOR);
+
+      await services.users.createUser({
+        email: "user2@test.fr",
+        username: "user2@test.fr",
+        password: "password",
+        nom_etablissement: "nom2",
+        role: ROLES.CFA,
+      });
+
+      await services.users.createUser({
+        email: "user3@test.fr",
+        username: "user3@test.fr",
+        password: "password",
+        nom_etablissement: "nom3",
+        role: ROLES.CFA,
+      });
+
+      const response = await httpClient.post("/api/users/search", { searchTerm: "nom" }, { headers: bearerToken });
+
+      assert.strictEqual(response.status, 200);
+      assert.strictEqual(response.data.length, 2);
+      assert.deepEqual(response.data[0].username, "user2@test.fr");
+      assert.deepEqual(response.data[1].username, "user3@test.fr");
+    });
+  });
 });
