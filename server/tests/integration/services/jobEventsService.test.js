@@ -3,6 +3,8 @@ import jobEventsService from "../../../src/services/jobEventsService.js";
 import { JOB_STATUS } from "../../../src/common/constants/jobsConstants.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
+import MockDate from "mockdate";
+import { addMinutes } from "date-fns";
 
 describe("Service JobEvents", () => {
   describe("createJobEvent", () => {
@@ -27,9 +29,15 @@ describe("Service JobEvents", () => {
 
       const testJobName = "TEST-JOB";
 
+      MockDate.set(new Date());
+
       // Add started then executed and finally ended event
       await createJobEvent({ jobname: testJobName, action: JOB_STATUS.started });
+      MockDate.set(addMinutes(new Date(), 5));
+
       await createJobEvent({ jobname: testJobName, action: JOB_STATUS.executed });
+      MockDate.set(addMinutes(new Date(), 5));
+
       await createJobEvent({ jobname: testJobName, action: JOB_STATUS.ended });
 
       const isEnded = await isJobInAction(testJobName, JOB_STATUS.ended);
