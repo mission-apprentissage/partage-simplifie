@@ -1,4 +1,6 @@
 import { strict as assert } from "assert";
+import { differenceInCalendarDays } from "date-fns";
+import { config } from "../../../config/index.js";
 import { ROLES } from "../../../src/common/constants/roles.js";
 import { startServer } from "../../utils/testUtils.js";
 
@@ -82,6 +84,56 @@ describe("API Route Login", () => {
       assert.equal(response.data[2].telephone, "TELEPHONE2");
       assert.deepEqual(response.data[2].outils_gestion, ["test1", "test2", "test3"]);
       assert.equal(response.data[2].nom_etablissement, "ETABLISSEMENT2");
+    });
+  });
+
+  describe("POST /users/generate-update-password-url", () => {
+    it("sends a 401 HTTP response when user is not authenticated", async () => {
+      const { httpClient } = await startServer();
+      const response = await httpClient.post("/api/users/generate-update-password-url");
+
+      assert.equal(response.status, 401);
+    });
+
+    it("sends a 403 HTTP response when user is not admin", async () => {
+      const { httpClient, createAndLogUser } = await startServer();
+      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.CFA);
+
+      const response = await httpClient.post(
+        "/api/users/generate-update-password-url",
+        { username: "john-doe" },
+        { headers: bearerToken }
+      );
+
+      assert.equal(response.status, 403);
+    });
+
+    it("sends a 200 HTTP response with password update url", async () => {
+      const { httpClient, createAndLogUser, services } = await startServer();
+      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.ADMINISTRATOR);
+
+      // Création du user
+      await services.users.createUser({
+        email: "user@test.fr",
+        username: "user@test.fr",
+        role: ROLES.ADMINISTRATOR,
+      });
+
+      const response = await httpClient.post(
+        "/api/users/generate-update-password-url",
+        { username: "user@test.fr" },
+        { headers: bearerToken }
+      );
+
+      assert.equal(response.status, 200);
+      assert.ok(response.data.passwordUpdateUrl);
+      assert.equal(response.data.passwordUpdateUrl.startsWith(`${config.publicUrl}/modifier-mot-de-passe`), true);
+
+      const updatedUser = await services.users.getUser("user@test.fr");
+      assert.ok(updatedUser.password_update_token);
+      // password token should expire in 48h
+      const expiryDate = updatedUser.password_update_token_expiry;
+      assert.equal(differenceInCalendarDays(expiryDate, new Date()), 2);
     });
   });
 });
