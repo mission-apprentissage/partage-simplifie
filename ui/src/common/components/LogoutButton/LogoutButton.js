@@ -3,14 +3,14 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { NAVIGATION_PAGES } from "../../constants/navigationPages";
-// import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 
 const LogoutButton = () => {
-  // const [, setAuth] = useAuth();
+  const [, setAuth] = useAuth();
   const history = useHistory();
 
   const logout = () => {
-    // setAuth(null);
+    setAuth(null);
     history.push(NAVIGATION_PAGES.Accueil.path);
   };
 

@@ -1,10 +1,24 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
+import { Redirect } from "react-router-dom";
 
+import { ROLES } from "../../common/auth/roles.js";
 import { Page, Section } from "../../common/components";
+import { NAVIGATION_PAGES } from "../../common/constants/navigationPages.js";
 import { PRODUCT_NAME } from "../../common/constants/product";
+import useAuth from "../../common/hooks/useAuth.js";
 
 const HomePage = () => {
+  const [auth] = useAuth();
+
+  if (auth?.sub && auth?.role === ROLES.ADMINISTRATOR) {
+    return <Redirect to={NAVIGATION_PAGES.Admin.path} />;
+  }
+
+  if (auth?.sub && auth?.role === ROLES.CFA) {
+    return <Redirect to={NAVIGATION_PAGES.EspaceCfa.path} />;
+  }
+
   return (
     <Page>
       <Section withShadow paddingY="4w">

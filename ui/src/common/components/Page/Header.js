@@ -1,18 +1,16 @@
 import { Box, Flex, Heading, HStack, Text } from "@chakra-ui/react";
 import React from "react";
 
-// import { NAVIGATION_PAGES } from "../../constants/navigationPages";
 import { PRODUCT_NAME } from "../../constants/product";
-// import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth.js";
 import LoginButton from "../LoginButton/LoginButton";
 import Logo from "../Logo/Logo";
 import LogoutButton from "../LogoutButton/LogoutButton";
 import Section from "../Section/Section";
 
 const Header = () => {
-  // const [auth] = useAuth();
-  // const isLoggedIn = Boolean(auth?.sub);
-  const isLoggedIn = false;
+  const [auth] = useAuth();
+  const isLoggedIn = Boolean(auth?.sub);
 
   return (
     <Section as="header">
