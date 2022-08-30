@@ -1634,6 +1634,11 @@
   dependencies:
     "@chakra-ui/utils" "1.10.4"
 
+"@choc-ui/paginator@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@choc-ui/paginator/-/paginator-3.4.0.tgz#3e542f995dfb13461825221f46d00b8d05e1b324"
+  integrity sha512-JZ9Ep5m2W5r9I9J2NKuKvNevKh8wyxieX/o8NdcOxiQUzcaiEHZh0I/+R3H+k6W7nu2v4ti72xHJb1PeiZFZNw==
+
 "@craco/craco@^7.0.0-alpha.7":
   version "7.0.0-alpha.7"
   resolved "https://registry.yarnpkg.com/@craco/craco/-/craco-7.0.0-alpha.7.tgz#518c58e0ae7bad80962f98f2bb7fcecab8552bd6"
@@ -4776,6 +4781,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+date-fns@2.29.2:
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.2.tgz#0d4b3d0f3dff0f920820a070920f0d9662c51931"
+  integrity sha512-0VNbwmWJDS/G3ySwFSJA3ayhbURMTJLtwM2DTxf9CWondCnh6DTNlO9JgRSq6ibf4eD0lfMJNBxUdEAHHix+bA==
 
 debug@*, debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"

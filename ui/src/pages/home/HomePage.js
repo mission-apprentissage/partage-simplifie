@@ -12,7 +12,7 @@ const HomePage = () => {
   const [auth] = useAuth();
 
   if (auth?.sub && auth?.role === ROLES.ADMINISTRATOR) {
-    return <Redirect to={NAVIGATION_PAGES.Admin.path} />;
+    return <Redirect to={NAVIGATION_PAGES.GestionUtilisateurs.path} />;
   }
 
   if (auth?.sub && auth?.role === ROLES.CFA) {
