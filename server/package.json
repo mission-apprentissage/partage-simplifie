@@ -44,6 +44,7 @@
     "lodash.omitby": "4.6.0",
     "lodash.throttle": "4.1.1",
     "migrate-mongo": "9.0.0",
+    "mockdate": "3.0.5",
     "mongodb": "4.9.0",
     "oleoduc": "0.7.0",
     "passport": "0.5.2",
