@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Menu,
@@ -17,7 +18,6 @@ import React from "react";
 
 import { BasePagination } from "../../../common/components/Pagination/Pagination";
 import usePaginatedItems from "../../../common/hooks/usePaginatedItems";
-import { formatDate } from "../../../common/utils/dateUtils";
 import GetUpdatePasswordUrlMenuItem from "./menuItems/GetUpdatePasswordUrlMenuItem";
 
 const UsersTable = ({ users }) => {
@@ -41,7 +41,8 @@ const UsersTable = ({ users }) => {
           <Th>Email</Th>
           <Th>Role</Th>
           <Th>Nom établissement</Th>
-          <Th>Date de création</Th>
+          <Th>Mot de passe</Th>
+          <Th>Lien d&apos;activation</Th>
           <Th></Th>
         </Tr>
       </Thead>
@@ -53,7 +54,28 @@ const UsersTable = ({ users }) => {
               <Td color="grey.800">{user.email}</Td>
               <Td color="grey.800">{user.role}</Td>
               <Td color="grey.800">{user.nom_etablissement}</Td>
-              <Td color="grey.800">{user.created_at ? formatDate(new Date(user.created_at)) : "Inconnue"}</Td>
+              <Td color="grey.800">
+                {user.password_updated_at !== undefined ? (
+                  <Badge variant="outline" colorScheme="green">
+                    Mis à jour
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" colorScheme="red">
+                    Vide
+                  </Badge>
+                )}
+              </Td>
+              <Td color="grey.800">
+                {user.password_updated_token_at !== undefined ? (
+                  <Badge variant="outline" colorScheme="green">
+                    Généré
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" colorScheme="red">
+                    Vide
+                  </Badge>
+                )}
+              </Td>
               <Td color="grey.800">
                 <Menu>
                   <MenuButton

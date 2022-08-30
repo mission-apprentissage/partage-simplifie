@@ -134,6 +134,8 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.password_update_token, token);
+      assert.equal(found.password_updated_token_at !== null, true);
+
       // password token should expire in 48h
       assert.equal(differenceInHours(found.password_update_token_expiry, new Date()), 48);
       assert.equal(differenceInCalendarDays(found.password_update_token_expiry, new Date()), 2);
@@ -177,12 +179,14 @@ describe("Service Users", () => {
       assert.equal(updatedUser.role, ROLES.CFA);
       assert.equal(updatedUser.password_update_token, null);
       assert.equal(updatedUser.password_update_token_expiry, null);
+      assert.equal(updatedUser.password_updated_at !== null, true);
 
       const foundAfterUpdate = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.notEqual(foundAfterUpdate.password, foundBeforeUpdate.password);
       assert.equal(foundAfterUpdate.password_update_token, null);
       assert.equal(foundAfterUpdate.password_update_token_expiry, null);
+      assert.equal(foundAfterUpdate.password_updated_at !== null, true);
     });
 
     it("renvoie une erreur quand le token passé ne permet pas de retrouver le user", async () => {

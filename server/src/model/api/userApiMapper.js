@@ -14,4 +14,6 @@ export const toUserApiOutput = (user) => ({
   outils_gestion: user.outils_gestion,
   nom_etablissement: user.nom_etablissement,
   created_at: user.created_at,
+  password_updated_at: user.password_updated_at,
+  password_updated_token_at: user.password_updated_token_at,
 });

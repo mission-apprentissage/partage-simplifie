@@ -18,6 +18,8 @@ export const schema = () => {
       password: string(),
       password_update_token: string(),
       password_update_token_expiry: date(),
+      password_updated_token_at: date(),
+      password_updated_at: date(),
       role: string(),
       nom: string(),
       prenom: string(),
@@ -25,6 +27,7 @@ export const schema = () => {
       telephone: string(),
       outils_gestion: arrayOf(string()),
       nom_etablissement: string(),
+
       updated_at: date(),
       created_at: date(),
     },
