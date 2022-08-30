@@ -135,7 +135,7 @@ describe("Service Users", () => {
 
       assert.equal(found.password_update_token, token);
       // password token should expire in 48h
-      assert.equal(differenceInHours(found.password_update_token_expiry, new Date()), 47);
+      assert.equal(differenceInHours(found.password_update_token_expiry, new Date()), 48);
       assert.equal(differenceInCalendarDays(found.password_update_token_expiry, new Date()), 2);
     });
 
