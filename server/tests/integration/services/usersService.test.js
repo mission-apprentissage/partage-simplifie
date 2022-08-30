@@ -162,15 +162,21 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: "user@test.fr",
-        username: "user",
+        username: "user@test.fr",
         role: ROLES.CFA,
       });
 
       const foundBeforeUpdate = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       // generate update token
-      const token = await generatePasswordUpdateToken("user");
-      await updatePassword(token, "new-password-strong");
+      const token = await generatePasswordUpdateToken("user@test.fr");
+      const updatedUser = await updatePassword(token, "new-password-strong");
+
+      assert.equal(updatedUser.email, "user@test.fr");
+      assert.equal(updatedUser.username, "user@test.fr");
+      assert.equal(updatedUser.role, ROLES.CFA);
+      assert.equal(updatedUser.password_update_token, null);
+      assert.equal(updatedUser.password_update_token_expiry, null);
 
       const foundAfterUpdate = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
@@ -241,8 +247,7 @@ describe("Service Users", () => {
       // force password_update_token_expiry to 10 minutes ago
       await dbCollection(COLLECTIONS_NAMES.Users).findOneAndUpdate(
         { username: "user" },
-        { $set: { password_update_token_expiry: subMinutes(new Date(), 10) } },
-        { new: true }
+        { $set: { password_update_token_expiry: subMinutes(new Date(), 10) } }
       );
 
       await assert.rejects(
