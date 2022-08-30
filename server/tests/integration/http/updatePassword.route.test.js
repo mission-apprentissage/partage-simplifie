@@ -19,6 +19,7 @@ describe("API Route Update Password", () => {
       });
       assert.equal(response.status, 200);
       const userAfterRequest = await services.users.getUser(email);
+      assert.equal(userAfterRequest.password_updated_token_at !== null, true);
       assert.equal(userAfterRequest.password_update_token, null);
       assert.equal(userAfterRequest.password_update_token_expiry, null);
       assert.notEqual(user.password, userAfterRequest.password);

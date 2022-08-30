@@ -76,6 +76,7 @@ const generatePasswordUpdateToken = async (username) => {
       $set: {
         password_update_token: token,
         password_update_token_expiry: addHours(new Date(), PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS),
+        password_updated_token_at: new Date(),
       },
     }
   );
@@ -121,6 +122,7 @@ const updatePassword = async (updateToken, password) => {
     {
       $set: {
         password: hash(password),
+        password_updated_at: new Date(),
         password_update_token: null,
         password_update_token_expiry: null,
       },

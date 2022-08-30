@@ -43,9 +43,29 @@ const useUsersSearch = (searchTerm) => {
   const sortedData = data && getUsersListSortedChronologically(data);
 
   return {
-    data: sortedData?.map(({ id, username, email, role, nom_etablissement, created_at }) => {
-      return { id, username, email, role, nom_etablissement, created_at };
-    }),
+    data: sortedData?.map(
+      ({
+        id,
+        username,
+        email,
+        role,
+        nom_etablissement,
+        created_at,
+        password_updated_at,
+        password_updated_token_at,
+      }) => {
+        return {
+          id,
+          username,
+          email,
+          role,
+          nom_etablissement,
+          created_at,
+          password_updated_at,
+          password_updated_token_at,
+        };
+      }
+    ),
     loading: isLoading,
   };
 };
