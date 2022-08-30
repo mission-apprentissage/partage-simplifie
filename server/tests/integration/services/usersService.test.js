@@ -490,4 +490,229 @@ describe("Service Users", () => {
       assert.equal(allUsers[1].nom_etablissement, "ETABLISSEMENT2");
     });
   });
+
+  describe("searchUsers", async () => {
+    const { searchUsers, createUser } = await usersService();
+
+    it("returns results matching username", async () => {
+      const searchTerm = "haver";
+      const usernameTest = "havertz@test.fr";
+      const emailTest = "havertz@test.fr";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 1);
+      assert.ok(results[0].username, found.username);
+    });
+
+    it("returns results matching username case insensitive", async () => {
+      const searchTerm = "HaVEr";
+      const usernameTest = "havertz@test.fr";
+      const emailTest = "havertz@test.fr";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 1);
+      assert.ok(results[0].username, found.username);
+    });
+
+    it("does not returns results without match on username", async () => {
+      const searchTerm = "benzema";
+      const usernameTest = "havertz@test.fr";
+      const emailTest = "havertz@test.fr";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 0);
+    });
+
+    it("returns results matching email", async () => {
+      const searchTerm = "rma";
+      const usernameTest = "havertz@rma.es";
+      const emailTest = "havertz@rma.es";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 1);
+      assert.ok(results[0].username, found.username);
+    });
+
+    it("returns results matching email case insensitive", async () => {
+      const searchTerm = "RMa";
+      const usernameTest = "havertz@rma.es";
+      const emailTest = "havertz@rma.es";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 1);
+      assert.ok(results[0].username, found.username);
+    });
+
+    it("does not returns results without match on email", async () => {
+      const searchTerm = "fcbarcelona";
+      const usernameTest = "havertz@rma.es";
+      const emailTest = "havertz@rma.es";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+
+      const results = await searchUsers({ searchTerm });
+      assert.equal(results.length, 0);
+    });
+
+    it("returns results matching nom_etablissement", async () => {
+      const searchTerm = "FOOTB";
+      const usernameTest = "havertz@test.fr";
+      const emailTest = "havertz@test.fr";
+      const nomEtablissementTest = "FOOTBALL Club";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        nom_etablissement: nomEtablissementTest,
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+      assert.equal(found.nom_etablissement === nomEtablissementTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 1);
+      assert.ok(results[0].username, found.username);
+    });
+
+    it("returns results matching nom_etablissement case insensitive", async () => {
+      const searchTerm = "FoOTb";
+      const usernameTest = "havertz@test.fr";
+      const emailTest = "havertz@test.fr";
+      const nomEtablissementTest = "FOOTBALL Club";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        nom_etablissement: nomEtablissementTest,
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+      assert.equal(found.nom_etablissement === nomEtablissementTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 1);
+      assert.ok(results[0].username, found.username);
+    });
+
+    it("does not returns results without match on nom_etablissement", async () => {
+      const searchTerm = "TENNIS";
+      const usernameTest = "havertz@test.fr";
+      const emailTest = "havertz@test.fr";
+      const nomEtablissementTest = "FOOTBALL Club";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        username: usernameTest,
+        password: "password",
+        nom_etablissement: nomEtablissementTest,
+        role: ROLES.CFA,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
+      assert.equal(found.nom_etablissement === nomEtablissementTest, true);
+
+      const results = await searchUsers({ searchTerm });
+
+      assert.equal(results.length, 0);
+    });
+  });
 });

@@ -3,6 +3,8 @@ import { USER_EVENTS_TYPES, USER_EVENTS_ACTIONS } from "../../common/constants/u
 import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
 import { toUserApiOutput } from "../../model/api/userApiMapper.js";
 import { config } from "../../../config/index.js";
+import Joi from "joi";
+import { validateRequestBody } from "../middlewares/validateRequestBody.js";
 
 export default ({ users, userEvents }) => {
   const router = express.Router();
@@ -32,6 +34,16 @@ export default ({ users, userEvents }) => {
       const passwordUpdateUrl = `${config.publicUrl}/modifier-mot-de-passe?token=${passwordUpdateToken}`;
 
       return res.json({ passwordUpdateUrl });
+    })
+  );
+
+  router.post(
+    "/search",
+    validateRequestBody(Joi.object({ searchTerm: Joi.string().min(3) })),
+    tryCatch(async (req, res) => {
+      const foundUsers = await users.searchUsers(req.body);
+      const usersMapped = foundUsers.map(toUserApiOutput);
+      return res.json(usersMapped);
     })
   );
 
