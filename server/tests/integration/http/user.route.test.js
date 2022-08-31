@@ -104,4 +104,42 @@ describe("API Route User", () => {
       assert.equal(user.password, userAfterRequest.password);
     });
   });
+
+  describe("GET /user/exist", () => {
+    it("renvoie une 200 et l'info found à true quand l'email de l'utilisateur existe dans la base", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      await services.users.createUser({ email, role: ROLES.CFA });
+
+      const response = await httpClient.get("/api/user/exist", { params: { email } });
+      assert.equal(response.status, 200);
+      assert.equal(response.data.found, true);
+    });
+
+    it("renvoie une 200 et l'info found à flase quand l'email de l'utilisateur n'existe pas dans la base", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      await services.users.createUser({ email, role: ROLES.CFA });
+
+      const response = await httpClient.get("/api/user/exist", { params: { email: "badUser@test.fr" } });
+      assert.equal(response.status, 200);
+      assert.equal(response.data.found, false);
+    });
+
+    it("renvoie une 400 quand l'email de l'utilisateur n'est pas au bon format", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      await services.users.createUser({ email, role: ROLES.CFA });
+
+      const response = await httpClient.get("/api/user/exist", { params: { email: "badFormat" } });
+      assert.equal(response.status, 400);
+      assert.equal(response.data.message, "Erreur de validation");
+    });
+  });
 });
