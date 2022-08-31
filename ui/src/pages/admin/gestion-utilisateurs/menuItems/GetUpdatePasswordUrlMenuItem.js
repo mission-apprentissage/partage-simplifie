@@ -5,11 +5,11 @@ import { useMutation } from "react-query";
 
 import { postGetUserUpdatePasswordUrl } from "../../../../common/api/api.js";
 
-const GetUpdatePasswordUrlMenuItem = ({ username }) => {
+const GetUpdatePasswordUrlMenuItem = ({ email }) => {
   const toast = useToast();
   const { data, mutate } = useMutation(
     () => {
-      return postGetUserUpdatePasswordUrl(username);
+      return postGetUserUpdatePasswordUrl(email);
     },
     {
       onSuccess(data) {
@@ -37,7 +37,7 @@ const GetUpdatePasswordUrlMenuItem = ({ username }) => {
 };
 
 GetUpdatePasswordUrlMenuItem.propTypes = {
-  username: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 export default GetUpdatePasswordUrlMenuItem;
