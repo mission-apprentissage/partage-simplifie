@@ -1,4 +1,6 @@
-export const organismeFromReferentiel = {
+export const INEXISTANT_UAI = "0000000X";
+
+export const sampleOrganismeFromReferentiel = {
   pagination: {
     page: 1,
     resultats_par_page: 10,
