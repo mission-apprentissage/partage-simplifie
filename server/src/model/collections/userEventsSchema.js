@@ -3,10 +3,7 @@ import { date, object, objectId, string } from "./jsonSchema/jsonSchemaTypes.js"
 export const name = "userEvents";
 
 export const indexes = () => {
-  return [
-    [{ username: 1 }, { name: "username" }],
-    [{ action: 1 }, { name: "action" }],
-  ];
+  return [[{ username: 1 }, { name: "username" }]];
 };
 
 export const schema = () => {
