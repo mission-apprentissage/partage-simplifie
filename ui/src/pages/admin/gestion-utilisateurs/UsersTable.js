@@ -84,7 +84,7 @@ const UsersTable = ({ users }) => {
                     Action
                   </MenuButton>
                   <MenuList>
-                    <GetUpdatePasswordUrlMenuItem username={user.username} />
+                    <GetUpdatePasswordUrlMenuItem email={user.email} />
                   </MenuList>
                 </Menu>
               </Td>
