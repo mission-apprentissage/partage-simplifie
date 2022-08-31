@@ -26,6 +26,33 @@ describe("Service Users", () => {
       assert.equal(found.role, ROLES.CFA);
     });
 
+    it("Ne permets pas de créer un deuxième utilisateur avec le même username / email", async () => {
+      const { createUser } = usersService();
+
+      const usernameTest = "user@test.fr";
+
+      await createUser({
+        email: usernameTest,
+        username: usernameTest,
+        password: "password",
+        role: ROLES.CFA,
+      });
+
+      await assert.rejects(
+        () =>
+          createUser({
+            email: usernameTest,
+            username: usernameTest,
+            password: "password",
+            role: ROLES.CFA,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("E11000 duplicate key error collection"), true);
+          return true;
+        }
+      );
+    });
+
     it("Permet de créer un utilisateur avec les champs obligatoires sans username", async () => {
       const { createUser } = usersService();
 
