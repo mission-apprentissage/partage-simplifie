@@ -11,7 +11,7 @@ let mongodHolder;
  * On ne démarre pas l'initialisation de la collection logs capped car inutile pour les tests
  */
 export const startMongodb = async () => {
-  mongodHolder = await MongoMemoryServer.create({ binary: { version: "5.0.2" } });
+  mongodHolder = await MongoMemoryServer.create();
   let uri = mongodHolder.getUri();
   let client = await connectToMongodb(uri);
 
