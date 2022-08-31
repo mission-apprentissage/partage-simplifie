@@ -4,8 +4,8 @@ export const name = "users";
 
 export const indexes = () => {
   return [
-    [{ username: 1 }, { name: "username" }],
-    [{ email: 1 }, { name: "email" }],
+    [{ username: 1 }, { name: "username", unique: true }],
+    [{ email: 1 }, { name: "email", unique: true }],
   ];
 };
 
