@@ -14,8 +14,8 @@ cli
   .command("test")
   .description("Job de test")
   .action(() => {
-    runScript(async ({ userEvents }) => {
-      return runTest(userEvents);
+    runScript(async ({ userEvents, organismes }) => {
+      return runTest(userEvents, organismes);
     }, "test");
   });
 

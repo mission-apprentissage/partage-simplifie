@@ -1,5 +1,7 @@
 import env from "env-var";
 
+const DEFAULT_MNA_REFERENTIEL_API_URL = "https://referentiel.apprentissage.beta.gouv.fr/api/v1";
+
 export const config = {
   appName: env.get("PARTAGE_SIMPLIFIE_NAME").default("Partage simplifié").asString(),
   env: env.get("PARTAGE_SIMPLIFIE_ENV").default("local").asString(),
@@ -27,4 +29,10 @@ export const config = {
     },
   },
   slackWebhookUrl: env.get("PARTAGE_SIMPLIFIE_SLACK_WEBHOOK_URL").asString(),
+  api: {
+    mnaReferentielApiEndpoint: env
+      .get("PARTAGE_SIMPLIFIE_MNA_REFERENTIEL_ENDPOINT_URL")
+      .default(DEFAULT_MNA_REFERENTIEL_API_URL)
+      .asString(),
+  },
 };
