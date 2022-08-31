@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 
-import { connectToMongodb, getDatabase } from "../../src/model/db/mongodbClient.js";
+import { connectToMongodb } from "../../src/model/db/mongodbClient.js";
 import { configureValidation, clearAllCollections } from "../../src/model/db/mongodbUtils.js";
 import { createIndexes } from "../../src/model/indexes/index.js";
 
@@ -16,7 +16,7 @@ export const startMongodb = async () => {
   let client = await connectToMongodb(uri);
 
   await configureValidation();
-  await createIndexes(getDatabase());
+  await createIndexes();
   return client;
 };
 
