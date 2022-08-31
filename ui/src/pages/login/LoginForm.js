@@ -5,18 +5,18 @@ import React from "react";
 import * as Yup from "yup";
 
 const formValidationSchema = Yup.object().shape({
-  username: Yup.string().required("Requis"),
+  email: Yup.string().required("Requis"),
   password: Yup.string().required("Requis"),
 });
 
 const LoginForm = ({ onSubmit }) => {
   return (
-    <Formik initialValues={{ username: "", password: "" }} validationSchema={formValidationSchema} onSubmit={onSubmit}>
+    <Formik initialValues={{ email: "", password: "" }} validationSchema={formValidationSchema} onSubmit={onSubmit}>
       {({ status = {} }) => {
         return (
           <Form>
             <Box marginBottom="2w">
-              <Field name="username">
+              <Field name="email">
                 {({ field, meta }) => (
                   <FormControl isRequired isInvalid={meta.error && meta.touched} marginBottom="2w">
                     <FormLabel color="grey.800">adresse email</FormLabel>

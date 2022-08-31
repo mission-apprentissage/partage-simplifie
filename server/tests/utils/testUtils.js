@@ -14,10 +14,7 @@ export const startServer = async () => {
   const createAndLogUser = async (email, password, role, options) => {
     await services.users.createUser({ email, password, role, ...options });
 
-    const response = await httpClient.post("/api/login", {
-      username: email,
-      password: password,
-    });
+    const response = await httpClient.post("/api/login", { email, password });
 
     return {
       Authorization: "Bearer " + response.data.access_token,

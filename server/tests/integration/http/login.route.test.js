@@ -17,7 +17,7 @@ describe("API Route Login", () => {
     });
 
     const response = await httpClient.post("/api/login", {
-      username: userEmail,
+      email: userEmail,
       password: "password",
     });
 
@@ -42,7 +42,7 @@ describe("API Route Login", () => {
     });
 
     const response = await httpClient.post("/api/login", {
-      username: userEmail,
+      email: userEmail,
       password: "password",
     });
 
@@ -65,7 +65,7 @@ describe("API Route Login", () => {
     });
 
     const response = await httpClient.post("/api/login", {
-      username: "user@test.fr",
+      email: "user@test.fr",
       password: "INVALID",
     });
 
@@ -82,7 +82,7 @@ describe("API Route Login", () => {
     });
 
     const response = await httpClient.post("/api/login", {
-      username: "INVALID",
+      email: "INVALID",
       password: "password",
     });
 

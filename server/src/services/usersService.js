@@ -14,7 +14,6 @@ const PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS = 48;
  * Méthode de création d'un utilisateur
  * génère un mot de passe par défaut
  * si aucun role n'est spécifié role CFA par défaut
- * si aucun username spécifié, on prends l'email
  * @param {*} userProps
  * @returns
  */
@@ -28,7 +27,6 @@ const createUser = async (userProps) => {
   const passwordHash = hash(password);
 
   // Champs optionnels
-  const username = userProps.username || email;
   const nom = userProps.nom || null;
   const prenom = userProps.prenom || null;
   const fonction = userProps.fonction || null;
@@ -38,7 +36,6 @@ const createUser = async (userProps) => {
 
   // Création via Factory
   const userEntity = UsersFactory.create({
-    username,
     email,
     password: passwordHash,
     role,
@@ -57,11 +54,11 @@ const createUser = async (userProps) => {
 
 /**
  * Méthode de génération d'un token pour update du mot de passe de l'utilisateur
- * @param {*} username
+ * @param {*} email
  * @returns
  */
-const generatePasswordUpdateToken = async (username) => {
-  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ username });
+const generatePasswordUpdateToken = async (email) => {
+  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ email });
 
   if (!user) {
     throw new Error("User not found");
@@ -71,7 +68,7 @@ const generatePasswordUpdateToken = async (username) => {
 
   // MAJ l'utilisateur avec un token et un token_expiry
   await dbCollection(COLLECTIONS_NAMES.Users).findOneAndUpdate(
-    { username: username },
+    { email },
     {
       $set: {
         password_update_token: token,
@@ -156,12 +153,12 @@ const rehashPassword = async (userId, password) => {
 /**
  * Méthode d'authentification de l'utilisateur
  * compare les hash des mots de passe
- * @param {*} username
+ * @param {*} email
  * @param {*} password
  * @returns
  */
-const authenticate = async (username, password) => {
-  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ username });
+const authenticate = async (email, password) => {
+  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ email });
   if (!user) {
     return null;
   }
@@ -177,12 +174,12 @@ const authenticate = async (username, password) => {
 };
 
 /**
- * Méthode de récupération d'un user depuis son username
- * @param {*} username
+ * Méthode de récupération d'un user depuis son email
+ * @param {*} email
  * @returns
  */
-const getUser = async (username) => {
-  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ username });
+const getUser = async (email) => {
+  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ email });
   if (!user) {
     throw new Error(`Unable to find user`);
   }
@@ -229,7 +226,6 @@ const searchUsers = async (searchCriteria) => {
   const matchStage = {};
   if (searchTerm) {
     matchStage.$or = [
-      { username: new RegExp(escapeRegExp(searchTerm), "i") },
       { email: new RegExp(escapeRegExp(searchTerm), "i") },
       { nom_etablissement: new RegExp(escapeRegExp(searchTerm), "i") },
     ];

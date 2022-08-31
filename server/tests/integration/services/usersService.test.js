@@ -8,12 +8,11 @@ import { ObjectId } from "mongodb";
 
 describe("Service Users", () => {
   describe("createUser", () => {
-    it("Permet de créer un utilisateur avec les champs obligatoires et un username", async () => {
+    it("Permet de créer un utilisateur avec les champs obligatoires", async () => {
       const { createUser } = usersService();
 
       const insertedId = await createUser({
         email: "user@test.fr",
-        username: "user",
         password: "password",
         role: ROLES.CFA,
       });
@@ -21,19 +20,17 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.email, "user@test.fr");
-      assert.equal(found.username, "user");
       assert.equal(found.password.startsWith("$6$rounds="), true);
       assert.equal(found.role, ROLES.CFA);
     });
 
-    it("Ne permets pas de créer un deuxième utilisateur avec le même username / email", async () => {
+    it("Ne permets pas de créer un deuxième utilisateur avec le même email", async () => {
       const { createUser } = usersService();
 
-      const usernameTest = "user@test.fr";
+      const emailTest = "user@test.fr";
 
       await createUser({
-        email: usernameTest,
-        username: usernameTest,
+        email: emailTest,
         password: "password",
         role: ROLES.CFA,
       });
@@ -41,8 +38,7 @@ describe("Service Users", () => {
       await assert.rejects(
         () =>
           createUser({
-            email: usernameTest,
-            username: usernameTest,
+            email: emailTest,
             password: "password",
             role: ROLES.CFA,
           }),
@@ -51,23 +47,6 @@ describe("Service Users", () => {
           return true;
         }
       );
-    });
-
-    it("Permet de créer un utilisateur avec les champs obligatoires sans username", async () => {
-      const { createUser } = usersService();
-
-      const insertedId = await createUser({
-        email: "user@test.fr",
-        password: "password",
-        role: ROLES.CFA,
-      });
-
-      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-
-      assert.equal(found.email, "user@test.fr");
-      assert.equal(found.username, "user@test.fr");
-      assert.equal(found.password.startsWith("$6$rounds="), true);
-      assert.equal(found.role, ROLES.CFA);
     });
 
     it("Permet de créer un utilisateur avec mot de passe random quand pas de mot de passe fourni", async () => {
@@ -81,7 +60,6 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.email, "user@test.fr");
-      assert.equal(found.username, "user@test.fr");
       assert.equal(found.password.startsWith("$6$rounds="), true);
       assert.equal(found.role, ROLES.CFA);
     });
@@ -97,7 +75,6 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.email, "user@test.fr");
-      assert.equal(found.username, "user@test.fr");
       assert.equal(found.password.startsWith("$6$rounds="), true);
       assert.equal(found.role, ROLES.ADMINISTRATOR);
     });
@@ -105,7 +82,6 @@ describe("Service Users", () => {
     it("Permet de créer un utilisateur avec tous les champs optionnels", async () => {
       const { createUser } = usersService();
 
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testRole = ROLES.ADMINISTRATOR;
       const testNom = "nom";
@@ -117,7 +93,6 @@ describe("Service Users", () => {
 
       const insertedId = await createUser({
         email: testEmail,
-        username: testUsername,
         role: testRole,
         nom: testNom,
         prenom: testPrenom,
@@ -130,7 +105,6 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.email, testEmail);
-      assert.equal(found.username, testUsername);
       assert.equal(found.password.startsWith("$6$rounds="), true);
       assert.equal(found.role, testRole);
       assert.equal(found.nom, testNom);
@@ -147,17 +121,15 @@ describe("Service Users", () => {
       const { createUser, generatePasswordUpdateToken } = usersService();
 
       const testUserEmail = "user@test.fr";
-      const testUsername = "user";
 
       // Création du user
       const insertedId = await createUser({
         email: testUserEmail,
-        username: testUsername,
         role: ROLES.CFA,
       });
 
       // Génération du token et récupération du user en bdd
-      const token = await generatePasswordUpdateToken(testUsername);
+      const token = await generatePasswordUpdateToken(testUserEmail);
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.password_update_token, token);
@@ -172,10 +144,10 @@ describe("Service Users", () => {
       const { createUser, generatePasswordUpdateToken } = usersService();
 
       // create user
-      await createUser({ email: "KO@test.Fr", username: "KO", role: ROLES.CFA });
+      await createUser({ email: "KO@test.Fr", role: ROLES.CFA });
 
       await assert.rejects(
-        () => generatePasswordUpdateToken("user"),
+        () => generatePasswordUpdateToken("notFound@test.Fr"),
         (err) => {
           assert.equal(err.message, "User not found");
           return true;
@@ -191,7 +163,6 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: "user@test.fr",
-        username: "user@test.fr",
         role: ROLES.CFA,
       });
 
@@ -202,7 +173,6 @@ describe("Service Users", () => {
       const updatedUser = await updatePassword(token, "new-password-strong");
 
       assert.equal(updatedUser.email, "user@test.fr");
-      assert.equal(updatedUser.username, "user@test.fr");
       assert.equal(updatedUser.role, ROLES.CFA);
       assert.equal(updatedUser.password_update_token, null);
       assert.equal(updatedUser.password_update_token_expiry, null);
@@ -222,12 +192,11 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        username: "user",
         role: ROLES.CFA,
       });
 
       // generate update token
-      await generatePasswordUpdateToken("user");
+      await generatePasswordUpdateToken("user@test.fr");
 
       await assert.rejects(
         () => updatePassword("wrong token", "new-password-strong"),
@@ -244,12 +213,11 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        username: "user",
         role: ROLES.CFA,
       });
 
       // generate update token
-      const token = await generatePasswordUpdateToken("user");
+      const token = await generatePasswordUpdateToken("user@test.fr");
 
       const shortPassword = "hello-world";
 
@@ -268,16 +236,15 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        username: "user",
         role: ROLES.CFA,
       });
 
       // generate update token
-      const token = await generatePasswordUpdateToken("user");
+      const token = await generatePasswordUpdateToken("user@test.fr");
 
       // force password_update_token_expiry to 10 minutes ago
       await dbCollection(COLLECTIONS_NAMES.Users).findOneAndUpdate(
-        { username: "user" },
+        { email: "user@test.fr" },
         { $set: { password_update_token_expiry: subMinutes(new Date(), 10) } }
       );
 
@@ -296,7 +263,6 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        username: "user",
         role: ROLES.CFA,
       });
 
@@ -315,12 +281,11 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        username: "user",
         role: ROLES.CFA,
       });
 
       // generate update token
-      const token = await generatePasswordUpdateToken("user");
+      const token = await generatePasswordUpdateToken("user@test.fr");
 
       // update password first time
       await updatePassword(token, "new-password-strong");
@@ -343,13 +308,12 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        username: "user",
         password: "password",
         role: ROLES.CFA,
       });
 
-      const user = await authenticate("user", "password");
-      assert.equal(user.username === "user", true);
+      const user = await authenticate("user@test.fr", "password");
+      assert.equal(user.email === "user@test.fr", true);
     });
 
     it("Vérifie que le mot de passe est invalide", async () => {
@@ -358,62 +322,59 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        username: "user",
         password: "password",
         role: ROLES.CFA,
       });
 
-      const user = await authenticate("user", "INVALID");
+      const user = await authenticate("user@test.fr", "INVALID");
       assert.equal(user, null);
     });
   });
 
   describe("getUser", () => {
-    it("renvoie le bon utilisateur quand le username fourni est valide", async () => {
+    it("renvoie le bon utilisateur quand l'email fourni est valide", async () => {
       const { createUser, getUser } = await usersService();
 
-      const usernameTest = "userTest";
+      const emailTest = "userTest@test.fr";
 
       // Création du user
       const insertedId = await createUser({
-        email: "user@test.fr",
-        username: usernameTest,
+        email: emailTest,
         role: ROLES.CFA,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
       assert.equal(found.role === ROLES.CFA, true);
       assert.equal(found._id !== null, true);
 
       // get user
-      const gettedUser = await getUser(found.username);
-      assert.equal(gettedUser.username === found.username, true);
+      const gettedUser = await getUser(found.email);
+      assert.equal(gettedUser.email === found.email, true);
       assert.equal(gettedUser.role === ROLES.CFA, true);
       assert.equal(gettedUser._id !== null, true);
     });
 
-    it("ne renvoie pas le bon utilisateur quand le username fourni n'est pas valide", async () => {
+    it("ne renvoie pas le bon utilisateur quand l'email fourni n'est pas valide", async () => {
       const { createUser, getUser } = await usersService();
 
-      const usernameTest = "userTest";
+      const emailTest = "userTest@test.fr";
 
       // Création du user
       const insertedId = await createUser({
-        email: "user@test.fr",
-        username: usernameTest,
+        email: emailTest,
         role: ROLES.CFA,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
       assert.equal(found.role === ROLES.CFA, true);
       assert.equal(found._id !== null, true);
 
       // get user
-      await assert.rejects(getUser("basUser"), { message: "Unable to find user" });
+      await assert.rejects(getUser("badUser@test.fr"), { message: "Unable to find user" });
     });
   });
 
@@ -421,24 +382,23 @@ describe("Service Users", () => {
     it("renvoie le bon utilisateur quand l'id fourni est valide", async () => {
       const { createUser, getUserById } = await usersService();
 
-      const usernameTest = "userTest";
+      const emailTest = "user@test.fr";
 
       // Création du user
       const insertedId = await createUser({
-        email: "user@test.fr",
-        username: usernameTest,
+        email: emailTest,
         role: ROLES.CFA,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
       assert.equal(found.role === ROLES.CFA, true);
       assert.equal(found._id !== null, true);
 
       // get user
       const gettedUser = await getUserById(found._id);
-      assert.equal(gettedUser.username === found.username, true);
+      assert.equal(gettedUser.email === found.email, true);
       assert.equal(gettedUser.role === ROLES.CFA, true);
       assert.equal(gettedUser._id !== null, true);
     });
@@ -446,18 +406,17 @@ describe("Service Users", () => {
     it("ne renvoie pas le bon utilisateur quand l'id fourni n'est pas valide", async () => {
       const { createUser, getUserById } = await usersService();
 
-      const usernameTest = "userTest";
+      const emailTest = "user@test.fr";
 
       // Création du user
       const insertedId = await createUser({
-        email: "user@test.fr",
-        username: usernameTest,
+        email: emailTest,
         role: ROLES.CFA,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
       assert.equal(found.role === ROLES.CFA, true);
       assert.equal(found._id !== null, true);
 
@@ -498,7 +457,6 @@ describe("Service Users", () => {
 
       // Utilisateur 1
       assert.ok(allUsers[0]._id);
-      assert.equal(allUsers[0].username, "test1@mail.com");
       assert.equal(allUsers[0].email, "test1@mail.com");
       assert.equal(allUsers[0].role, ROLES.CFA);
       assert.equal(allUsers[0].nom, "NOM1");
@@ -510,7 +468,6 @@ describe("Service Users", () => {
 
       // Utilisateur 2
       assert.ok(allUsers[1]._id);
-      assert.equal(allUsers[1].username, "test2@mail.com");
       assert.equal(allUsers[1].email, "test2@mail.com");
       assert.equal(allUsers[1].role, ROLES.CFA);
       assert.equal(allUsers[1].nom, "NOM2");
@@ -525,85 +482,12 @@ describe("Service Users", () => {
   describe("searchUsers", async () => {
     const { searchUsers, createUser } = await usersService();
 
-    it("returns results matching username", async () => {
-      const searchTerm = "haver";
-      const usernameTest = "havertz@test.fr";
-      const emailTest = "havertz@test.fr";
-
-      const insertedId = await createUser({
-        email: emailTest,
-        username: usernameTest,
-        password: "password",
-        role: ROLES.CFA,
-      });
-
-      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-
-      assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
-      assert.equal(found.email === emailTest, true);
-
-      const results = await searchUsers({ searchTerm });
-
-      assert.equal(results.length, 1);
-      assert.ok(results[0].username, found.username);
-    });
-
-    it("returns results matching username case insensitive", async () => {
-      const searchTerm = "HaVEr";
-      const usernameTest = "havertz@test.fr";
-      const emailTest = "havertz@test.fr";
-
-      const insertedId = await createUser({
-        email: emailTest,
-        username: usernameTest,
-        password: "password",
-        role: ROLES.CFA,
-      });
-
-      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-
-      assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
-      assert.equal(found.email === emailTest, true);
-
-      const results = await searchUsers({ searchTerm });
-
-      assert.equal(results.length, 1);
-      assert.ok(results[0].username, found.username);
-    });
-
-    it("does not returns results without match on username", async () => {
-      const searchTerm = "benzema";
-      const usernameTest = "havertz@test.fr";
-      const emailTest = "havertz@test.fr";
-
-      const insertedId = await createUser({
-        email: emailTest,
-        username: usernameTest,
-        password: "password",
-        role: ROLES.CFA,
-      });
-
-      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
-
-      assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
-      assert.equal(found.email === emailTest, true);
-
-      const results = await searchUsers({ searchTerm });
-
-      assert.equal(results.length, 0);
-    });
-
     it("returns results matching email", async () => {
       const searchTerm = "rma";
-      const usernameTest = "havertz@rma.es";
       const emailTest = "havertz@rma.es";
 
       const insertedId = await createUser({
         email: emailTest,
-        username: usernameTest,
         password: "password",
         role: ROLES.CFA,
       });
@@ -611,23 +495,20 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
       assert.equal(found.email === emailTest, true);
 
       const results = await searchUsers({ searchTerm });
 
       assert.equal(results.length, 1);
-      assert.ok(results[0].username, found.username);
+      assert.ok(results[0].email, found.email);
     });
 
     it("returns results matching email case insensitive", async () => {
       const searchTerm = "RMa";
-      const usernameTest = "havertz@rma.es";
       const emailTest = "havertz@rma.es";
 
       const insertedId = await createUser({
         email: emailTest,
-        username: usernameTest,
         password: "password",
         role: ROLES.CFA,
       });
@@ -635,23 +516,20 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
       assert.equal(found.email === emailTest, true);
 
       const results = await searchUsers({ searchTerm });
 
       assert.equal(results.length, 1);
-      assert.ok(results[0].username, found.username);
+      assert.ok(results[0].email, found.email);
     });
 
     it("does not returns results without match on email", async () => {
       const searchTerm = "fcbarcelona";
-      const usernameTest = "havertz@rma.es";
       const emailTest = "havertz@rma.es";
 
       const insertedId = await createUser({
         email: emailTest,
-        username: usernameTest,
         password: "password",
         role: ROLES.CFA,
       });
@@ -659,7 +537,7 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
+      assert.equal(found.email === emailTest, true);
       assert.equal(found.email === emailTest, true);
 
       const results = await searchUsers({ searchTerm });
@@ -668,13 +546,11 @@ describe("Service Users", () => {
 
     it("returns results matching nom_etablissement", async () => {
       const searchTerm = "FOOTB";
-      const usernameTest = "havertz@test.fr";
       const emailTest = "havertz@test.fr";
       const nomEtablissementTest = "FOOTBALL Club";
 
       const insertedId = await createUser({
         email: emailTest,
-        username: usernameTest,
         password: "password",
         nom_etablissement: nomEtablissementTest,
         role: ROLES.CFA,
@@ -683,25 +559,22 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
       assert.equal(found.email === emailTest, true);
       assert.equal(found.nom_etablissement === nomEtablissementTest, true);
 
       const results = await searchUsers({ searchTerm });
 
       assert.equal(results.length, 1);
-      assert.ok(results[0].username, found.username);
+      assert.ok(results[0].email, found.email);
     });
 
     it("returns results matching nom_etablissement case insensitive", async () => {
       const searchTerm = "FoOTb";
-      const usernameTest = "havertz@test.fr";
       const emailTest = "havertz@test.fr";
       const nomEtablissementTest = "FOOTBALL Club";
 
       const insertedId = await createUser({
         email: emailTest,
-        username: usernameTest,
         password: "password",
         nom_etablissement: nomEtablissementTest,
         role: ROLES.CFA,
@@ -710,25 +583,22 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
       assert.equal(found.email === emailTest, true);
       assert.equal(found.nom_etablissement === nomEtablissementTest, true);
 
       const results = await searchUsers({ searchTerm });
 
       assert.equal(results.length, 1);
-      assert.ok(results[0].username, found.username);
+      assert.ok(results[0].email, found.email);
     });
 
     it("does not returns results without match on nom_etablissement", async () => {
       const searchTerm = "TENNIS";
-      const usernameTest = "havertz@test.fr";
       const emailTest = "havertz@test.fr";
       const nomEtablissementTest = "FOOTBALL Club";
 
       const insertedId = await createUser({
         email: emailTest,
-        username: usernameTest,
         password: "password",
         nom_etablissement: nomEtablissementTest,
         role: ROLES.CFA,
@@ -737,7 +607,6 @@ describe("Service Users", () => {
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.role === ROLES.CFA, true);
-      assert.equal(found.username === usernameTest, true);
       assert.equal(found.email === emailTest, true);
       assert.equal(found.nom_etablissement === nomEtablissementTest, true);
 

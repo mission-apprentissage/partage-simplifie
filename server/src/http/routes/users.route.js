@@ -18,7 +18,7 @@ export default ({ users, userEvents }) => {
       const usersMapped = allUsers.map(toUserApiOutput);
 
       await userEvents.createUserEvent({
-        username: user.username,
+        username: user.email,
         type: USER_EVENTS_TYPES.GET,
         action: USER_EVENTS_ACTIONS.USERS.GET_ALL,
       });
@@ -30,7 +30,7 @@ export default ({ users, userEvents }) => {
   router.post(
     "/generate-update-password-url",
     tryCatch(async (req, res) => {
-      const passwordUpdateToken = await users.generatePasswordUpdateToken(req.body.username);
+      const passwordUpdateToken = await users.generatePasswordUpdateToken(req.body.email);
       const passwordUpdateUrl = `${config.publicUrl}/modifier-mot-de-passe?token=${passwordUpdateToken}`;
 
       return res.json({ passwordUpdateUrl });

@@ -11,7 +11,6 @@ export class UsersFactory extends BaseFactory {
    */
   static create(props) {
     const schema = Joi.object({
-      username: Joi.string().required(),
       email: Joi.string().email().required(),
       password: Joi.string().required(),
       role: Joi.string()

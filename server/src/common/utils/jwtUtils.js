@@ -30,5 +30,5 @@ export const createToken = (type, subject, options = {}) => {
 export const createUserToken = (user, options = {}) => {
   // Liste des champs propres à l'utilisateur à ajouter au payload du token
   const payload = { role: user.role, nom_etablissement: user.nom_etablissement || null };
-  return createToken("user", user.username, { payload, ...options });
+  return createToken("user", user.email, { payload, ...options });
 };

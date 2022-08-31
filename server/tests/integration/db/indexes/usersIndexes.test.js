@@ -31,14 +31,6 @@ describe("Users Indexes", () => {
     );
   });
 
-  it("Vérifie l'existence d'un index unique sur le champ username", async () => {
-    assert.equal(
-      usersIndexes.some((item) => item.name === "username"),
-      true
-    );
-    assert.equal(usersIndexes.find((item) => item.name === "username")?.unique, true);
-  });
-
   it("Vérifie l'existence d'un index unique sur le champ email", async () => {
     assert.equal(
       usersIndexes.some((item) => item.name === "email"),

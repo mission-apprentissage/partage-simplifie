@@ -6,19 +6,16 @@ import { UsersFactory } from "../../../src/factory/usersFactory.js";
 describe("Factory Users", () => {
   describe("create", () => {
     it("Vérifie la création d'user via sa factory avec uniquement les champs obligatoires fournis", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
       });
 
-      assert.equal(entity.username === testUsername, true);
       assert.equal(entity.email === testEmail, true);
       assert.equal(entity.role === testRole, true);
       assert.equal(entity.created_at !== null, true);
@@ -26,7 +23,6 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la création d'user via sa factory avec tous les champs obligatoires et optionnels fournis", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
@@ -38,7 +34,6 @@ describe("Factory Users", () => {
       const testNom_etablissement = "nom_etablissement";
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -50,7 +45,6 @@ describe("Factory Users", () => {
         nom_etablissement: testNom_etablissement,
       });
 
-      assert.equal(entity.username === testUsername, true);
       assert.equal(entity.email === testEmail, true);
       assert.equal(entity.role === testRole, true);
       assert.equal(entity.nom === testNom, true);
@@ -63,27 +57,11 @@ describe("Factory Users", () => {
       assert.equal(entity.updated_at === null, true);
     });
 
-    it("Vérifie la non création d'user via sa factory si aucun username fourni", async () => {
-      const testEmail = "user@email.fr";
-      const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
-
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-      });
-
-      assert.equal(entity === null, true);
-    });
-
     it("Vérifie la non création d'user via sa factory si aucun email fourni", async () => {
-      const testUsername = "user";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         password: testPassword,
         role: testRole,
       });
@@ -92,12 +70,10 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si aucun password fourni", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         role: testRole,
       });
@@ -106,43 +82,23 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si aucun role fourni", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
-      });
-
-      assert.equal(entity === null, true);
-    });
-
-    it("Vérifie la non création d'user via sa factory si un username au mauvais format est fourni", async () => {
-      const testUsername = 123;
-      const testEmail = "user@email.fr";
-      const testRole = ROLES.CFA;
-      const testPassword = generateRandomAlphanumericPhrase(80);
-
-      const entity = await UsersFactory.create({
-        username: testUsername,
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
       });
 
       assert.equal(entity === null, true);
     });
 
     it("Vérifie la non création d'user via sa factory si un email au mauvais format est fourni", async () => {
-      const testUsername = 123;
       const testEmail = "useremail.fr";
       const testRole = ROLES.CFA;
       const testPassword = generateRandomAlphanumericPhrase(80);
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -152,13 +108,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si un password au mauvais format est fourni", async () => {
-      const testUsername = 123;
       const testEmail = "useremail.fr";
       const testRole = ROLES.CFA;
       const testPassword = 123;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -168,13 +122,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si un mauvais role fourni", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const mauvaisRole = "mauvaisRole";
       const testPassword = generateRandomAlphanumericPhrase(80);
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: mauvaisRole,
@@ -184,13 +136,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si un nom au mauvais format est fourni", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -201,13 +151,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si un prenom au mauvais format est fourni", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -218,13 +166,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si une fonction au mauvais format est fournie", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -235,13 +181,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si un telephone au mauvais format est fourni", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -252,13 +196,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si une liste d'outils_gestion au mauvais format est fournie", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
@@ -269,13 +211,11 @@ describe("Factory Users", () => {
     });
 
     it("Vérifie la non création d'user via sa factory si un nom_etablissement au mauvais format est fourni", async () => {
-      const testUsername = "user";
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
       const entity = await UsersFactory.create({
-        username: testUsername,
         email: testEmail,
         password: testPassword,
         role: testRole,
