@@ -3,17 +3,13 @@ import { arrayOf, date, object, objectId, string } from "./jsonSchema/jsonSchema
 export const name = "users";
 
 export const indexes = () => {
-  return [
-    [{ username: 1 }, { name: "username", unique: true }],
-    [{ email: 1 }, { name: "email", unique: true }],
-  ];
+  return [[{ email: 1 }, { name: "email", unique: true }]];
 };
 
 export const schema = () => {
   return object(
     {
       _id: objectId(),
-      username: string(),
       email: string(),
       password: string(),
       password_update_token: string(),
@@ -31,8 +27,8 @@ export const schema = () => {
       updated_at: date(),
       created_at: date(),
     },
-    { required: ["username", "email", "role", "created_at"] },
-    { uniqueItems: ["username", "email"] }
+    { required: ["email", "role", "created_at"] },
+    { uniqueItems: ["email"] }
   );
 };
 

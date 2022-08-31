@@ -55,14 +55,12 @@ describe("API Route Login", () => {
       // Premier utilisateur : celui connecté
       assert.ok(response.data[0].id);
       assert.equal(response.data[0].password, undefined);
-      assert.equal(response.data[0].username, "user@test.fr");
       assert.equal(response.data[0].email, "user@test.fr");
       assert.equal(response.data[0].role, ROLES.ADMINISTRATOR);
 
       // Utilisateur 1
       assert.ok(response.data[1].id);
       assert.equal(response.data[1].password, undefined);
-      assert.equal(response.data[1].username, "test1@mail.com");
       assert.equal(response.data[1].email, "test1@mail.com");
       assert.equal(response.data[1].role, ROLES.CFA);
       assert.equal(response.data[1].nom, "NOM1");
@@ -75,7 +73,6 @@ describe("API Route Login", () => {
       // Utilisateur 1
       assert.ok(response.data[2].id);
       assert.equal(response.data[2].password, undefined);
-      assert.equal(response.data[2].username, "test2@mail.com");
       assert.equal(response.data[2].email, "test2@mail.com");
       assert.equal(response.data[2].role, ROLES.CFA);
       assert.equal(response.data[2].nom, "NOM2");
@@ -101,7 +98,7 @@ describe("API Route Login", () => {
 
       const response = await httpClient.post(
         "/api/users/generate-update-password-url",
-        { username: "john-doe" },
+        { email: "admin@test.fr" },
         { headers: bearerToken }
       );
 
@@ -115,13 +112,12 @@ describe("API Route Login", () => {
       // Création du user
       await services.users.createUser({
         email: "user@test.fr",
-        username: "user@test.fr",
         role: ROLES.ADMINISTRATOR,
       });
 
       const response = await httpClient.post(
         "/api/users/generate-update-password-url",
-        { username: "user@test.fr" },
+        { email: "user@test.fr" },
         { headers: bearerToken }
       );
 
@@ -162,42 +158,12 @@ describe("API Route Login", () => {
       assert.deepEqual(response.data, []);
     });
 
-    it("sends a 200 HTTP response with results when match on username", async () => {
-      const { httpClient, services, createAndLogUser } = await startServer();
-      const bearerToken = await createAndLogUser("user1@test.fr", "password", ROLES.ADMINISTRATOR);
-
-      await services.users.createUser({
-        email: "user2@test.fr",
-        username: "user2@test.fr",
-        password: "password",
-        nom_etablissement: "nom2",
-        role: ROLES.CFA,
-      });
-
-      await services.users.createUser({
-        email: "user3@test.fr",
-        username: "user3@test.fr",
-        password: "password",
-        nom_etablissement: "nom3",
-        role: ROLES.CFA,
-      });
-
-      const response = await httpClient.post("/api/users/search", { searchTerm: "user" }, { headers: bearerToken });
-
-      assert.strictEqual(response.status, 200);
-      assert.strictEqual(response.data.length, 3);
-      assert.deepEqual(response.data[0].username, "user1@test.fr");
-      assert.deepEqual(response.data[1].username, "user2@test.fr");
-      assert.deepEqual(response.data[2].username, "user3@test.fr");
-    });
-
     it("sends a 200 HTTP response with results when match on email", async () => {
       const { httpClient, services, createAndLogUser } = await startServer();
       const bearerToken = await createAndLogUser("user1@test.fr", "password", ROLES.ADMINISTRATOR);
 
       await services.users.createUser({
         email: "user2@test.fr",
-        username: "user2@test.fr",
         password: "password",
         nom_etablissement: "nom2",
         role: ROLES.CFA,
@@ -205,7 +171,6 @@ describe("API Route Login", () => {
 
       await services.users.createUser({
         email: "user3@test.fr",
-        username: "user3@test.fr",
         password: "password",
         nom_etablissement: "nom3",
         role: ROLES.CFA,
@@ -215,9 +180,9 @@ describe("API Route Login", () => {
 
       assert.strictEqual(response.status, 200);
       assert.strictEqual(response.data.length, 3);
-      assert.deepEqual(response.data[0].username, "user1@test.fr");
-      assert.deepEqual(response.data[1].username, "user2@test.fr");
-      assert.deepEqual(response.data[2].username, "user3@test.fr");
+      assert.deepEqual(response.data[0].email, "user1@test.fr");
+      assert.deepEqual(response.data[1].email, "user2@test.fr");
+      assert.deepEqual(response.data[2].email, "user3@test.fr");
     });
 
     it("sends a 200 HTTP response with results when match on organisme", async () => {
@@ -226,7 +191,6 @@ describe("API Route Login", () => {
 
       await services.users.createUser({
         email: "user2@test.fr",
-        username: "user2@test.fr",
         password: "password",
         nom_etablissement: "nom2",
         role: ROLES.CFA,
@@ -234,7 +198,6 @@ describe("API Route Login", () => {
 
       await services.users.createUser({
         email: "user3@test.fr",
-        username: "user3@test.fr",
         password: "password",
         nom_etablissement: "nom3",
         role: ROLES.CFA,
@@ -244,8 +207,8 @@ describe("API Route Login", () => {
 
       assert.strictEqual(response.status, 200);
       assert.strictEqual(response.data.length, 2);
-      assert.deepEqual(response.data[0].username, "user2@test.fr");
-      assert.deepEqual(response.data[1].username, "user3@test.fr");
+      assert.deepEqual(response.data[0].email, "user2@test.fr");
+      assert.deepEqual(response.data[1].email, "user3@test.fr");
     });
   });
 });

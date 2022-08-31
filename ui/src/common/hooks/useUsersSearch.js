@@ -44,19 +44,9 @@ const useUsersSearch = (searchTerm) => {
 
   return {
     data: sortedData?.map(
-      ({
-        id,
-        username,
-        email,
-        role,
-        nom_etablissement,
-        created_at,
-        password_updated_at,
-        password_updated_token_at,
-      }) => {
+      ({ id, email, role, nom_etablissement, created_at, password_updated_at, password_updated_token_at }) => {
         return {
           id,
-          username,
           email,
           role,
           nom_etablissement,

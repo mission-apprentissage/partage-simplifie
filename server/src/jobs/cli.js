@@ -36,12 +36,11 @@ cli
 cli
   .command("create-user")
   .description("Création d'utilisateur")
-  .requiredOption("-u, --username <string>", "Username de l'utilisateur à créer")
   .requiredOption("-e, --email <string>", "Email de l'utilisateur à créer")
   .requiredOption("-r, --role <string>", "Role de l'utilisateur à créer")
-  .action(({ username, email, role }) => {
+  .action(({ email, role }) => {
     runScript(async ({ users }) => {
-      return runCreateUser(users, { username, email, role });
+      return runCreateUser(users, { email, role });
     }, JOB_NAMES.createUser);
   });
 
@@ -51,10 +50,10 @@ cli
 cli
   .command("generate-password-update-token")
   .description("Génération du lien de MAJ de mot de passe")
-  .requiredOption("-u, --username <string>", "Username de l'utilisateur à créer")
-  .action(({ username }) => {
+  .requiredOption("-e, --email <string>", "Email de l'utilisateur à créer")
+  .action(({ email }) => {
     runScript(async ({ users }) => {
-      return runGeneratePasswordUpdateToken(users, { username });
+      return runGeneratePasswordUpdateToken(users, { email });
     }, JOB_NAMES.generatePasswordUpdateToken);
   });
 

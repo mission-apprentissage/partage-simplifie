@@ -52,12 +52,12 @@ describe("createToken", () => {
 describe("createUserToken", () => {
   it("crée un token pour un utilisateur valide avec le bon JWT_SECRET", () => {
     const testRole = "testRole";
-    const testUsername = "testUsername";
+    const testEmail = "testEmail@test.fr";
     const testEtablissement = "testEtablissement";
 
     const user = {
       role: testRole,
-      username: testUsername,
+      email: testEmail,
       nom_etablissement: testEtablissement,
     };
 
@@ -66,7 +66,7 @@ describe("createUserToken", () => {
     const decoded = jwt.verify(token, config.auth.user.jwtSecret);
     assert.ok(decoded.iat);
     assert.ok(decoded.exp);
-    assert.equal(decoded.sub === testUsername, true);
+    assert.equal(decoded.sub === testEmail, true);
     assert.equal(decoded.iss === config.appName, true);
     assert.equal(decoded.role === testRole, true);
     assert.equal(decoded.nom_etablissement === testEtablissement, true);
@@ -74,12 +74,12 @@ describe("createUserToken", () => {
 
   it("ne crée pas un token pour un utilisateur valide si le JWT_SECRET n'est pas bon", () => {
     const testRole = "testRole";
-    const testUsername = "testUsername";
+    const testEmail = "testEmail@test.fr";
     const testEtablissement = "testEtablissement";
 
     const user = {
       role: testRole,
-      username: testUsername,
+      email: testEmail,
       nom_etablissement: testEtablissement,
     };
 

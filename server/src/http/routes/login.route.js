@@ -9,13 +9,17 @@ export default ({ users, userEvents }) => {
   router.post(
     "/",
     tryCatch(async (req, res) => {
-      const { username, password } = req.body;
-      const authenticatedUser = await users.authenticate(username, password);
+      const { email, password } = req.body;
+      const authenticatedUser = await users.authenticate(email, password);
 
       if (!authenticatedUser) return res.status(401).send();
 
       const token = createUserToken(authenticatedUser);
-      await userEvents.createUserEvent({ username, type: USER_EVENTS_TYPES.POST, action: USER_EVENTS_ACTIONS.LOGIN });
+      await userEvents.createUserEvent({
+        username: email,
+        type: USER_EVENTS_TYPES.POST,
+        action: USER_EVENTS_ACTIONS.LOGIN,
+      });
 
       return res.json({ access_token: token });
     })

@@ -37,7 +37,6 @@ const UsersTable = ({ users }) => {
       </TableCaption>
       <Thead>
         <Tr background="galt">
-          <Th>Nom d&apos;utilisateur</Th>
           <Th>Email</Th>
           <Th>Role</Th>
           <Th>Nom établissement</Th>
@@ -50,7 +49,6 @@ const UsersTable = ({ users }) => {
         {itemsSliced?.map((user) => {
           return (
             <Tr key={user.id}>
-              <Td color="bluefrance">{user.username}</Td>
               <Td color="grey.800">{user.email}</Td>
               <Td color="grey.800">{user.role}</Td>
               <Td color="grey.800">{user.nom_etablissement}</Td>
