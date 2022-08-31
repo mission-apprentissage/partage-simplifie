@@ -1,6 +1,6 @@
 import { strict as assert } from "assert";
 import organismesService from "../../../src/services/organismesService.js";
-import { EMPTY_UAI } from "../../utils/nockApis/apiReferentielMna/index.js";
+import { INEXISTANT_UAI } from "../../utils/nockApis/apiReferentielMna/data.js";
 
 describe("Service Organismes", () => {
   describe("getOrganismesFromReferentiel", () => {
@@ -20,7 +20,7 @@ describe("Service Organismes", () => {
     it("Ne récupère pas de liste des organismes pour un uai non valide", async () => {
       const { getOrganismesFromReferentiel } = organismesService();
 
-      const organismesFound = await getOrganismesFromReferentiel(EMPTY_UAI);
+      const organismesFound = await getOrganismesFromReferentiel(INEXISTANT_UAI);
       assert.equal(organismesFound, null);
     });
   });
