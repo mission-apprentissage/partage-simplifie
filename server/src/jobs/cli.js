@@ -1,5 +1,6 @@
 import { program as cli } from "commander";
 import { JOB_NAMES } from "../common/constants/jobsConstants.js";
+import { ROLES } from "../common/constants/roles.js";
 import { runCreateIndexes } from "./create-indexes/index.js";
 import { runScript } from "./scriptWrapper.js";
 import { runTest } from "./test/index.js";
@@ -41,6 +42,19 @@ cli
   .action(({ email, role }) => {
     runScript(async ({ users }) => {
       return runCreateUser(users, { email, role });
+    }, JOB_NAMES.createUser);
+  });
+
+/**
+ * Job de création d'administrateur
+ */
+cli
+  .command("create-admin")
+  .description("Création d'utilisateur")
+  .requiredOption("-e, --email <string>", "Email de l'utilisateur à créer")
+  .action(({ email }) => {
+    runScript(async ({ users }) => {
+      return runCreateUser(users, { email, role: ROLES.ADMINISTRATOR });
     }, JOB_NAMES.createUser);
   });
 
