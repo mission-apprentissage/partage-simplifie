@@ -4,8 +4,8 @@ import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import { startServer } from "../../utils/testUtils.js";
 
-describe("API Route Update Password", () => {
-  describe("POST /update-password", () => {
+describe("API Route User", () => {
+  describe("POST /user/update-password", () => {
     it("renvoie une 200 quand le token fourni et le nouveau mot de passe sont corrects", async () => {
       const { httpClient, services } = await startServer();
       // create user
@@ -13,7 +13,7 @@ describe("API Route Update Password", () => {
       const user = await services.users.createUser({ email, role: ROLES.CFA });
       // generate password update token
       const token = await services.users.generatePasswordUpdateToken(email);
-      const response = await httpClient.post("/api/update-password", {
+      const response = await httpClient.post("/api/user/update-password", {
         token,
         newPassword: "strong long password 1234",
       });
@@ -34,7 +34,7 @@ describe("API Route Update Password", () => {
 
       // generate password update token
       const token = await services.users.generatePasswordUpdateToken(email);
-      const response = await httpClient.post("/api/update-password", {
+      const response = await httpClient.post("/api/user/update-password", {
         token,
         newPassword: "trop court",
       });
@@ -56,7 +56,7 @@ describe("API Route Update Password", () => {
 
       // generate password update token
       await services.users.generatePasswordUpdateToken(email);
-      const response = await httpClient.post("/api/update-password", {
+      const response = await httpClient.post("/api/user/update-password", {
         token: "",
         newPassword: "mot de passe assez long",
       });
@@ -77,7 +77,7 @@ describe("API Route Update Password", () => {
       const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       // generate password update token
       await services.users.generatePasswordUpdateToken(email);
-      const response = await httpClient.post("/api/update-password", {
+      const response = await httpClient.post("/api/user/update-password", {
         token: "un-autre-token",
         newPassword: "mot de passe assez long",
       });
@@ -94,7 +94,7 @@ describe("API Route Update Password", () => {
       const insertedId = await services.users.createUser({ email, role: ROLES.CFA });
       const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
-      const response = await httpClient.post("/api/update-password", {
+      const response = await httpClient.post("/api/user/update-password", {
         token: "un token qui n'existe pas",
         newPassword: "mot de passe assez long",
       });

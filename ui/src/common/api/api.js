@@ -17,7 +17,7 @@ export const postLogin = (values) => {
  * @returns
  */
 export const postUpdatePassword = async (token, newPassword) => {
-  const URL = "/api/update-password";
+  const URL = "/api/user/update-password";
   return await _post(URL, { newPassword: newPassword, token });
 };
 

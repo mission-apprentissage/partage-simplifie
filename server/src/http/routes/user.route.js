@@ -3,12 +3,11 @@ import { USER_EVENTS_TYPES, USER_EVENTS_ACTIONS } from "../../common/constants/u
 import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
 import Joi from "joi";
 import { validateRequestBody } from "../middlewares/validateRequestBody.js";
-
 export default ({ users, userEvents }) => {
   const router = express.Router();
 
   router.post(
-    "/",
+    "/update-password",
     validateRequestBody(
       Joi.object({
         token: Joi.string().required(),
