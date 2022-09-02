@@ -13,6 +13,6 @@ export const USER_EVENTS_ACTIONS = {
   LOGIN: "login",
   UPDATE_PASSWORD: "update-password",
   USERS: {
-    GET_ALL: "GET_ALL",
+    GET_ALL: "get-all",
   },
 };
