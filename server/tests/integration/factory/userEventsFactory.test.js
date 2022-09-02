@@ -16,5 +16,43 @@ describe("Factory UserEvents", () => {
       assert.equal(entity.created_at !== null, true);
       assert.equal(entity.updated_at === null, true);
     });
+
+    it("Vérifie la non création d'userEvent via sa factory si username au mauvais format", async () => {
+      const entity = await UserEventsFactory.create({
+        username: 12,
+        type: "any",
+        data: { hello: "world" },
+      });
+
+      assert.equal(entity === null, true);
+    });
+
+    it("Vérifie la non création d'userEvent via sa factory si username manquant", async () => {
+      const entity = await UserEventsFactory.create({
+        type: "any",
+        data: { hello: "world" },
+      });
+
+      assert.equal(entity === null, true);
+    });
+
+    it("Vérifie la non création d'userEvent via sa factory si type au mauvais format", async () => {
+      const entity = await UserEventsFactory.create({
+        username: "testUser@test.fr",
+        type: 12,
+        data: { hello: "world" },
+      });
+
+      assert.equal(entity === null, true);
+    });
+
+    it("Vérifie la non création d'userEvent via sa factory si type manquant", async () => {
+      const entity = await UserEventsFactory.create({
+        username: "testUser@test.fr",
+        data: { hello: "world" },
+      });
+
+      assert.equal(entity === null, true);
+    });
   });
 });
