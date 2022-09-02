@@ -28,7 +28,7 @@ export class UsersFactory extends BaseFactory {
 
     if (error) {
       logger.error(error);
-      return null;
+      throw new Error(`Can't create user, schema not valid : ${error}`);
     }
 
     return {

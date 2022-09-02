@@ -61,36 +61,52 @@ describe("Factory Users", () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        password: testPassword,
-        role: testRole,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () => {
+          UsersFactory.create({
+            password: testPassword,
+            role: testRole,
+          });
+        },
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si aucun password fourni", async () => {
       const testEmail = "user@email.fr";
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        role: testRole,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            role: testRole,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si aucun role fourni", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si un email au mauvais format est fourni", async () => {
@@ -98,13 +114,18 @@ describe("Factory Users", () => {
       const testRole = ROLES.CFA;
       const testPassword = generateRandomAlphanumericPhrase(80);
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si un password au mauvais format est fourni", async () => {
@@ -112,13 +133,18 @@ describe("Factory Users", () => {
       const testRole = ROLES.CFA;
       const testPassword = 123;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si un mauvais role fourni", async () => {
@@ -126,13 +152,18 @@ describe("Factory Users", () => {
       const mauvaisRole = "mauvaisRole";
       const testPassword = generateRandomAlphanumericPhrase(80);
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: mauvaisRole,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: mauvaisRole,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si un nom au mauvais format est fourni", async () => {
@@ -140,14 +171,19 @@ describe("Factory Users", () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-        nom: 123,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            nom: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si un prenom au mauvais format est fourni", async () => {
@@ -155,14 +191,19 @@ describe("Factory Users", () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-        prenom: 123,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            prenom: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si une fonction au mauvais format est fournie", async () => {
@@ -170,14 +211,19 @@ describe("Factory Users", () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-        fonction: 123,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            fonction: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si un telephone au mauvais format est fourni", async () => {
@@ -185,14 +231,19 @@ describe("Factory Users", () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-        telephone: 123,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            telephone: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si une liste d'outils_gestion au mauvais format est fournie", async () => {
@@ -200,14 +251,19 @@ describe("Factory Users", () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-        outils_gestion: 123,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            outils_gestion: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
 
     it("Vérifie la non création d'user via sa factory si un nom_etablissement au mauvais format est fourni", async () => {
@@ -215,14 +271,19 @@ describe("Factory Users", () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
       const testRole = ROLES.CFA;
 
-      const entity = await UsersFactory.create({
-        email: testEmail,
-        password: testPassword,
-        role: testRole,
-        nom_etablissement: 123,
-      });
-
-      assert.equal(entity === null, true);
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            nom_etablissement: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
     });
   });
 });
