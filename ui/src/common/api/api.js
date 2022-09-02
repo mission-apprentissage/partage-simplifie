@@ -33,10 +33,10 @@ export const fetchSearchUsers = async (filters) => {
 
 /**
  * Route d'API pour la génération de token d'update mot de passe d'un utilisateur
- * @param {*} username
+ * @param {*} email
  * @returns
  */
-export const postGetUserUpdatePasswordUrl = async (username) => {
+export const postGetUserUpdatePasswordUrl = async (email) => {
   const URL = "/api/users/generate-update-password-url";
-  return await _post(URL, { username });
+  return await _post(URL, { email });
 };
