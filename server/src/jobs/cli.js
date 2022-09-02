@@ -50,8 +50,8 @@ cli
  */
 cli
   .command("create-admin")
-  .description("Création d'utilisateur")
-  .requiredOption("-e, --email <string>", "Email de l'utilisateur à créer")
+  .description("Création d'administration")
+  .requiredOption("-e, --email <string>", "Email de l'administrateur à créer")
   .action(({ email }) => {
     runScript(async ({ users }) => {
       return runCreateUser(users, { email, role: ROLES.ADMINISTRATOR });
