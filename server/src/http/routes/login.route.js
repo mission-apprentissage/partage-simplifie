@@ -12,13 +12,20 @@ export default ({ users, userEvents }) => {
       const { email, password } = req.body;
       const authenticatedUser = await users.authenticate(email, password);
 
-      if (!authenticatedUser) return res.status(401).send();
+      if (!authenticatedUser) {
+        await userEvents.createUserEvent({
+          username: email,
+          type: USER_EVENTS_TYPES.POST,
+          action: USER_EVENTS_ACTIONS.LOGIN.FAIL,
+        });
+        return res.status(401).send();
+      }
 
       const token = createUserToken(authenticatedUser);
       await userEvents.createUserEvent({
         username: email,
         type: USER_EVENTS_TYPES.POST,
-        action: USER_EVENTS_ACTIONS.LOGIN,
+        action: USER_EVENTS_ACTIONS.LOGIN.SUCCESS,
       });
 
       return res.json({ access_token: token });
