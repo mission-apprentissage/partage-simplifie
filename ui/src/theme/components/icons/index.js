@@ -4,3 +4,4 @@ export * from "./Error";
 export * from "./Padlock";
 export * from "./RightLine";
 export * from "./Checkbox";
+export * from "./FranceLocalization";
