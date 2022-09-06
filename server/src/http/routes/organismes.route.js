@@ -13,12 +13,9 @@ export default ({ organismes }) => {
     tryCatch(async (req, res) => {
       try {
         const organismesFound = await organismes.getOrganismesFromReferentiel(req.query.uai);
-        // TODO choisir règle de gestion pour récupération depuis référentiel
-        const organismeForUai = organismesFound?.length > 0 ? organismesFound[0] : null;
-
-        return res.json({ organisme: organismeForUai });
+        return res.json({ organismes: organismesFound });
       } catch (err) {
-        return res.json({ organisme: null });
+        return res.json({ organismes: [], error: err });
       }
     })
   );

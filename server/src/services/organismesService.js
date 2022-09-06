@@ -12,9 +12,9 @@ const getOrganismesFromReferentiel = async (uai) => {
     const atLeastOneFound = organismesFromUai.pagination?.total > 0 || false;
     if (atLeastOneFound) return organismesFromUai?.organismes?.map((item) => toOrganismes(item));
 
-    return null;
+    return [];
   } catch (err) {
-    return null;
+    return [];
   }
 };
 
