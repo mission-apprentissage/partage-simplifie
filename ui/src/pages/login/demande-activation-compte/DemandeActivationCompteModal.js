@@ -2,11 +2,11 @@ import { Box, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay } from "
 import PropTypes from "prop-types";
 import React from "react";
 
-import ModalClosingButton from "../../common/components/ModalClosingButton/ModalClosingButton";
-import useLogin from "../../common/hooks/useLogin";
-import LoginBlock from "./LoginBlock.js";
+import ModalClosingButton from "../../../common/components/ModalClosingButton/ModalClosingButton";
+import useLogin from "../../../common/hooks/useLogin";
+import DemandeActivationCompteBlock from "./DemandeActivationCompteBlock.js";
 
-const LoginModal = ({ isOpen, onClose, onOpenDemandeActivationCompte }) => {
+const DemandeActivationCompte = ({ isOpen, onClose }) => {
   const [login] = useLogin();
 
   return (
@@ -16,28 +16,21 @@ const LoginModal = ({ isOpen, onClose, onOpenDemandeActivationCompte }) => {
         <ModalHeader marginTop="2w" paddingX="8w" fontWeight="700" color="grey.800" fontSize="alpha" textAlign="left">
           <Box as="i" className="ri-arrow-right-line" marginRight="3v" verticalAlign="middle" />
           <Box as="span" verticalAlign="middle">
-            Connexion
+            Activer mon compte
           </Box>
         </ModalHeader>
         <ModalClosingButton />
         <ModalBody paddingX="8w" marginBottom="10w">
-          <LoginBlock
-            onSubmit={login}
-            onOpenDemandeActivationCompte={() => {
-              onOpenDemandeActivationCompte();
-              onClose();
-            }}
-          />
+          <DemandeActivationCompteBlock onSubmit={login} />
         </ModalBody>
       </ModalContent>
     </Modal>
   );
 };
 
-LoginModal.propTypes = {
+DemandeActivationCompte.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onOpenDemandeActivationCompte: PropTypes.func.isRequired,
 };
 
-export default LoginModal;
+export default DemandeActivationCompte;
