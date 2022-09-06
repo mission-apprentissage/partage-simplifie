@@ -40,3 +40,13 @@ export const postGetUserUpdatePasswordUrl = async (email) => {
   const URL = "/api/users/generate-update-password-url";
   return await _post(URL, { email });
 };
+
+/**
+ * Route d'API pour la demande d'activation de compte depuis un email
+ * @param {*} email
+ * @returns
+ */
+export const postDemandeActivationCompte = async (email) => {
+  const URL = "/api/demandes-activation-compte";
+  return await _post(URL, { email });
+};
