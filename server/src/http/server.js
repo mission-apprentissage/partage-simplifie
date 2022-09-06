@@ -9,6 +9,7 @@ import loginRouter from "./routes/login.route.js";
 import usersRouter from "./routes/users.route.js";
 import userRouter from "./routes/user.route.js";
 import organismesRouter from "./routes/organismes.route.js";
+import demandesActivationCompteRouter from "./routes/demandesActivationCompte.route.js";
 
 import { ROLES } from "../common/constants/roles.js";
 
@@ -26,6 +27,7 @@ export default async (services) => {
   app.use("/api/login", loginRouter(services));
   app.use("/api/user", userRouter(services));
   app.use("/api/organismes", organismesRouter(services));
+  app.use("/api/demandes-activation-compte", demandesActivationCompteRouter(services));
 
   // admin routes
   app.use("/api/users", requireAuthentication, adminOnly, usersRouter(services));
