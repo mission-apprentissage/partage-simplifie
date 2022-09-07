@@ -6,7 +6,7 @@ import { ROLES } from "./common/auth/roles.js";
 import { NAVIGATION_PAGES } from "./common/constants/navigationPages.js";
 import Page404 from "./pages/404/Page404";
 import GestionUtilisateursPage from "./pages/admin/gestion-utilisateurs/GestionUtilisateursPage.js";
-import EspaceCfaPage from "./pages/espace-cfa/EspaceCfaPage.js";
+import EspaceOrganismePage from "./pages/espace-organisme/EspaceOrganismePage.js";
 import { HomePage } from "./pages/home/";
 import ModifierMotDePassePage from "./pages/modifier-mot-de-passe/ModifierMotDePassePage.js";
 
@@ -31,8 +31,8 @@ const App = () => {
         {/* Change password */}
         <Route path={NAVIGATION_PAGES.ModifierMotDePasse.path} exact component={ModifierMotDePassePage} />
 
-        {/* Espace CFA */}
-        <Route exact path={NAVIGATION_PAGES.EspaceCfa.path} component={EspaceCfaPage} />
+        {/* Espace Organisme */}
+        <Route exact path={NAVIGATION_PAGES.EspaceOrganisme.path} component={EspaceOrganismePage} />
 
         {/* Admin Pages */}
         <ProtectedRoute
