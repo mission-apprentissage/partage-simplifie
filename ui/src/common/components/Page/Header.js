@@ -1,7 +1,7 @@
-import { Box, Flex, Heading, HStack, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Heading, HStack, Text } from "@chakra-ui/react";
 import React from "react";
 
-import { PRODUCT_NAME } from "../../constants/product";
+import { PRODUCT_FULL_NAME } from "../../constants/product";
 import useAuth from "../../hooks/useAuth.js";
 import LoginButton from "../LoginButton/LoginButton";
 import Logo from "../Logo/Logo";
@@ -18,11 +18,24 @@ const Header = () => {
         <Flex alignItems="center">
           <Logo />
           <Box marginLeft="5w">
-            <Heading as="h1" variant="h1" fontSize="gamma">
-              Le {PRODUCT_NAME}{" "}
-            </Heading>
+            <HStack>
+              <Heading as="h1" variant="h1" fontSize="gamma">
+                {PRODUCT_FULL_NAME}
+              </Heading>
+              <Badge
+                marginLeft="1"
+                borderRadius="4px"
+                paddingX="0.5em"
+                color="#6E445A"
+                fontSize="zeta"
+                backgroundColor="#FEE7FC"
+              >
+                BETA
+              </Badge>
+            </HStack>
+
             <Text fontFamily="Marianne" color="grey.700" fontSize="zeta">
-              Mettre à disposition des différents acteurs les données clés de l&apos;apprentissage en temps réel
+              Transmettez vos données clés de l&apos;apprentissage aux acteurs de l&apos;apprentissage
             </Text>
           </Box>
         </Flex>
