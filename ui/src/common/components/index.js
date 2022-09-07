@@ -6,3 +6,4 @@ export { default as Section } from "./Section/Section.js";
 export { default as BreadcrumbNav } from "./BreadcrumbNav/BreadcrumbNav.js";
 export { default as ContactSection } from "./ContactSection/ContactSection.js";
 export { default as InputLegend } from "./InputLegend/InputLegend.js";
+export { default as DownloadTemplateFile } from "./DownloadTemplateFile/DownloadTemplateFile.js";
