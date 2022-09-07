@@ -1,7 +1,8 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Link, Text } from "@chakra-ui/react";
 import React from "react";
 
 import AlertBlock from "../../../common/components/AlertBlock/AlertBlock.js";
+import { CONTACT_ADDRESS } from "../../../common/constants/product.js";
 import DemandeActivationCompteForm from "./DemandeActivationCompteForm.js";
 import useSubmitDemandeActivationCompte, { SUBMIT_STATE } from "./useSubmitDemandeActivationCompte.js";
 
@@ -28,7 +29,13 @@ const DemandeActivationCompteBlock = () => {
         <Text>
           <strong>Erreur.</strong>
         </Text>
-        <Text>Une erreur s&apos;est produite, merci de réitérer votre demande plus tard.</Text>
+        <Text>Une erreur s&apos;est produite.</Text>
+        <Text>
+          Veuillez vous rapprocher du support du Tableau de bord en écrivant à{" "}
+          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance" whiteSpace="nowrap">
+            {CONTACT_ADDRESS}
+          </Link>
+        </Text>
       </AlertBlock>
     );
   }
