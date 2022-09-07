@@ -3,16 +3,10 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 import { ROLES } from "../../common/auth/roles.js";
-import { Page, Section } from "../../common/components";
+import { DownloadTemplateFile, Page, Section } from "../../common/components";
 import Highlight from "../../common/components/Highlight/Highlight.js";
 import { NAVIGATION_PAGES } from "../../common/constants/navigationPages.js";
-import {
-  CONTACT_ADDRESS,
-  PRODUCT_FULL_NAME,
-  PRODUCT_NAME,
-  TEMPLATE_FILE_EXTENSION,
-  TEMPLATE_FILE_SIZE,
-} from "../../common/constants/product";
+import { CONTACT_ADDRESS, PRODUCT_FULL_NAME, PRODUCT_NAME } from "../../common/constants/product";
 import useAuth from "../../common/hooks/useAuth.js";
 import { FranceLocalization } from "../../theme/components/icons/FranceLocalization.js";
 
@@ -59,21 +53,7 @@ const HomePage = () => {
         <Button variant="primary" marginTop="4w">
           Je crée mon compte
         </Button>
-        <Box width="40%" border="1px solid" borderColor="#DDDDDD" padding="4w" marginTop="6w">
-          <Heading fontSize="22px" as="h2">
-            Comprendre les données récoltées
-          </Heading>
-          <Text fontSize="zeta" marginTop="2w">
-            Téléchargez ce document explicatif pour comprendre les futurs champs à remplir par vos soins et les raisons
-            pour lesquelles ils sont récoltés par l’équipe du Tableau de bord.
-          </Text>
-          <Flex marginTop="4w">
-            <Text marginTop="1w" fontSize="omega" color="#666666" textDecoration="underline" flex="1">
-              {TEMPLATE_FILE_EXTENSION} – {TEMPLATE_FILE_SIZE} Ko
-            </Text>
-            <Box as="i" color="bluefrance" fontSize="beta" className="ri-download-line" />
-          </Flex>
-        </Box>
+        <DownloadTemplateFile />
       </Section>
     </Page>
   );
