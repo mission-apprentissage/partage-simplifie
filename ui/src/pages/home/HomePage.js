@@ -3,7 +3,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 import { ROLES } from "../../common/auth/roles.js";
-import { DownloadTemplateFile, Page, Section } from "../../common/components";
+import { DownloadExplanationFile, Page, Section } from "../../common/components";
 import Highlight from "../../common/components/Highlight/Highlight.js";
 import { NAVIGATION_PAGES } from "../../common/constants/navigationPages.js";
 import { CONTACT_ADDRESS, PRODUCT_FULL_NAME, PRODUCT_NAME } from "../../common/constants/product";
@@ -53,7 +53,7 @@ const HomePage = () => {
         <Button variant="primary" marginTop="4w">
           Je crée mon compte
         </Button>
-        <DownloadTemplateFile />
+        <DownloadExplanationFile />
       </Section>
     </Page>
   );
