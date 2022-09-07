@@ -7,3 +7,5 @@ export { default as BreadcrumbNav } from "./BreadcrumbNav/BreadcrumbNav.js";
 export { default as ContactSection } from "./ContactSection/ContactSection.js";
 export { default as InputLegend } from "./InputLegend/InputLegend.js";
 export { default as DownloadTemplateFile } from "./DownloadTemplateFile/DownloadTemplateFile.js";
+export { default as DownloadExplanationFile } from "./DownloadExplanationFile/DownloadExplanationFile.js";
+export { default as SituationOrganisme } from "./SituationOrganisme/SituationOrganisme.js";
