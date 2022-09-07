@@ -3,7 +3,7 @@ export const NAVIGATION_PAGES = {
     path: "/",
     title: "Accueil",
   },
-  EspaceCfa: {
+  EspaceOrganisme: {
     path: "/mon-espace",
     title: "Mon espace",
   },
