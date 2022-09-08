@@ -1,4 +1,4 @@
-import { _post } from "../httpClient.js";
+import { _get, _post } from "../httpClient.js";
 
 /**
  * Route API de Login
@@ -49,4 +49,14 @@ export const postGetUserUpdatePasswordUrl = async (email) => {
 export const postDemandeActivationCompte = async (email) => {
   const URL = "/api/demandes-activation-compte";
   return await _post(URL, { email });
+};
+
+/**
+ * Route d'API pour la récupération des organismes par UAI depuis le référentiel
+ * @param {*} email
+ * @returns
+ */
+export const getOrganismesInReferentielByUai = async (uai) => {
+  const URL = "/api/organismes";
+  return await _get(`${URL}/${uai}`);
 };
