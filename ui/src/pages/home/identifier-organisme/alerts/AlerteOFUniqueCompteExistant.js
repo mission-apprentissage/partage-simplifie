@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { CONTACT_ADDRESS } from "../../../../common/constants/product.js";
 
-const AlerteUaiNonTrouve = ({ uai }) => (
+const AlerteOFUniqueCompteExistant = ({ uai }) => (
   <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w">
     <Stack>
       <HStack>
@@ -16,8 +16,8 @@ const AlerteUaiNonTrouve = ({ uai }) => (
         <Box as="i" color="#B60000" fontSize="alpha" className="ri-close-circle-fill" marginRight="2w" />
         <Stack fontSize="delta" color="#B60000" fontWeight="bold" spacing="2w">
           <Text marginTop="2w">
-            Nous n’avons pas pu trouver votre établissement dans le référentiel des organismes de formation. Par
-            conséquent, le service Partage Simplifié ne peut pas être utilisé.
+            Nous avons pu identifier votre UAI dans le référentiel des organismes de formation. Cependant, votre numéro
+            UAI semble déjà associé à un compte existant.
           </Text>
           <Text marginTop="2w">
             Veuillez contacter le support via{" "}
@@ -31,8 +31,8 @@ const AlerteUaiNonTrouve = ({ uai }) => (
   </Box>
 );
 
-AlerteUaiNonTrouve.propTypes = {
+AlerteOFUniqueCompteExistant.propTypes = {
   uai: PropTypes.string.isRequired,
 };
 
-export default AlerteUaiNonTrouve;
+export default AlerteOFUniqueCompteExistant;

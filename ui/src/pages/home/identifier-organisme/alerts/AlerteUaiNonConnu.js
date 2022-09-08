@@ -1,5 +1,4 @@
-import { Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, Text } from "@chakra-ui/react";
 
 import AlertBlock from "../../../../common/components/AlertBlock/AlertBlock.js";
 import { CONTACT_ADDRESS } from "../../../../common/constants/product.js";
@@ -15,7 +14,7 @@ const AlerteUaiNonConnu = () => (
     </Text>
     <Text marginTop="4w" fontSize="delta">
       Vous pouvez aussi nous contacter via{" "}
-      <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance" whiteSpace="nowrap">
+      <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">
         {CONTACT_ADDRESS}
       </Link>
     </Text>

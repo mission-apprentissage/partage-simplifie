@@ -15,7 +15,7 @@ const ContactSection = () => {
           Le service {PRODUCT_NAME} est porté par la Mission interministérielle pour l’apprentissage. Vous avez besoin
           d’en savoir plus sur les données collectées, les différents types d’accès aux données, etc... Contacter
           l’équipe&nbsp;:&nbsp;
-          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance" whiteSpace="nowrap">
+          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">
             {CONTACT_ADDRESS}
           </Link>
         </Text>
