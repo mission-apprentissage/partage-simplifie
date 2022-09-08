@@ -2,6 +2,8 @@ import { logger } from "../common/logger/logger.js";
 import Joi from "joi";
 import { ROLES } from "../common/constants/roles.js";
 import { BaseFactory } from "./baseFactory.js";
+import { schema as uaiSchema } from "../domain/uai.js";
+import { schema as siretSchema } from "../domain/siret.js";
 
 export class UsersFactory extends BaseFactory {
   /**
@@ -16,6 +18,8 @@ export class UsersFactory extends BaseFactory {
       role: Joi.string()
         .valid(...Object.values(ROLES))
         .required(),
+      uai: uaiSchema.allow("", null),
+      siret: siretSchema.allow("", null),
       nom: Joi.string().allow("", null),
       prenom: Joi.string().allow("", null),
       fonction: Joi.string().allow("", null),

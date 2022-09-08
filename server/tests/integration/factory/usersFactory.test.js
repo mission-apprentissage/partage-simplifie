@@ -32,10 +32,14 @@ describe("Factory Users", () => {
       const testTelephone = "telephone";
       const testOutilsGestion = ["outil1", "outil2"];
       const testNom_etablissement = "nom_etablissement";
+      const testUai = "0881529J";
+      const testSiret = "13002798000031";
 
       const entity = await UsersFactory.create({
         email: testEmail,
         password: testPassword,
+        uai: testUai,
+        siret: testSiret,
         role: testRole,
         nom: testNom,
         prenom: testPrenom,
@@ -198,6 +202,46 @@ describe("Factory Users", () => {
             password: testPassword,
             role: testRole,
             prenom: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
+    });
+
+    it("Vérifie la non création d'user via sa factory si un uai au mauvais format est fourni", async () => {
+      const testEmail = "user@email.fr";
+      const testPassword = generateRandomAlphanumericPhrase(80);
+      const testRole = ROLES.CFA;
+
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            uai: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
+    });
+
+    it("Vérifie la non création d'user via sa factory si un siret au mauvais format est fourni", async () => {
+      const testEmail = "user@email.fr";
+      const testPassword = generateRandomAlphanumericPhrase(80);
+      const testRole = ROLES.CFA;
+
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            siret: 123,
           }),
         (err) => {
           assert.equal(err.message.includes("Can't create user, schema not valid"), true);
