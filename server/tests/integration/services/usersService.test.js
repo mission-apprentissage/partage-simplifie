@@ -615,4 +615,123 @@ describe("Service Users", () => {
       assert.equal(results.length, 0);
     });
   });
+
+  describe("getUserByUaiSiret", () => {
+    it("renvoie le bon utilisateur quand l'uai et le siret fournis sont valides", async () => {
+      const { createUser, getUserFromUaiSiret } = await usersService();
+
+      const emailTest = "userTest@test.fr";
+      const testUai = "0881529J";
+      const testSiret = "13002798000031";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: emailTest,
+        role: ROLES.CFA,
+        uai: testUai,
+        siret: testSiret,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.email === emailTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.uai === testUai, true);
+      assert.equal(found.siret === testSiret, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      const gettedUser = await getUserFromUaiSiret({ uai: testUai, siret: testSiret });
+      assert.equal(gettedUser.email === found.email, true);
+      assert.equal(gettedUser.role === ROLES.CFA, true);
+      assert.equal(gettedUser.uai === testUai, true);
+      assert.equal(gettedUser.siret === testSiret, true);
+      assert.equal(gettedUser._id !== null, true);
+    });
+
+    it("ne renvoie pas le bon utilisateur quand l'uai fourni n'est pas valide", async () => {
+      const { createUser, getUserFromUaiSiret } = await usersService();
+
+      const emailTest = "userTest@test.fr";
+      const testUai = "0881529J";
+      const badUai = "7778829J";
+      const testSiret = "13002798000031";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: emailTest,
+        role: ROLES.CFA,
+        uai: testUai,
+        siret: testSiret,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.email === emailTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.uai === testUai, true);
+      assert.equal(found.siret === testSiret, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      await assert.rejects(getUserFromUaiSiret({ uai: badUai, siret: testSiret }), { message: "Unable to find user" });
+    });
+
+    it("ne renvoie pas le bon utilisateur quand le siret fourni n'est pas valide", async () => {
+      const { createUser, getUserFromUaiSiret } = await usersService();
+
+      const emailTest = "userTest@test.fr";
+      const testUai = "0881529J";
+      const testSiret = "13002798000031";
+      const badSiret = "77772798000031";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: emailTest,
+        role: ROLES.CFA,
+        uai: testUai,
+        siret: testSiret,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.email === emailTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.uai === testUai, true);
+      assert.equal(found.siret === testSiret, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      await assert.rejects(getUserFromUaiSiret({ uai: testUai, siret: badSiret }), { message: "Unable to find user" });
+    });
+
+    it("ne renvoie pas le bon utilisateur quand ni le siret fourni ni l'uai ne sont valides", async () => {
+      const { createUser, getUserFromUaiSiret } = await usersService();
+
+      const emailTest = "userTest@test.fr";
+      const testUai = "0881529J";
+      const badUai = "7778829J";
+      const testSiret = "13002798000031";
+      const badSiret = "77772798000031";
+
+      // Création du user
+      const insertedId = await createUser({
+        email: emailTest,
+        role: ROLES.CFA,
+        uai: testUai,
+        siret: testSiret,
+      });
+
+      // find user
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+      assert.equal(found.email === emailTest, true);
+      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.uai === testUai, true);
+      assert.equal(found.siret === testSiret, true);
+      assert.equal(found._id !== null, true);
+
+      // get user
+      await assert.rejects(getUserFromUaiSiret({ uai: badUai, siret: badSiret }), { message: "Unable to find user" });
+    });
+  });
 });

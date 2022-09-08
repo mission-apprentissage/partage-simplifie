@@ -192,6 +192,20 @@ const getUser = async (email) => {
 };
 
 /**
+ * Méthode de récupération d'un user depuis son email
+ * @param {*} email
+ * @returns
+ */
+const getUserFromUaiSiret = async ({ uai, siret }) => {
+  const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ uai, siret });
+  if (!user) {
+    throw new Error(`Unable to find user`);
+  }
+
+  return user;
+};
+
+/**
  * Méthode de récupération d'un user depuis son id
  * @param {*} _id
  * @returns
@@ -249,6 +263,7 @@ export default () => ({
   authenticate,
   getUserById,
   getUser,
+  getUserFromUaiSiret,
   getAllUsers,
   getUpdatePasswordLink,
   searchUsers,
