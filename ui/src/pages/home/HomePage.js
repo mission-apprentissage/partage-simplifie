@@ -46,7 +46,7 @@ const HomePage = () => {
           </Text>{" "}
           en cours de <br /> développement. Pour faire évoluer ce service, aidez-nous à l’améliorer en <br /> nous
           contactant à{" "}
-          <Link href={`mailto:${CONTACT_ADDRESS}`} color="#000091" whiteSpace="nowrap">
+          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">
             {CONTACT_ADDRESS}
           </Link>
         </Highlight>

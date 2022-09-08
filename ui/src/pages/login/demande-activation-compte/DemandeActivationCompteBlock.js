@@ -32,7 +32,7 @@ const DemandeActivationCompteBlock = () => {
         <Text>Une erreur s&apos;est produite.</Text>
         <Text>
           Veuillez vous rapprocher du support du Tableau de bord en écrivant à{" "}
-          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance" whiteSpace="nowrap">
+          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">
             {CONTACT_ADDRESS}
           </Link>
         </Text>

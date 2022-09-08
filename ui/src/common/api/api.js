@@ -60,3 +60,13 @@ export const getOrganismesInReferentielByUai = async (uai) => {
   const URL = "/api/organismes";
   return await _get(`${URL}/${uai}`);
 };
+
+/**
+ * Route d'API pour la vérification de l'existence d'un utilisateur avec un couple UAI SIRET
+ * @param {*} email
+ * @returns
+ */
+export const getExistingUserByUaiSiret = async ({ uai, siret }) => {
+  const URL = `/api/user/exist-uai-siret?uai=${uai}&siret=${siret}`;
+  return await _get(URL);
+};

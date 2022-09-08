@@ -27,7 +27,7 @@ const UploadFileBlock = () => {
         <Text fontSize="zeta" color="gray.600" marginTop="2w">
           Le traitement des données est assuré par la Mission Nationale de l’Apprentissage. Pour toute information sur
           la protection des données, consultez la FAQ ou demandez l’AIPD à{" "}
-          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance" whiteSpace="nowrap">
+          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">
             {CONTACT_ADDRESS}
           </Link>
         </Text>

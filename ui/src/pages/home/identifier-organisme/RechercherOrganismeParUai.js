@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Highlight } from "../../../common/components/index.js";
 import AlerteErreur from "./alerts/AlerteErreur.js";
+import AlerteOFUniqueCompteExistant from "./alerts/AlerteOFUniqueCompteExistant.js";
 import AlerteUaiNonConnu from "./alerts/AlerteUaiNonConnu.js";
 import AlerteUaiNonTrouve from "./alerts/AlerteUaiNonTrouve.js";
 import RechercherOrganismeParUaiForm from "./form/RechercherOrganismeParUaiForm.js";
@@ -33,11 +34,11 @@ const RechercherOrganismeParUai = () => {
           {formState === RECHERCHER_ORGANISME_FORM_STATE.ERROR && <AlerteErreur />}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN && <AlerteUaiNonConnu />}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_NOT_FOUND && <AlerteUaiNonTrouve uai={searchUai} />}
-          {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_ORGANISME_FOUND && (
-            <Box backgroundColor="green">Un OF trouvé !</Box>
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_ORGANISME_FOUND_ALREADY_REGISTERED && (
+            <AlerteOFUniqueCompteExistant uai={searchUai} />
           )}
-          {formState === RECHERCHER_ORGANISME_FORM_STATE.MANY_ORGANISMES_FOUND && (
-            <Box backgroundColor="green">Plusieurs OF trouvé</Box>
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_OR_MANY_ORGANISMES_FOUND && (
+            <Box backgroundColor="green">Un ou plusieurs OF trouvé !</Box>
           )}
         </>
       )}
@@ -57,7 +58,6 @@ const RechercherOrganismeParUaiBlock = ({ submitSearchOrganismeParUai, setFormSt
             onClick={() => setFormState(RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN)}
             color="bluefrance"
             textDecoration="underline"
-            whiteSpace="nowrap"
           >
             Je ne connais pas mon UAI
           </Link>
@@ -69,13 +69,7 @@ const RechercherOrganismeParUaiBlock = ({ submitSearchOrganismeParUai, setFormSt
           <strong>Numéro UAI (Unité Administrative Immatriculée) :</strong> il s’obtient auprès des services du rectorat
           de l’académie où se situe le CFA. Pour vous aider à rechercher votre numéro UAI, vous pouvez consulter le site
           :{" "}
-          <Link
-            href="https://education.gouv.fr/acce"
-            target="_blank"
-            rel="noopener noreferrer"
-            color="bluefrance"
-            whiteSpace="nowrap"
-          >
+          <Link href="https://education.gouv.fr/acce" target="_blank" rel="noopener noreferrer" color="bluefrance">
             https://education.gouv.fr/acce
           </Link>
         </Text>
