@@ -12,7 +12,7 @@ export default ({ organismes }) => {
     validateRequestQuery(Joi.object({ uai: uaiSchema.required() })),
     tryCatch(async (req, res) => {
       try {
-        const organismesFound = await organismes.getOrganismesFromReferentiel(req.query.uai);
+        const organismesFound = await organismes.getOrganismesFromReferentiel(req.params.uai);
         return res.json({ organismes: organismesFound });
       } catch (err) {
         return res.json({ organismes: [], error: err });
