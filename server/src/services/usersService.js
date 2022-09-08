@@ -27,6 +27,8 @@ const createUser = async (userProps) => {
   const passwordHash = hash(password);
 
   // Champs optionnels
+  const uai = userProps.uai;
+  const siret = userProps.siret;
   const nom = userProps.nom || null;
   const prenom = userProps.prenom || null;
   const fonction = userProps.fonction || null;
@@ -38,6 +40,8 @@ const createUser = async (userProps) => {
   const userEntity = UsersFactory.create({
     email,
     password: passwordHash,
+    uai,
+    siret,
     role,
     nom,
     prenom,

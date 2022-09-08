@@ -17,6 +17,8 @@ export const schema = () => {
       password_updated_token_at: date(),
       password_updated_at: date(),
       role: string(),
+      uai: string(),
+      siret: string(),
       nom: string(),
       prenom: string(),
       fonction: string(),
