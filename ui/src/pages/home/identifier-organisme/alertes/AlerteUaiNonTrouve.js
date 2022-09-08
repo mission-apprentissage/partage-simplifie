@@ -1,7 +1,7 @@
 import { Box, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-import { CONTACT_ADDRESS } from "../../../common/constants/product.js";
+import { CONTACT_ADDRESS } from "../../../../common/constants/product.js";
 
 const AlerteUaiNonTrouve = ({ uai }) => (
   <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w">
