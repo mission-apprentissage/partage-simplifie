@@ -57,6 +57,8 @@ describe("Factory Users", () => {
       assert.equal(entity.telephone === testTelephone, true);
       assert.deepEqual(entity.outils_gestion, testOutilsGestion);
       assert.equal(entity.nom_etablissement === testNom_etablissement, true);
+      assert.equal(entity.uai === testUai, true);
+      assert.equal(entity.siret === testSiret, true);
       assert.equal(entity.created_at !== null, true);
       assert.equal(entity.updated_at === null, true);
     });
