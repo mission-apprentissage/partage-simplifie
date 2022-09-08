@@ -10,3 +10,4 @@ export { default as DownloadTemplateFile } from "./DownloadTemplateFile/Download
 export { default as DownloadExplanationFile } from "./DownloadExplanationFile/DownloadExplanationFile.js";
 export { default as SituationOrganisme } from "./SituationOrganisme/SituationOrganisme.js";
 export { default as UploadFileBlock } from "./UploadFileBlock/UploadFileBlock.js";
+export { default as Highlight } from "./Highlight/Highlight.js";
