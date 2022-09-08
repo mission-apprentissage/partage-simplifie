@@ -1,5 +1,5 @@
-import { Box, Button, Flex, Heading, Link, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 
 import { ROLES } from "../../common/auth/roles.js";
@@ -12,7 +12,6 @@ import RechercherOrganismeParUai from "./identifier-organisme/RechercherOrganism
 
 const HomePage = () => {
   const [auth] = useAuth();
-  const [showRechercheOrganismeParUai, setShowRechercheOrganismeParUai] = useState(false);
 
   if (auth?.sub && auth?.role === ROLES.ADMINISTRATOR)
     return <Redirect to={NAVIGATION_PAGES.GestionUtilisateurs.path} />;
@@ -51,10 +50,7 @@ const HomePage = () => {
             {CONTACT_ADDRESS}
           </Link>
         </Highlight>
-        <Button variant="primary" onClick={() => setShowRechercheOrganismeParUai(true)} marginTop="4w">
-          Je crée mon compte
-        </Button>
-        {showRechercheOrganismeParUai === true && <RechercherOrganismeParUai />}
+        <RechercherOrganismeParUai />
         <DownloadExplanationFile />
       </Section>
     </Page>

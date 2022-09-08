@@ -1,21 +1,60 @@
-import { Box, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { useState } from "react";
 
 import { Highlight } from "../../../common/components/index.js";
-import AlerteUaiNonConnu from "./alertes/AlerteUaiNonConnu.js";
-import AlerteUaiNonTrouve from "./alertes/AlerteUaiNonTrouve.js";
-import RechercherOrganismeParUaiForm from "./RechercherOrganismeParUaiForm.js";
+import AlerteErreur from "./alerts/AlerteErreur.js";
+import AlerteUaiNonConnu from "./alerts/AlerteUaiNonConnu.js";
+import AlerteUaiNonTrouve from "./alerts/AlerteUaiNonTrouve.js";
+import RechercherOrganismeParUaiForm from "./form/RechercherOrganismeParUaiForm.js";
+import { RECHERCHER_ORGANISME_FORM_STATE } from "./form/RechercherOrganismeParUaiFormStates.js";
+import useSubmitSearchOrganismeParUai from "./form/useSubmitSearchOrganismeParUai.js";
 
 const RechercherOrganismeParUai = () => {
-  const [showUaiNotFound, setShowUaiNotFound] = useState(false);
+  const { searchUai, formState, setFormState, submitSearchOrganismeParUai } = useSubmitSearchOrganismeParUai();
+  const [showRechercheOrganismeParUai, setShowRechercheOrganismeParUai] = useState(false);
 
+  return (
+    <>
+      {formState === RECHERCHER_ORGANISME_FORM_STATE.INITIAL && (
+        <Button variant="primary" onClick={() => setShowRechercheOrganismeParUai(true)} marginTop="4w">
+          Je crée mon compte
+        </Button>
+      )}
+
+      {showRechercheOrganismeParUai === true && (
+        <>
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.INITIAL && (
+            <RechercherOrganismeParUaiBlock
+              submitSearchOrganismeParUai={submitSearchOrganismeParUai}
+              setFormState={setFormState}
+            />
+          )}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.ERROR && <AlerteErreur />}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN && <AlerteUaiNonConnu />}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_NOT_FOUND && <AlerteUaiNonTrouve uai={searchUai} />}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_ORGANISME_FOUND && (
+            <Box backgroundColor="green">Un OF trouvé !</Box>
+          )}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.MANY_ORGANISMES_FOUND && (
+            <Box backgroundColor="green">Plusieurs OF trouvé</Box>
+          )}
+        </>
+      )}
+    </>
+  );
+};
+
+export default RechercherOrganismeParUai;
+
+const RechercherOrganismeParUaiBlock = ({ submitSearchOrganismeParUai, setFormState }) => {
   return (
     <>
       <Box width="70%" backgroundColor="#E3E3FD" marginTop="6w" padding="4w">
         <Stack spacing="4w">
-          <RechercherOrganismeParUaiForm />
+          <RechercherOrganismeParUaiForm onSubmit={submitSearchOrganismeParUai} />
           <Link
-            onClick={() => setShowUaiNotFound(true)}
+            onClick={() => setFormState(RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN)}
             color="bluefrance"
             textDecoration="underline"
             whiteSpace="nowrap"
@@ -41,13 +80,11 @@ const RechercherOrganismeParUai = () => {
           </Link>
         </Text>
       </Highlight>
-
-      {showUaiNotFound === true && <AlerteUaiNonConnu />}
-
-      {/* TODO Update */}
-      {showUaiNotFound === true && <AlerteUaiNonTrouve uai="1234567X" />}
     </>
   );
 };
 
-export default RechercherOrganismeParUai;
+RechercherOrganismeParUaiBlock.propTypes = {
+  submitSearchOrganismeParUai: PropTypes.func.isRequired,
+  setFormState: PropTypes.func.isRequired,
+};
