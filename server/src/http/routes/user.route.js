@@ -4,6 +4,9 @@ import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
 import Joi from "joi";
 import { validateRequestQuery } from "../middlewares/validateRequestQuery.js";
 import { validateRequestBody } from "../middlewares/validateRequestBody.js";
+import { schema as uaiSchema } from "../../domain/uai.js";
+import { schema as siretSchema } from "../../domain/siret.js";
+
 export default ({ users, userEvents }) => {
   const router = express.Router();
 
@@ -37,6 +40,19 @@ export default ({ users, userEvents }) => {
     tryCatch(async (req, res) => {
       try {
         const foundUser = await users.getUser(req.query.email);
+        return res.json({ found: foundUser !== null });
+      } catch (err) {
+        return res.json({ found: false });
+      }
+    })
+  );
+
+  router.get(
+    "/exist-uai-siret/",
+    validateRequestQuery(Joi.object({ uai: uaiSchema.required(), siret: siretSchema.required() })),
+    tryCatch(async (req, res) => {
+      try {
+        const foundUser = await users.getUserFromUaiSiret({ uai: req.query.uai, siret: req.query.siret });
         return res.json({ found: foundUser !== null });
       } catch (err) {
         return res.json({ found: false });

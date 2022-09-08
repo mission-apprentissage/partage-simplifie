@@ -142,4 +142,81 @@ describe("API Route User", () => {
       assert.equal(response.data.message, "Erreur de validation");
     });
   });
+
+  describe("GET /user/exist-uai-siret", () => {
+    it("renvoie une 200 et l'info found à true quand l'uai et le siret de l'utilisateur existe dans la base", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      const uai = "0881529J";
+      const siret = "13002798000031";
+      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+
+      const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai, siret } });
+      assert.equal(response.status, 200);
+      assert.equal(response.data.found, true);
+    });
+
+    it("renvoie une 200 et l'info found à false quand l'uai de l'utilisateur n'existe pas dans la base", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      const uai = "0881529J";
+      const badUai = "9991529J";
+      const siret = "13002798000031";
+      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+
+      const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai: badUai, siret } });
+      assert.equal(response.status, 200);
+      assert.equal(response.data.found, false);
+    });
+
+    it("renvoie une 200 et l'info found à false quand le siret de l'utilisateur n'existe pas dans la base", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      const uai = "0881529J";
+      const siret = "13002798000031";
+      const badSiret = "99992798000031";
+
+      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+
+      const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai, siret: badSiret } });
+      assert.equal(response.status, 200);
+      assert.equal(response.data.found, false);
+    });
+
+    it("renvoie une 400 quand l'uai de l'utilisateur n'est pas au bon format", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      const uai = "0881529J";
+      const siret = "13002798000031";
+
+      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+
+      const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai: 123, siret } });
+      assert.equal(response.status, 400);
+      assert.equal(response.data.message, "Erreur de validation");
+    });
+
+    it("renvoie une 400 quand le siret de l'utilisateur n'est pas au bon format", async () => {
+      const { httpClient, services } = await startServer();
+
+      // create user
+      const email = "user1@test.fr";
+      const uai = "0881529J";
+      const siret = "13002798000031";
+
+      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+
+      const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai, siret: 123 } });
+      assert.equal(response.status, 400);
+      assert.equal(response.data.message, "Erreur de validation");
+    });
+  });
 });
