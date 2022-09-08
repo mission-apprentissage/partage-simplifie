@@ -1,17 +1,18 @@
 import { Box, Button, Flex, Heading, Link, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 
 import { ROLES } from "../../common/auth/roles.js";
-import { DownloadExplanationFile, Page, Section } from "../../common/components";
-import Highlight from "../../common/components/Highlight/Highlight.js";
+import { DownloadExplanationFile, Highlight, Page, Section } from "../../common/components";
 import { NAVIGATION_PAGES } from "../../common/constants/navigationPages.js";
 import { CONTACT_ADDRESS, PRODUCT_FULL_NAME, PRODUCT_NAME } from "../../common/constants/product";
 import useAuth from "../../common/hooks/useAuth.js";
 import { FranceLocalization } from "../../theme/components/icons/FranceLocalization.js";
+import RechercherOrganismeParUai from "./identifier-organisme/RechercherOrganismeParUai.js";
 
 const HomePage = () => {
   const [auth] = useAuth();
+  const [showRechercheOrganismeParUai, setShowRechercheOrganismeParUai] = useState(false);
 
   if (auth?.sub && auth?.role === ROLES.ADMINISTRATOR)
     return <Redirect to={NAVIGATION_PAGES.GestionUtilisateurs.path} />;
@@ -50,9 +51,10 @@ const HomePage = () => {
             {CONTACT_ADDRESS}
           </Link>
         </Highlight>
-        <Button variant="primary" marginTop="4w">
+        <Button variant="primary" onClick={() => setShowRechercheOrganismeParUai(true)} marginTop="4w">
           Je crée mon compte
         </Button>
+        {showRechercheOrganismeParUai === true && <RechercherOrganismeParUai />}
         <DownloadExplanationFile />
       </Section>
     </Page>
