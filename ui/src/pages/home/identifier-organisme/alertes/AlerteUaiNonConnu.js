@@ -1,8 +1,8 @@
 import { Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import AlertBlock from "../../../common/components/AlertBlock/AlertBlock.js";
-import { CONTACT_ADDRESS } from "../../../common/constants/product.js";
+import AlertBlock from "../../../../common/components/AlertBlock/AlertBlock.js";
+import { CONTACT_ADDRESS } from "../../../../common/constants/product.js";
 
 const AlerteUaiNonConnu = () => (
   <AlertBlock width="70%" marginTop="4w" variant="error">

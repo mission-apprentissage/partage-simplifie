@@ -1,8 +1,10 @@
-import { Box, Button, Input, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Link, Stack, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 import { Highlight } from "../../../common/components/index.js";
-import AlerteUaiNonConnu from "./AlerteUaiNonConnu.js";
+import AlerteUaiNonConnu from "./alertes/AlerteUaiNonConnu.js";
+import AlerteUaiNonTrouve from "./alertes/AlerteUaiNonTrouve.js";
+import RechercherOrganismeParUaiForm from "./RechercherOrganismeParUaiForm.js";
 
 const RechercherOrganismeParUai = () => {
   const [showUaiNotFound, setShowUaiNotFound] = useState(false);
@@ -10,19 +12,8 @@ const RechercherOrganismeParUai = () => {
   return (
     <>
       <Box width="70%" backgroundColor="#E3E3FD" marginTop="6w" padding="4w">
-        <Text fontSize="epsilon" color="gray.800">
-          Rechercher l’organisme par UAI :
-        </Text>
-        <Text fontSize="omega" color="gray.600">
-          Format valide d’une UAI : 7 chiffres et 1 lettre
-        </Text>
-        <Box marginTop="2w">
-          <Input backgroundColor="white" placeholder="Ex : 1234567A" width="60%" />
-        </Box>
-        <Stack marginTop="3w" spacing="2w">
-          <Button variant="primary" width="20%">
-            Vérifier
-          </Button>
+        <Stack spacing="4w">
+          <RechercherOrganismeParUaiForm />
           <Link
             onClick={() => setShowUaiNotFound(true)}
             color="bluefrance"
@@ -52,6 +43,9 @@ const RechercherOrganismeParUai = () => {
       </Highlight>
 
       {showUaiNotFound === true && <AlerteUaiNonConnu />}
+
+      {/* TODO Update */}
+      {showUaiNotFound === true && <AlerteUaiNonTrouve uai="1234567X" />}
     </>
   );
 };
