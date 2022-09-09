@@ -9,7 +9,7 @@ export const config = {
   mongodb: {
     uri: env
       .get("PARTAGE_SIMPLIFIE_MONGODB_URI")
-      .default("mongodb://127.0.0.1:27017/partage-simplifie?retryWrites=true&w=majority")
+      .default("mongodb://localhost:27017/partage-simplifie?retryWrites=true&w=majority")
       .asString(),
   },
   auth: {
