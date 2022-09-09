@@ -3,7 +3,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 import { ROLES } from "../../common/auth/roles.js";
-import { DownloadExplanationFile, Highlight, Page, Section } from "../../common/components";
+import { Highlight, Page, Section } from "../../common/components";
 import { NAVIGATION_PAGES } from "../../common/constants/navigationPages.js";
 import { CONTACT_ADDRESS, PRODUCT_FULL_NAME, PRODUCT_NAME } from "../../common/constants/product";
 import useAuth from "../../common/hooks/useAuth.js";
@@ -51,7 +51,6 @@ const HomePage = () => {
           </Link>
         </Highlight>
         <RechercherOrganismeParUai />
-        <DownloadExplanationFile />
       </Section>
     </Page>
   );

@@ -2,17 +2,18 @@ import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-import { Highlight } from "../../../common/components/index.js";
+import { DownloadExplanationFile, Highlight } from "../../../common/components/index.js";
 import AlerteErreur from "./alerts/AlerteErreur.js";
-import AlerteOFUniqueCompteExistant from "./alerts/AlerteOFUniqueCompteExistant.js";
 import AlerteUaiNonConnu from "./alerts/AlerteUaiNonConnu.js";
 import AlerteUaiNonTrouve from "./alerts/AlerteUaiNonTrouve.js";
 import RechercherOrganismeParUaiForm from "./form/RechercherOrganismeParUaiForm.js";
 import { RECHERCHER_ORGANISME_FORM_STATE } from "./form/RechercherOrganismeParUaiFormStates.js";
 import useSubmitSearchOrganismeParUai from "./form/useSubmitSearchOrganismeParUai.js";
+import ListOFTrouves from "./organismes-list/ListOFTrouves.js";
 
 const RechercherOrganismeParUai = () => {
-  const { searchUai, formState, setFormState, submitSearchOrganismeParUai } = useSubmitSearchOrganismeParUai();
+  const { organismesFound, searchUai, formState, setFormState, submitSearchOrganismeParUai } =
+    useSubmitSearchOrganismeParUai();
   const [showRechercheOrganismeParUai, setShowRechercheOrganismeParUai] = useState(false);
 
   return (
@@ -34,14 +35,13 @@ const RechercherOrganismeParUai = () => {
           {formState === RECHERCHER_ORGANISME_FORM_STATE.ERROR && <AlerteErreur />}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN && <AlerteUaiNonConnu />}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_NOT_FOUND && <AlerteUaiNonTrouve uai={searchUai} />}
-          {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_ORGANISME_FOUND_ALREADY_REGISTERED && (
-            <AlerteOFUniqueCompteExistant uai={searchUai} />
-          )}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_OR_MANY_ORGANISMES_FOUND && (
-            <Box backgroundColor="green">Un ou plusieurs OF trouvé !</Box>
+            <ListOFTrouves organismes={organismesFound} searchUai={searchUai} />
           )}
         </>
       )}
+
+      {formState === RECHERCHER_ORGANISME_FORM_STATE.INITIAL && <DownloadExplanationFile />}
     </>
   );
 };
