@@ -164,7 +164,7 @@ const ListOFTrouves = ({ searchUai, organismes }) => {
                     </Tooltip>
                   </Text>
                   <Text>
-                    Réseaux : <strong>{reseaux}</strong>
+                    Réseaux : <strong>{reseaux.join(", ")}</strong>
                     <Tooltip
                       background="bluefrance"
                       color="white"
@@ -299,7 +299,7 @@ ListOFTrouves.propTypes = {
       siret: PropTypes.string.isRequired,
       nature: PropTypes.string.isRequired,
       nom_etablissement: PropTypes.string.isRequired,
-      reseaux: PropTypes.string.isRequired,
+      reseaux: PropTypes.arrayOf(PropTypes.string).isRequired,
       adresse: PropTypes.string.isRequired,
       region: PropTypes.string.isRequired,
       academie: PropTypes.string.isRequired,

@@ -12,6 +12,8 @@ export const sampleUniqueOrganismeFromReferentiel = {
   organismes: [
     {
       siret: "19921500500018",
+      nature: "formateur",
+      reseaux: ["reseau1", "reseau2"],
       adresse: {
         academie: {
           code: "25",
@@ -57,6 +59,8 @@ export const sampleMultiplesOrganismesFromReferentiel = {
   organismes: [
     {
       siret: "19921500500099",
+      nature: "formateur",
+      reseaux: ["reseau1", "reseau2"],
       adresse: {
         academie: {
           code: "25",
@@ -91,6 +95,8 @@ export const sampleMultiplesOrganismesFromReferentiel = {
     },
     {
       siret: "19921500500098",
+      nature: "formateur",
+      reseaux: ["reseau1", "reseau2"],
       adresse: {
         academie: {
           code: "25",

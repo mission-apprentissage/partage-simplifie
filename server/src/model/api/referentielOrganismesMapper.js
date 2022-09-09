@@ -5,6 +5,11 @@
 export const toOrganismes = (referentielOrganisme) => ({
   uai: referentielOrganisme.uai,
   siret: referentielOrganisme.siret,
-  adresse: referentielOrganisme.adresse?.label,
+  siren: referentielOrganisme.siret.substring(0, 8),
+  nature: referentielOrganisme.nature,
+  reseaux: referentielOrganisme.reseaux,
   nom_etablissement: referentielOrganisme.raison_sociale,
+  adresse: referentielOrganisme.adresse?.label,
+  region: referentielOrganisme.adresse?.region?.nom,
+  academie: referentielOrganisme.adresse?.academie?.nom,
 });

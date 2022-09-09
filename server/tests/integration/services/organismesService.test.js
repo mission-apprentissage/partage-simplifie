@@ -15,7 +15,12 @@ describe("Service Organismes", () => {
       assert.equal(organismesFound.length === 1, true);
       assert.ok(organismesFound[0].uai);
       assert.ok(organismesFound[0].siret);
+      assert.ok(organismesFound[0].siren);
       assert.ok(organismesFound[0].adresse);
+      assert.ok(organismesFound[0].region);
+      assert.ok(organismesFound[0].academie);
+      assert.ok(organismesFound[0].nature);
+      assert.ok(organismesFound[0].reseaux);
       assert.ok(organismesFound[0].nom_etablissement);
     });
 
@@ -27,7 +32,12 @@ describe("Service Organismes", () => {
       organismesFound.forEach((element) => {
         assert.ok(element.uai);
         assert.ok(element.siret);
+        assert.ok(element.siren);
         assert.ok(element.adresse);
+        assert.ok(element.region);
+        assert.ok(element.academie);
+        assert.ok(element.nature);
+        assert.ok(element.reseaux);
         assert.ok(element.nom_etablissement);
       });
     });
