@@ -8,6 +8,7 @@ import Page404 from "./pages/404/Page404";
 import GestionUtilisateursPage from "./pages/admin/gestion-utilisateurs/GestionUtilisateursPage.js";
 import EspaceOrganismePage from "./pages/espace-organisme/EspaceOrganismePage.js";
 import { HomePage } from "./pages/home/";
+import InscriptionPage from "./pages/inscription/InscriptionPage.js";
 import ModifierMotDePassePage from "./pages/modifier-mot-de-passe/ModifierMotDePassePage.js";
 
 const ScrollToTopOnRouteChange = () => {
@@ -33,6 +34,9 @@ const App = () => {
 
         {/* Espace Organisme */}
         <Route exact path={NAVIGATION_PAGES.EspaceOrganisme.path} component={EspaceOrganismePage} />
+
+        {/* Page d'inscription */}
+        <Route exact path={NAVIGATION_PAGES.Inscription.path} component={InscriptionPage} />
 
         {/* Admin Pages */}
         <ProtectedRoute

@@ -1,10 +1,11 @@
 import { Link, Text } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
 import AlertBlock from "../../../../common/components/AlertBlock/AlertBlock.js";
 import { CONTACT_ADDRESS } from "../../../../common/constants/product.js";
 
-const AlerteErreur = () => (
-  <AlertBlock width="70%" marginTop="4w" variant="error">
+const AlerteErreur = ({ width = "70%" }) => (
+  <AlertBlock width={width} marginTop="4w" variant="error">
     <Text>
       <strong>Erreur.</strong>
     </Text>
@@ -18,4 +19,7 @@ const AlerteErreur = () => (
   </AlertBlock>
 );
 
+AlerteErreur.propTypes = {
+  width: PropTypes.string,
+};
 export default AlerteErreur;

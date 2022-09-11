@@ -68,6 +68,5 @@ export const getOrganismesInReferentielByUai = async (uai) => {
  */
 export const getExistingUserByUaiSiret = async ({ uai, siret }) => {
   const URL = `/api/user/exist-uai-siret?uai=${uai}&siret=${siret}`;
-  console.log(URL);
   return await _get(URL);
 };

@@ -2,10 +2,10 @@ import { Stack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-import AlertOFNotIdentified from "./AlertOFNotIdentified.js";
 import DetailOFTrouve from "./DetailOFTrouve.js";
-import InfoPlusieursOFTrouves from "./InfoPlusieursOFTrouves.js";
-import InfoUniqueOFTrouve from "./InfoUniqueOFTrouve.js";
+import AlertOFNotIdentified from "./organisme-alert/AlertOFNotIdentified.js";
+import InfoPlusieursOFTrouves from "./organisme-info/InfoPlusieursOFTrouves.js";
+import InfoUniqueOFTrouve from "./organisme-info/InfoUniqueOFTrouve";
 
 const ListOFTrouves = ({ searchUai, organismes }) => {
   const [showOFNotIdentified, setShowOFNotIdentified] = useState(false);
