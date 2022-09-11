@@ -7,6 +7,10 @@ export const NAVIGATION_PAGES = {
     path: "/mon-espace",
     title: "Mon espace",
   },
+  Inscription: {
+    path: "/inscription",
+    title: "Inscription",
+  },
   GestionUtilisateurs: {
     path: "/admin/gestion-utilisateurs",
     title: "Gestion des utilisateurs",

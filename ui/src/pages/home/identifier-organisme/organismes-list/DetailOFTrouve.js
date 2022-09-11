@@ -1,10 +1,16 @@
-import { Box, Button, Flex, Link, Spacer, Stack, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Spacer, Stack, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useState } from "react";
+
+import OFConfirmModal from "./organisme-confirm/OFConfirmModal.js";
+import useSubmitVerifyUaiSiretExisting from "./organisme-confirm/useSubmitVerifyUaiSiretExisting.js";
 
 const DetailOFTrouve = ({ setShowOFNotIdentified, isDefaultOpened = false, organisme }) => {
   const [isOpen, setIsOpen] = useState(isDefaultOpened);
   const { uai, siret, siren, nature, nom_etablissement, reseaux, adresse, region, academie } = organisme;
+  const { isOpen: isOpenConfirmModal, onOpen: onOpenConfirmModal, onClose: onCloseConfirmModal } = useDisclosure();
+
+  const { formState: verifyUaiSiretFormState, submitVerifyUaiSiretExisting } = useSubmitVerifyUaiSiretExisting();
 
   return (
     <Stack>
@@ -280,13 +286,19 @@ const DetailOFTrouve = ({ setShowOFNotIdentified, isDefaultOpened = false, organ
             </Text>
           </Stack>
           <Stack spacing="2w">
-            <Button marginTop="4w" width="20%" variant="secondary">
+            <Button marginTop="4w" width="20%" variant="secondary" onClick={onOpenConfirmModal}>
               Ceci est mon organisme
             </Button>
             <Link onClick={() => setShowOFNotIdentified(true)} color="bluefrance" textDecoration="underline">
               Je ne connais pas mon UAI
             </Link>
           </Stack>
+          <OFConfirmModal
+            isOpen={isOpenConfirmModal}
+            onClose={onCloseConfirmModal}
+            formState={verifyUaiSiretFormState}
+            submitVerifyUaiSiretExisting={() => submitVerifyUaiSiretExisting({ uai, siret })}
+          />
         </>
       )}
     </Stack>
