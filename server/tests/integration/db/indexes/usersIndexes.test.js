@@ -37,4 +37,12 @@ describe("Users Indexes", () => {
     );
     assert.equal(usersIndexes.find((item) => item.name === "email")?.unique, true);
   });
+
+  it("Vérifie l'existence d'un index unique sur le couple uai_siret", async () => {
+    assert.equal(
+      usersIndexes.some((item) => item.name === "uai_siret_uniques"),
+      true
+    );
+    assert.equal(usersIndexes.find((item) => item.name === "uai_siret_uniques")?.unique, true);
+  });
 });

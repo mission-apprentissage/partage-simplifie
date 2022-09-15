@@ -3,7 +3,20 @@ import { arrayOf, date, object, objectId, string } from "./jsonSchema/jsonSchema
 export const name = "users";
 
 export const indexes = () => {
-  return [[{ email: 1 }, { name: "email", unique: true }]];
+  return [
+    [{ email: 1 }, { name: "email", unique: true }],
+
+    // Ajout d'un index unique sur le couple UAI-SIRET uniques lorsque l'uai et le siret sont non nulls (ie => string)
+    // cf. https://stackoverflow.com/questions/64066830/creating-a-partial-index-when-field-is-not-null
+    [
+      { uai: 1, siret: 1 },
+      {
+        name: "uai_siret_uniques",
+        unique: true,
+        partialFilterExpression: { uai: { $type: "string" }, siret: { $type: "string" } },
+      },
+    ],
+  ];
 };
 
 export const schema = () => {
