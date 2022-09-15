@@ -297,7 +297,7 @@ const DetailOFTrouve = ({ setShowOFNotIdentified, isDefaultOpened = false, organ
             isOpen={isOpenConfirmModal}
             onClose={onCloseConfirmModal}
             formState={verifyUaiSiretFormState}
-            submitVerifyUaiSiretExisting={() => submitVerifyUaiSiretExisting({ uai, siret })}
+            submitVerifyUaiSiretExisting={() => submitVerifyUaiSiretExisting(organisme)}
           />
         </>
       )}
