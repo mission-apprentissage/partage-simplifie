@@ -18,7 +18,7 @@ const RechercherOrganismeParUai = () => {
   return (
     <>
       {formState === RECHERCHER_ORGANISME_FORM_STATE.INITIAL && (
-        <Button variant="primary" onClick={() => setShowRechercheOrganismeParUai(true)} marginTop="4w">
+        <Button variant="primary" onClick={() => setShowRechercheOrganismeParUai(true)} marginTop="4w" width="20%">
           Je crée mon compte
         </Button>
       )}

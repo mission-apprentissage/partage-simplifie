@@ -13,7 +13,7 @@ const SituationOrganismeInscription = ({
   academie,
 }) => {
   return (
-    <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w">
+    <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w" marginBottom="4w">
       <Stack spacing="2w">
         <Heading color="bluefrance" fontSize="gamma">
           La situation de votre organisme de formation :

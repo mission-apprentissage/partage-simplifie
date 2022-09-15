@@ -1,3 +1,4 @@
+import { Stack } from "@chakra-ui/react";
 import React from "react";
 import { Redirect } from "react-router-dom";
 
@@ -18,8 +19,10 @@ const HomePage = () => {
   return (
     <Page>
       <Section withShadow paddingY="4w" color="grey.800">
-        <ProductHeader />
-        <RechercherOrganismeParUai />
+        <Stack spacing="4w">
+          <ProductHeader />
+          <RechercherOrganismeParUai />
+        </Stack>
       </Section>
     </Page>
   );
