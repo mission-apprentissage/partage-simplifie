@@ -37,12 +37,30 @@ describe("API Route Organismes", () => {
     assert.equal(response.data.organismes[0].uai === sampleUniqueOrganismeFromReferentiel.organismes[0].uai, true);
     assert.equal(response.data.organismes[0].siret === sampleUniqueOrganismeFromReferentiel.organismes[0].siret, true);
     assert.equal(
+      response.data.organismes[0].siren === sampleUniqueOrganismeFromReferentiel.organismes[0].siret.substring(0, 8),
+      true
+    );
+    assert.equal(
+      response.data.organismes[0].nature === sampleUniqueOrganismeFromReferentiel.organismes[0].nature,
+      true
+    );
+    assert.deepEqual(response.data.organismes[0].reseaux, sampleUniqueOrganismeFromReferentiel.organismes[0].reseaux);
+    assert.equal(
+      response.data.organismes[0].nom_etablissement ===
+        sampleUniqueOrganismeFromReferentiel.organismes[0].raison_sociale,
+      true
+    );
+    assert.equal(
       response.data.organismes[0].adresse === sampleUniqueOrganismeFromReferentiel.organismes[0].adresse?.label,
       true
     );
     assert.equal(
-      response.data.organismes[0].nom_etablissement ===
-        sampleUniqueOrganismeFromReferentiel.organismes[0].raison_sociale,
+      response.data.organismes[0].region === sampleUniqueOrganismeFromReferentiel.organismes[0].adresse?.region?.nom,
+      true
+    );
+    assert.equal(
+      response.data.organismes[0].academie ===
+        sampleUniqueOrganismeFromReferentiel.organismes[0].adresse?.academie?.nom,
       true
     );
   });
@@ -55,36 +73,49 @@ describe("API Route Organismes", () => {
     assert.equal(response.data.organismes !== null, true);
     assert.equal(response.data.organismes.length === 2, true);
 
-    // 1er élément
-    assert.equal(response.data.organismes[0].uai === sampleMultiplesOrganismesFromReferentiel.organismes[0].uai, true);
-    assert.equal(
-      response.data.organismes[0].siret === sampleMultiplesOrganismesFromReferentiel.organismes[0].siret,
-      true
-    );
-    assert.equal(
-      response.data.organismes[0].adresse === sampleMultiplesOrganismesFromReferentiel.organismes[0].adresse?.label,
-      true
-    );
-    assert.equal(
-      response.data.organismes[0].nom_etablissement ===
-        sampleMultiplesOrganismesFromReferentiel.organismes[0].raison_sociale,
-      true
-    );
-
-    // 2e élément
-    assert.equal(response.data.organismes[1].uai === sampleMultiplesOrganismesFromReferentiel.organismes[1].uai, true);
-    assert.equal(
-      response.data.organismes[1].siret === sampleMultiplesOrganismesFromReferentiel.organismes[1].siret,
-      true
-    );
-    assert.equal(
-      response.data.organismes[1].adresse === sampleMultiplesOrganismesFromReferentiel.organismes[1].adresse?.label,
-      true
-    );
-    assert.equal(
-      response.data.organismes[1].nom_etablissement ===
-        sampleMultiplesOrganismesFromReferentiel.organismes[1].raison_sociale,
-      true
-    );
+    for (let index = 0; index < response.data.organismes.length; index++) {
+      // 1er élément
+      assert.equal(
+        response.data.organismes[index].uai === sampleMultiplesOrganismesFromReferentiel.organismes[index].uai,
+        true
+      );
+      assert.equal(
+        response.data.organismes[index].siret === sampleMultiplesOrganismesFromReferentiel.organismes[index].siret,
+        true
+      );
+      assert.equal(
+        response.data.organismes[index].siren ===
+          sampleMultiplesOrganismesFromReferentiel.organismes[index].siret.substring(0, 8),
+        true
+      );
+      assert.equal(
+        response.data.organismes[index].nature === sampleMultiplesOrganismesFromReferentiel.organismes[index].nature,
+        true
+      );
+      assert.deepEqual(
+        response.data.organismes[index].reseaux,
+        sampleMultiplesOrganismesFromReferentiel.organismes[index].reseaux
+      );
+      assert.equal(
+        response.data.organismes[index].nom_etablissement ===
+          sampleMultiplesOrganismesFromReferentiel.organismes[index].raison_sociale,
+        true
+      );
+      assert.equal(
+        response.data.organismes[index].adresse ===
+          sampleMultiplesOrganismesFromReferentiel.organismes[index].adresse?.label,
+        true
+      );
+      assert.equal(
+        response.data.organismes[index].region ===
+          sampleMultiplesOrganismesFromReferentiel.organismes[index].adresse?.region?.nom,
+        true
+      );
+      assert.equal(
+        response.data.organismes[index].academie ===
+          sampleMultiplesOrganismesFromReferentiel.organismes[index].adresse?.academie?.nom,
+        true
+      );
+    }
   });
 });
