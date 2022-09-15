@@ -16,9 +16,9 @@ describe("UserEvents Indexes", async () => {
     );
   });
 
-  it("Vérifie l'existence d'un index sur le champ username", async () => {
+  it("Vérifie l'existence d'un index sur le champ user_email", async () => {
     assert.equal(
-      userEventsIndexes.some((item) => item.name === "username"),
+      userEventsIndexes.some((item) => item.name === "user_email"),
       true
     );
   });

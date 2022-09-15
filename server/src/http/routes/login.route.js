@@ -14,7 +14,7 @@ export default ({ users, userEvents }) => {
 
       if (!authenticatedUser) {
         await userEvents.createUserEvent({
-          username: email,
+          user_email: email,
           type: USER_EVENTS_TYPES.POST,
           action: USER_EVENTS_ACTIONS.LOGIN.FAIL,
         });
@@ -23,7 +23,7 @@ export default ({ users, userEvents }) => {
 
       const token = createUserToken(authenticatedUser);
       await userEvents.createUserEvent({
-        username: email,
+        user_email: email,
         type: USER_EVENTS_TYPES.POST,
         action: USER_EVENTS_ACTIONS.LOGIN.SUCCESS,
       });

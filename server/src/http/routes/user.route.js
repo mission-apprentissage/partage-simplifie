@@ -23,7 +23,7 @@ export default ({ users, userEvents }) => {
         const updatedUser = await users.updatePassword(req.body.token, req.body.newPassword);
 
         await userEvents.createUserEvent({
-          username: updatedUser.email,
+          user_email: updatedUser.email,
           type: USER_EVENTS_TYPES.POST,
           action: USER_EVENTS_ACTIONS.UPDATE_PASSWORD,
         });

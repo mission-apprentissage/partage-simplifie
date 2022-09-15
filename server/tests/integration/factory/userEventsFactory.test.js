@@ -5,21 +5,21 @@ describe("Factory UserEvents", () => {
   describe("create", () => {
     it("Vérifie la création d'userEvent via sa factory", async () => {
       const entity = await UserEventsFactory.create({
-        username: "testUser@test.fr",
+        user_email: "testUser@test.fr",
         type: "any",
         data: { hello: "world" },
       });
 
-      assert.equal(entity.username === "testUser@test.fr", true);
+      assert.equal(entity.user_email === "testUser@test.fr", true);
       assert.equal(entity.type === "any", true);
       assert.deepEqual(entity.data, { hello: "world" });
       assert.equal(entity.created_at !== null, true);
       assert.equal(entity.updated_at === null, true);
     });
 
-    it("Vérifie la non création d'userEvent via sa factory si username au mauvais format", async () => {
+    it("Vérifie la non création d'userEvent via sa factory si user_email au mauvais format", async () => {
       const entity = await UserEventsFactory.create({
-        username: 12,
+        user_email: 12,
         type: "any",
         data: { hello: "world" },
       });
@@ -27,7 +27,7 @@ describe("Factory UserEvents", () => {
       assert.equal(entity === null, true);
     });
 
-    it("Vérifie la non création d'userEvent via sa factory si username manquant", async () => {
+    it("Vérifie la non création d'userEvent via sa factory si user_email manquant", async () => {
       const entity = await UserEventsFactory.create({
         type: "any",
         data: { hello: "world" },
@@ -38,7 +38,7 @@ describe("Factory UserEvents", () => {
 
     it("Vérifie la non création d'userEvent via sa factory si type au mauvais format", async () => {
       const entity = await UserEventsFactory.create({
-        username: "testUser@test.fr",
+        user_email: "testUser@test.fr",
         type: 12,
         data: { hello: "world" },
       });
@@ -48,7 +48,7 @@ describe("Factory UserEvents", () => {
 
     it("Vérifie la non création d'userEvent via sa factory si type manquant", async () => {
       const entity = await UserEventsFactory.create({
-        username: "testUser@test.fr",
+        user_email: "testUser@test.fr",
         data: { hello: "world" },
       });
 

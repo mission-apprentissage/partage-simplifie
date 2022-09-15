@@ -8,12 +8,12 @@ describe("Service UserEvents", () => {
     it("Permet de créer un userEvent et de le sauver en base", async () => {
       const { createUserEvent } = userEventsService();
 
-      await createUserEvent({ username: "testUser@test.fr", type: "any", data: { hello: "world" } });
-      const foundInDb = await dbCollection(COLLECTIONS_NAMES.UserEvents).findOne({ username: "testUser@test.fr" });
+      await createUserEvent({ user_email: "testUser@test.fr", type: "any", data: { hello: "world" } });
+      const foundInDb = await dbCollection(COLLECTIONS_NAMES.UserEvents).findOne({ user_email: "testUser@test.fr" });
 
       assert.ok(foundInDb);
 
-      assert.equal(foundInDb.username === "testUser@test.fr", true);
+      assert.equal(foundInDb.user_email === "testUser@test.fr", true);
       assert.equal(foundInDb.type === "any", true);
       assert.deepEqual(foundInDb.data, { hello: "world" });
       assert.equal(foundInDb.created_at !== null, true);
