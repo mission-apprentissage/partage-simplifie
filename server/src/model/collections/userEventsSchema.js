@@ -12,6 +12,7 @@ export const schema = () => {
       _id: objectId(),
       user_email: string(),
       type: string(),
+      action: string(),
       data: object({}),
       created_at: date(),
     },
