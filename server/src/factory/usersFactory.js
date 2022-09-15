@@ -25,6 +25,7 @@ export class UsersFactory extends BaseFactory {
       prenom: Joi.string().allow("", null),
       fonction: Joi.string().allow("", null),
       telephone: Joi.string().allow("", null),
+      region: Joi.string().allow("", null),
       outils_gestion: Joi.array().items(Joi.string()).allow(null),
       nom_etablissement: Joi.string().allow("", null),
     });
