@@ -16,7 +16,7 @@ const HomePage = () => {
   if (auth?.sub && auth?.role === ROLES.ADMINISTRATOR)
     return <Redirect to={NAVIGATION_PAGES.GestionUtilisateurs.path} />;
 
-  if (auth?.sub && auth?.role === ROLES.CFA) return <Redirect to={NAVIGATION_PAGES.EspaceOrganisme.path} />;
+  if (auth?.sub && auth?.role === ROLES.OF) return <Redirect to={NAVIGATION_PAGES.EspaceOrganisme.path} />;
 
   return (
     <Page>
