@@ -6,6 +6,8 @@ import requireJwtAuthentication from "./middlewares/requireJwtAuthentication.js"
 import rolesMiddleware from "./middlewares/rolesMiddleware.js";
 import healthcheckRouter from "./routes/healthcheck.route.js";
 import loginRouter from "./routes/login.route.js";
+import registerRouter from "./routes/register.route.js";
+
 import usersRouter from "./routes/users.route.js";
 import userRouter from "./routes/user.route.js";
 import organismesRouter from "./routes/organismes.route.js";
@@ -25,6 +27,7 @@ export default async (services) => {
   // open routes
   app.use("/api/healthcheck", healthcheckRouter());
   app.use("/api/login", loginRouter(services));
+  app.use("/api/register", registerRouter(services));
   app.use("/api/user", userRouter(services));
   app.use("/api/organismes", organismesRouter(services));
   app.use("/api/demandes-activation-compte", demandesActivationCompteRouter(services));
