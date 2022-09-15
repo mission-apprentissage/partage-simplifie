@@ -7,11 +7,13 @@ describe("Factory UserEvents", () => {
       const entity = await UserEventsFactory.create({
         user_email: "testUser@test.fr",
         type: "any",
+        action: "actionTest",
         data: { hello: "world" },
       });
 
       assert.equal(entity.user_email === "testUser@test.fr", true);
       assert.equal(entity.type === "any", true);
+      assert.equal(entity.action === "actionTest", true);
       assert.deepEqual(entity.data, { hello: "world" });
       assert.equal(entity.created_at !== null, true);
       assert.equal(entity.updated_at === null, true);
@@ -49,6 +51,16 @@ describe("Factory UserEvents", () => {
     it("Vérifie la non création d'userEvent via sa factory si type manquant", async () => {
       const entity = await UserEventsFactory.create({
         user_email: "testUser@test.fr",
+        data: { hello: "world" },
+      });
+
+      assert.equal(entity === null, true);
+    });
+    it("Vérifie la non création d'userEvent via sa factory si action au mauvais format", async () => {
+      const entity = await UserEventsFactory.create({
+        user_email: "testUser@test.fr",
+        type: "type",
+        action: 123,
         data: { hello: "world" },
       });
 

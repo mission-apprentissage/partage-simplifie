@@ -7,8 +7,8 @@ import { dbCollection } from "../model/db/mongodbClient.js";
  * @param {*} param0
  * @returns
  */
-const createUserEvent = async ({ user_email, type, data }) => {
-  const userEventEntity = UserEventsFactory.create({ user_email, type, data });
+const createUserEvent = async ({ user_email, type, action, data }) => {
+  const userEventEntity = UserEventsFactory.create({ user_email, type, action, data });
   await dbCollection(COLLECTIONS_NAMES.UserEvents).insertOne(userEventEntity);
   return;
 };
