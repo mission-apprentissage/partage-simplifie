@@ -7,6 +7,7 @@ import { addHours, isBefore } from "date-fns";
 import { validatePassword } from "../domain/password.js";
 import { config } from "../../config/index.js";
 import { escapeRegExp } from "../common/utils/regexUtils.js";
+import Joi from "joi";
 
 const PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS = 48;
 
@@ -62,6 +63,10 @@ const createUser = async (userProps) => {
  * @returns
  */
 const generatePasswordUpdateToken = async (email) => {
+  if (Joi.string().email().required().validate(email).error) {
+    throw new Error("Email format not valid");
+  }
+
   const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ email });
 
   if (!user) {
