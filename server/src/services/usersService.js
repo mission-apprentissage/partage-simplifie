@@ -34,6 +34,7 @@ const createUser = async (userProps) => {
   const prenom = userProps.prenom || null;
   const fonction = userProps.fonction || null;
   const telephone = userProps.telephone || null;
+  const region = userProps.region || null;
   const outils_gestion = userProps.outils_gestion || [];
   const nom_etablissement = userProps.nom_etablissement || null;
 
@@ -48,6 +49,7 @@ const createUser = async (userProps) => {
     prenom,
     fonction,
     telephone,
+    region,
     outils_gestion,
     nom_etablissement,
   });

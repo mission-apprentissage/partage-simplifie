@@ -36,6 +36,7 @@ export const schema = () => {
       prenom: string(),
       fonction: string(),
       telephone: string(),
+      region: string(),
       outils_gestion: arrayOf(string()),
       nom_etablissement: string(),
 

@@ -91,6 +91,7 @@ describe("Service Users", () => {
       const testTelephone = "telephone";
       const testOutilsGestion = ["outil1", "outil2"];
       const testNom_etablissement = "nom_etablissement";
+      const testRegion = "region";
 
       const insertedId = await createUser({
         email: testEmail,
@@ -99,6 +100,7 @@ describe("Service Users", () => {
         prenom: testPrenom,
         fonction: testFonction,
         telephone: testTelephone,
+        region: testRegion,
         outils_gestion: testOutilsGestion,
         nom_etablissement: testNom_etablissement,
       });
@@ -112,6 +114,7 @@ describe("Service Users", () => {
       assert.equal(found.prenom, testPrenom);
       assert.equal(found.fonction, testFonction);
       assert.equal(found.telephone, testTelephone);
+      assert.equal(found.region, testRegion);
       assert.deepEqual(found.outils_gestion, testOutilsGestion);
       assert.deepEqual(found.nom_etablissement, testNom_etablissement);
     });
