@@ -154,6 +154,21 @@ describe("Service Users", () => {
         }
       );
     });
+
+    it("Renvoie une erreur quand l'email n'est pas au bon format", async () => {
+      const { createUser, generatePasswordUpdateToken } = usersService();
+
+      // create user
+      await createUser({ email: "test@test.Fr", role: ROLES.OF });
+
+      await assert.rejects(
+        () => generatePasswordUpdateToken("badFormat"),
+        (err) => {
+          assert.equal(err.message, "Email format not valid");
+          return true;
+        }
+      );
+    });
   });
 
   describe("updatePassword", () => {
