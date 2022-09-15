@@ -4,8 +4,8 @@ import { config } from "../../../config/index.js";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 
 export default ({ users }) => {
-  const findUser = async (username) => {
-    const foundUser = await users.getUser(username);
+  const findUser = async (email) => {
+    const foundUser = await users.getUser(email);
     if (foundUser) return foundUser;
     return null;
   };

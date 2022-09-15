@@ -14,7 +14,6 @@ describe("Users Indexes", () => {
 
     await createUser({
       email: "user@test.fr",
-      username: "user",
       password: "password",
       role: ROLES.OF,
     });

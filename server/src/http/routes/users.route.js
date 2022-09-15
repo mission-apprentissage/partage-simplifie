@@ -18,7 +18,7 @@ export default ({ users, userEvents }) => {
       const usersMapped = allUsers.map(toUserApiOutput);
 
       await userEvents.createUserEvent({
-        username: user.email,
+        user_email: user.email,
         type: USER_EVENTS_TYPES.GET,
         action: USER_EVENTS_ACTIONS.USERS.GET_ALL,
       });
