@@ -16,7 +16,7 @@ const EspaceOrganismePage = () => {
         <Box>
           <Flex>
             <Box flex="1">
-              <Heading fontSize="40px" marginTop="3w">
+              <Heading as="h1" fontSize="40px" marginTop="3w">
                 Bienvenue sur {PRODUCT_NAME}, <br />
                 l’outil de partage de vos effectifs.
               </Heading>
