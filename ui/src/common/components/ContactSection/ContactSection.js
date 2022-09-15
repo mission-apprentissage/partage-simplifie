@@ -7,7 +7,7 @@ import Section from "../Section/Section";
 const ContactSection = () => {
   return (
     <Section background="galt" paddingY="4w">
-      <Heading color="grey.800" as="h2" fontSize="beta">
+      <Heading color="grey.800" variant="h2">
         Une question ?
       </Heading>
       <Flex marginTop="1w">

@@ -7,9 +7,7 @@ const DownloadExplanationFile = () => {
     <Box width="40%">
       <a target="_blank" rel="noopener noreferrer" href={EXPLANATION_FILE.PATH}>
         <Box border="1px solid" borderColor="#DDDDDD" padding="4w" marginTop="6w">
-          <Heading fontSize="22px" as="h2">
-            Comprendre les données récoltées
-          </Heading>
+          <Heading fontSize="22px">Comprendre les données récoltées</Heading>
           <Text fontSize="zeta" color="gray.800" marginTop="2w">
             Téléchargez ce document explicatif pour comprendre les futurs champs à remplir par vos soins et les raisons
             pour lesquelles ils sont récoltés par l’équipe du Tableau de bord.
