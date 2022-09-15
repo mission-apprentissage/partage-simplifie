@@ -4,7 +4,7 @@ import { config } from "../../../config/index.js";
 import { ROLES } from "../../../src/common/constants/roles.js";
 import { startServer } from "../../utils/testUtils.js";
 
-describe("API Route Login", () => {
+describe("API Route Users", () => {
   describe("GET /users", () => {
     it("renvoie une erreur HTTP 401 lorsque l'utilisateur n'est pas connecté", async () => {
       const { httpClient } = await startServer();
