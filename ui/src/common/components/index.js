@@ -12,3 +12,4 @@ export { default as SituationOrganisme } from "./SituationOrganisme/SituationOrg
 export { default as UploadFileBlock } from "./UploadFileBlock/UploadFileBlock.js";
 export { default as Highlight } from "./Highlight/Highlight.js";
 export { default as ProductHeader } from "./ProductHeader/ProductHeader.js";
+export { default as AlertErrorBlock } from "./AlertErrorBlock/AlertErrorBlock.js";

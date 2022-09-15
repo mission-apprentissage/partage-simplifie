@@ -13,8 +13,8 @@ import {
 import PropTypes from "prop-types";
 import React from "react";
 
+import { AlertErrorBlock } from "../../../../../common/components/index.js";
 import ModalClosingButton from "../../../../../common/components/ModalClosingButton/ModalClosingButton.js";
-import AlerteErreur from "../../alerts/AlerteErreur.js";
 import OFConfirmModalExistingAccountAlert from "./OFConfirmModalExistingAccountAlert.js";
 import { VERIFY_UAI_SIRET_EXISTING_STATE } from "./useSubmitVerifyUaiSiretExisting.js";
 
@@ -50,7 +50,7 @@ const OFConfirmModal = ({ isOpen, onClose, formState, submitVerifyUaiSiretExisti
           )}
           {formState === VERIFY_UAI_SIRET_EXISTING_STATE.ACCOUNT_EXISTANT && <OFConfirmModalExistingAccountAlert />}
           {formState === VERIFY_UAI_SIRET_EXISTING_STATE.ACCOUNT_INEXISTANT && <p>GO GO</p>}
-          {formState === VERIFY_UAI_SIRET_EXISTING_STATE.ERROR && <AlerteErreur width="100%" />}
+          {formState === VERIFY_UAI_SIRET_EXISTING_STATE.ERROR && <AlertErrorBlock width="100%" />}
         </ModalBody>
       </ModalContent>
     </Modal>
