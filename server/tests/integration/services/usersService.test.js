@@ -44,6 +44,7 @@ describe("Service Users", () => {
           }),
         (err) => {
           assert.equal(err.message.includes("E11000 duplicate key error collection"), true);
+          assert.equal(err.message.includes("email dup key:"), true);
           return true;
         }
       );
@@ -113,6 +114,46 @@ describe("Service Users", () => {
       assert.equal(found.telephone, testTelephone);
       assert.deepEqual(found.outils_gestion, testOutilsGestion);
       assert.deepEqual(found.nom_etablissement, testNom_etablissement);
+    });
+
+    it("Ne permets pas de créer un deuxième utilisateur avec le même couple uai-siret", async () => {
+      const { createUser } = usersService();
+
+      const emailTest = "user@test.fr";
+      const uaiTest = "0000000X";
+      const siretTest = "19921500500018";
+
+      const insertedId = await createUser({
+        email: emailTest,
+        password: "password",
+        role: ROLES.OF,
+        uai: uaiTest,
+        siret: siretTest,
+      });
+
+      const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
+
+      assert.equal(found.email, emailTest);
+      assert.equal(found.password.startsWith("$6$rounds="), true);
+      assert.equal(found.role, ROLES.OF);
+      assert.equal(found.uai, uaiTest);
+      assert.equal(found.siret, siretTest);
+
+      await assert.rejects(
+        () =>
+          createUser({
+            email: "user2@test.fr",
+            password: "password2",
+            role: ROLES.OF,
+            uai: uaiTest,
+            siret: siretTest,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("E11000 duplicate key error collection"), true);
+          assert.equal(err.message.includes("uai_siret_uniques dup key:"), true);
+          return true;
+        }
+      );
     });
   });
 
