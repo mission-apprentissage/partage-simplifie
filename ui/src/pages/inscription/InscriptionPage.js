@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-import { Page, ProductHeader, Section } from "../../common/components";
+import { DownloadExplanationFile, Page, ProductHeader, Section } from "../../common/components";
 import { NAVIGATION_PAGES } from "../../common/constants/navigationPages.js";
 import { SESSION_STORAGE_ORGANISME } from "../../common/constants/sessionStorageConstants.js";
 import SituationOrganismeInscription from "./SituationOrganismeInscription.js";
@@ -26,6 +26,7 @@ const InscriptionPage = () => {
           academie={academie}
           region={region}
         />
+        <DownloadExplanationFile />
       </Section>
     </Page>
   );
