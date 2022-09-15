@@ -13,14 +13,14 @@ const PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS = 48;
 /**
  * Méthode de création d'un utilisateur
  * génère un mot de passe par défaut
- * si aucun role n'est spécifié role CFA par défaut
+ * si aucun role n'est spécifié role OF par défaut
  * @param {*} userProps
  * @returns
  */
 const createUser = async (userProps) => {
   // Champs obligatoires
   const email = userProps.email;
-  const role = userProps.role || ROLES.cfa;
+  const role = userProps.role || ROLES.OF;
 
   // Mot de passe
   const password = userProps.password || generateRandomAlphanumericPhrase(80); // 1 hundred quadragintillion years to crack https://www.security.org/how-secure-is-my-password/

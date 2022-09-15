@@ -16,7 +16,7 @@ describe("Users Indexes", () => {
       email: "user@test.fr",
       username: "user",
       password: "password",
-      role: ROLES.CFA,
+      role: ROLES.OF,
     });
 
     // Re-créé les indexs après l'ajout d'une entrée en base

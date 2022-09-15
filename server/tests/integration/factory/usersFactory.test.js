@@ -8,7 +8,7 @@ describe("Factory Users", () => {
     it("Vérifie la création d'user via sa factory avec uniquement les champs obligatoires fournis", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       const entity = await UsersFactory.create({
         email: testEmail,
@@ -25,7 +25,7 @@ describe("Factory Users", () => {
     it("Vérifie la création d'user via sa factory avec tous les champs obligatoires et optionnels fournis", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
       const testNom = "nom";
       const testPrenom = "prenom";
       const testFonction = "fonction";
@@ -65,7 +65,7 @@ describe("Factory Users", () => {
 
     it("Vérifie la non création d'user via sa factory si aucun email fourni", async () => {
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () => {
@@ -83,7 +83,7 @@ describe("Factory Users", () => {
 
     it("Vérifie la non création d'user via sa factory si aucun password fourni", async () => {
       const testEmail = "user@email.fr";
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -117,7 +117,7 @@ describe("Factory Users", () => {
 
     it("Vérifie la non création d'user via sa factory si un email au mauvais format est fourni", async () => {
       const testEmail = "useremail.fr";
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
       const testPassword = generateRandomAlphanumericPhrase(80);
 
       await assert.rejects(
@@ -136,7 +136,7 @@ describe("Factory Users", () => {
 
     it("Vérifie la non création d'user via sa factory si un password au mauvais format est fourni", async () => {
       const testEmail = "useremail.fr";
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
       const testPassword = 123;
 
       await assert.rejects(
@@ -175,7 +175,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si un nom au mauvais format est fourni", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -195,7 +195,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si un prenom au mauvais format est fourni", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -215,7 +215,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si un uai au mauvais format est fourni", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -235,7 +235,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si un siret au mauvais format est fourni", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -255,7 +255,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si une fonction au mauvais format est fournie", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -275,7 +275,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si un telephone au mauvais format est fourni", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -295,7 +295,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si une liste d'outils_gestion au mauvais format est fournie", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>
@@ -315,7 +315,7 @@ describe("Factory Users", () => {
     it("Vérifie la non création d'user via sa factory si un nom_etablissement au mauvais format est fourni", async () => {
       const testEmail = "user@email.fr";
       const testPassword = generateRandomAlphanumericPhrase(80);
-      const testRole = ROLES.CFA;
+      const testRole = ROLES.OF;
 
       await assert.rejects(
         async () =>

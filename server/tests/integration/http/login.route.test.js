@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { ROLES } from "../../../src/common/constants/roles.js";
 
 describe("API Route Login", () => {
-  it("Vérifie qu'on peut se connecter en tant que CFA", async () => {
+  it("Vérifie qu'on peut se connecter en tant qu'OF", async () => {
     const { httpClient, services } = await startServer();
 
     const userEmail = "user@test.fr";
@@ -13,7 +13,7 @@ describe("API Route Login", () => {
     await services.users.createUser({
       email: userEmail,
       password: "password",
-      role: ROLES.CFA,
+      role: ROLES.OF,
     });
 
     const response = await httpClient.post("/api/login", {
@@ -27,7 +27,7 @@ describe("API Route Login", () => {
     assert.ok(decoded.exp);
     assert.equal(decoded.sub, userEmail);
     assert.equal(decoded.iss, config.appName);
-    assert.deepEqual(decoded.role, ROLES.CFA);
+    assert.deepEqual(decoded.role, ROLES.OF);
   });
 
   it("Vérifie qu'on peut se connecter en tant qu'administrateur", async () => {

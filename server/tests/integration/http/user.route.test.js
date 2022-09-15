@@ -10,7 +10,7 @@ describe("API Route User", () => {
       const { httpClient, services } = await startServer();
       // create user
       const email = "user1@test.fr";
-      const user = await services.users.createUser({ email, role: ROLES.CFA });
+      const user = await services.users.createUser({ email, role: ROLES.OF });
       // generate password update token
       const token = await services.users.generatePasswordUpdateToken(email);
       const response = await httpClient.post("/api/user/update-password", {
@@ -29,7 +29,7 @@ describe("API Route User", () => {
       const { httpClient, services } = await startServer();
       // create user
       const email = "user1@test.fr";
-      const insertedId = await services.users.createUser({ email, role: ROLES.CFA });
+      const insertedId = await services.users.createUser({ email, role: ROLES.OF });
       const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       // generate password update token
@@ -51,7 +51,7 @@ describe("API Route User", () => {
       const { httpClient, services } = await startServer();
       // create user
       const email = "user1@test.fr";
-      const insertedId = await services.users.createUser({ email, role: ROLES.CFA });
+      const insertedId = await services.users.createUser({ email, role: ROLES.OF });
       const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       // generate password update token
@@ -73,7 +73,7 @@ describe("API Route User", () => {
       const { httpClient, services } = await startServer();
       // create user
       const email = "user1@test.fr";
-      const insertedId = await services.users.createUser({ email, role: ROLES.CFA });
+      const insertedId = await services.users.createUser({ email, role: ROLES.OF });
       const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       // generate password update token
       await services.users.generatePasswordUpdateToken(email);
@@ -91,7 +91,7 @@ describe("API Route User", () => {
       const { httpClient, services } = await startServer();
       // create user
       const email = "user1@test.fr";
-      const insertedId = await services.users.createUser({ email, role: ROLES.CFA });
+      const insertedId = await services.users.createUser({ email, role: ROLES.OF });
       const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       const response = await httpClient.post("/api/user/update-password", {
@@ -111,7 +111,7 @@ describe("API Route User", () => {
 
       // create user
       const email = "user1@test.fr";
-      await services.users.createUser({ email, role: ROLES.CFA });
+      await services.users.createUser({ email, role: ROLES.OF });
 
       const response = await httpClient.get("/api/user/exist", { params: { email } });
       assert.equal(response.status, 200);
@@ -123,7 +123,7 @@ describe("API Route User", () => {
 
       // create user
       const email = "user1@test.fr";
-      await services.users.createUser({ email, role: ROLES.CFA });
+      await services.users.createUser({ email, role: ROLES.OF });
 
       const response = await httpClient.get("/api/user/exist", { params: { email: "badUser@test.fr" } });
       assert.equal(response.status, 200);
@@ -135,7 +135,7 @@ describe("API Route User", () => {
 
       // create user
       const email = "user1@test.fr";
-      await services.users.createUser({ email, role: ROLES.CFA });
+      await services.users.createUser({ email, role: ROLES.OF });
 
       const response = await httpClient.get("/api/user/exist", { params: { email: "badFormat" } });
       assert.equal(response.status, 400);
@@ -151,7 +151,7 @@ describe("API Route User", () => {
       const email = "user1@test.fr";
       const uai = "0881529J";
       const siret = "13002798000031";
-      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+      await services.users.createUser({ email, role: ROLES.OF, uai, siret });
 
       const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai, siret } });
       assert.equal(response.status, 200);
@@ -166,7 +166,7 @@ describe("API Route User", () => {
       const uai = "0881529J";
       const badUai = "9991529J";
       const siret = "13002798000031";
-      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+      await services.users.createUser({ email, role: ROLES.OF, uai, siret });
 
       const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai: badUai, siret } });
       assert.equal(response.status, 200);
@@ -182,7 +182,7 @@ describe("API Route User", () => {
       const siret = "13002798000031";
       const badSiret = "99992798000031";
 
-      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+      await services.users.createUser({ email, role: ROLES.OF, uai, siret });
 
       const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai, siret: badSiret } });
       assert.equal(response.status, 200);
@@ -197,7 +197,7 @@ describe("API Route User", () => {
       const uai = "0881529J";
       const siret = "13002798000031";
 
-      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+      await services.users.createUser({ email, role: ROLES.OF, uai, siret });
 
       const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai: 123, siret } });
       assert.equal(response.status, 400);
@@ -212,7 +212,7 @@ describe("API Route User", () => {
       const uai = "0881529J";
       const siret = "13002798000031";
 
-      await services.users.createUser({ email, role: ROLES.CFA, uai, siret });
+      await services.users.createUser({ email, role: ROLES.OF, uai, siret });
 
       const response = await httpClient.get("/api/user/exist-uai-siret", { params: { uai, siret: 123 } });
       assert.equal(response.status, 400);

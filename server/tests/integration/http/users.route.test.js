@@ -15,7 +15,7 @@ describe("API Route Login", () => {
 
     it("renvoie une erreur HTTP 403 lorsque l'utilisateur n'est pas admin", async () => {
       const { httpClient, createAndLogUser } = await startServer();
-      const bearerToken = await createAndLogUser("user@test.fr", "password", ROLES.CFA);
+      const bearerToken = await createAndLogUser("user@test.fr", "password", ROLES.OF);
       const response = await httpClient.get("/api/users", { headers: bearerToken });
 
       assert.equal(response.status, 403);
@@ -27,7 +27,7 @@ describe("API Route Login", () => {
 
       await services.users.createUser({
         email: "test1@mail.com",
-        role: ROLES.CFA,
+        role: ROLES.OF,
         nom: "NOM1",
         prenom: "PRENOM1",
         fonction: "FONCTION1",
@@ -38,7 +38,7 @@ describe("API Route Login", () => {
 
       await services.users.createUser({
         email: "test2@mail.com",
-        role: ROLES.CFA,
+        role: ROLES.OF,
         nom: "NOM2",
         prenom: "PRENOM2",
         fonction: "FONCTION2",
@@ -62,7 +62,7 @@ describe("API Route Login", () => {
       assert.ok(response.data[1].id);
       assert.equal(response.data[1].password, undefined);
       assert.equal(response.data[1].email, "test1@mail.com");
-      assert.equal(response.data[1].role, ROLES.CFA);
+      assert.equal(response.data[1].role, ROLES.OF);
       assert.equal(response.data[1].nom, "NOM1");
       assert.equal(response.data[1].prenom, "PRENOM1");
       assert.equal(response.data[1].fonction, "FONCTION1");
@@ -74,7 +74,7 @@ describe("API Route Login", () => {
       assert.ok(response.data[2].id);
       assert.equal(response.data[2].password, undefined);
       assert.equal(response.data[2].email, "test2@mail.com");
-      assert.equal(response.data[2].role, ROLES.CFA);
+      assert.equal(response.data[2].role, ROLES.OF);
       assert.equal(response.data[2].nom, "NOM2");
       assert.equal(response.data[2].prenom, "PRENOM2");
       assert.equal(response.data[2].fonction, "FONCTION2");
@@ -94,7 +94,7 @@ describe("API Route Login", () => {
 
     it("sends a 403 HTTP response when user is not admin", async () => {
       const { httpClient, createAndLogUser } = await startServer();
-      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.CFA);
+      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.OF);
 
       const response = await httpClient.post(
         "/api/users/generate-update-password-url",
@@ -143,7 +143,7 @@ describe("API Route Login", () => {
 
     it("sends a 403 HTTP response when user is not admin", async () => {
       const { httpClient, createAndLogUser } = await startServer();
-      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.CFA);
+      const bearerToken = await createAndLogUser("admin@test.fr", "password", ROLES.OF);
       const response = await httpClient.post("/api/users/search", { searchTerm: "blabla" }, { headers: bearerToken });
 
       assert.equal(response.status, 403);
@@ -166,14 +166,14 @@ describe("API Route Login", () => {
         email: "user2@test.fr",
         password: "password",
         nom_etablissement: "nom2",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       await services.users.createUser({
         email: "user3@test.fr",
         password: "password",
         nom_etablissement: "nom3",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const response = await httpClient.post("/api/users/search", { searchTerm: "test.fr" }, { headers: bearerToken });
@@ -193,14 +193,14 @@ describe("API Route Login", () => {
         email: "user2@test.fr",
         password: "password",
         nom_etablissement: "nom2",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       await services.users.createUser({
         email: "user3@test.fr",
         password: "password",
         nom_etablissement: "nom3",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const response = await httpClient.post("/api/users/search", { searchTerm: "nom" }, { headers: bearerToken });

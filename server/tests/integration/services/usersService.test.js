@@ -14,14 +14,14 @@ describe("Service Users", () => {
       const insertedId = await createUser({
         email: "user@test.fr",
         password: "password",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.email, "user@test.fr");
       assert.equal(found.password.startsWith("$6$rounds="), true);
-      assert.equal(found.role, ROLES.CFA);
+      assert.equal(found.role, ROLES.OF);
     });
 
     it("Ne permets pas de créer un deuxième utilisateur avec le même email", async () => {
@@ -32,7 +32,7 @@ describe("Service Users", () => {
       await createUser({
         email: emailTest,
         password: "password",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       await assert.rejects(
@@ -40,7 +40,7 @@ describe("Service Users", () => {
           createUser({
             email: emailTest,
             password: "password",
-            role: ROLES.CFA,
+            role: ROLES.OF,
           }),
         (err) => {
           assert.equal(err.message.includes("E11000 duplicate key error collection"), true);
@@ -54,14 +54,14 @@ describe("Service Users", () => {
 
       const insertedId = await createUser({
         email: "user@test.fr",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
       assert.equal(found.email, "user@test.fr");
       assert.equal(found.password.startsWith("$6$rounds="), true);
-      assert.equal(found.role, ROLES.CFA);
+      assert.equal(found.role, ROLES.OF);
     });
 
     it("Permet de créer un utilisateur avec le role administrateur", async () => {
@@ -125,7 +125,7 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: testUserEmail,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // Génération du token et récupération du user en bdd
@@ -144,7 +144,7 @@ describe("Service Users", () => {
       const { createUser, generatePasswordUpdateToken } = usersService();
 
       // create user
-      await createUser({ email: "KO@test.Fr", role: ROLES.CFA });
+      await createUser({ email: "KO@test.Fr", role: ROLES.OF });
 
       await assert.rejects(
         () => generatePasswordUpdateToken("notFound@test.Fr"),
@@ -163,7 +163,7 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: "user@test.fr",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const foundBeforeUpdate = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
@@ -173,7 +173,7 @@ describe("Service Users", () => {
       const updatedUser = await updatePassword(token, "new-password-strong");
 
       assert.equal(updatedUser.email, "user@test.fr");
-      assert.equal(updatedUser.role, ROLES.CFA);
+      assert.equal(updatedUser.role, ROLES.OF);
       assert.equal(updatedUser.password_update_token, null);
       assert.equal(updatedUser.password_update_token_expiry, null);
       assert.equal(updatedUser.password_updated_at !== null, true);
@@ -192,7 +192,7 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // generate update token
@@ -213,7 +213,7 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // generate update token
@@ -236,7 +236,7 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // generate update token
@@ -263,7 +263,7 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       await assert.rejects(
@@ -281,7 +281,7 @@ describe("Service Users", () => {
       // Création du user
       await createUser({
         email: "user@test.fr",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // generate update token
@@ -309,7 +309,7 @@ describe("Service Users", () => {
       await createUser({
         email: "user@test.fr",
         password: "password",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const user = await authenticate("user@test.fr", "password");
@@ -323,7 +323,7 @@ describe("Service Users", () => {
       await createUser({
         email: "user@test.fr",
         password: "password",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const user = await authenticate("user@test.fr", "INVALID");
@@ -340,19 +340,19 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found._id !== null, true);
 
       // get user
       const gettedUser = await getUser(found.email);
       assert.equal(gettedUser.email === found.email, true);
-      assert.equal(gettedUser.role === ROLES.CFA, true);
+      assert.equal(gettedUser.role === ROLES.OF, true);
       assert.equal(gettedUser._id !== null, true);
     });
 
@@ -364,13 +364,13 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found._id !== null, true);
 
       // get user
@@ -387,19 +387,19 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found._id !== null, true);
 
       // get user
       const gettedUser = await getUserById(found._id);
       assert.equal(gettedUser.email === found.email, true);
-      assert.equal(gettedUser.role === ROLES.CFA, true);
+      assert.equal(gettedUser.role === ROLES.OF, true);
       assert.equal(gettedUser._id !== null, true);
     });
 
@@ -411,13 +411,13 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found._id !== null, true);
 
       // get user
@@ -432,7 +432,7 @@ describe("Service Users", () => {
 
       await createUser({
         email: "test1@mail.com",
-        role: ROLES.CFA,
+        role: ROLES.OF,
         nom: "NOM1",
         prenom: "PRENOM1",
         fonction: "FONCTION1",
@@ -443,7 +443,7 @@ describe("Service Users", () => {
 
       await createUser({
         email: "test2@mail.com",
-        role: ROLES.CFA,
+        role: ROLES.OF,
         nom: "NOM2",
         prenom: "PRENOM2",
         fonction: "FONCTION2",
@@ -458,7 +458,7 @@ describe("Service Users", () => {
       // Utilisateur 1
       assert.ok(allUsers[0]._id);
       assert.equal(allUsers[0].email, "test1@mail.com");
-      assert.equal(allUsers[0].role, ROLES.CFA);
+      assert.equal(allUsers[0].role, ROLES.OF);
       assert.equal(allUsers[0].nom, "NOM1");
       assert.equal(allUsers[0].prenom, "PRENOM1");
       assert.equal(allUsers[0].fonction, "FONCTION1");
@@ -469,7 +469,7 @@ describe("Service Users", () => {
       // Utilisateur 2
       assert.ok(allUsers[1]._id);
       assert.equal(allUsers[1].email, "test2@mail.com");
-      assert.equal(allUsers[1].role, ROLES.CFA);
+      assert.equal(allUsers[1].role, ROLES.OF);
       assert.equal(allUsers[1].nom, "NOM2");
       assert.equal(allUsers[1].prenom, "PRENOM2");
       assert.equal(allUsers[1].fonction, "FONCTION2");
@@ -489,12 +489,12 @@ describe("Service Users", () => {
       const insertedId = await createUser({
         email: emailTest,
         password: "password",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.email === emailTest, true);
 
       const results = await searchUsers({ searchTerm });
@@ -510,12 +510,12 @@ describe("Service Users", () => {
       const insertedId = await createUser({
         email: emailTest,
         password: "password",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.email === emailTest, true);
 
       const results = await searchUsers({ searchTerm });
@@ -531,12 +531,12 @@ describe("Service Users", () => {
       const insertedId = await createUser({
         email: emailTest,
         password: "password",
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.email === emailTest, true);
       assert.equal(found.email === emailTest, true);
 
@@ -553,12 +553,12 @@ describe("Service Users", () => {
         email: emailTest,
         password: "password",
         nom_etablissement: nomEtablissementTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.email === emailTest, true);
       assert.equal(found.nom_etablissement === nomEtablissementTest, true);
 
@@ -577,12 +577,12 @@ describe("Service Users", () => {
         email: emailTest,
         password: "password",
         nom_etablissement: nomEtablissementTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.email === emailTest, true);
       assert.equal(found.nom_etablissement === nomEtablissementTest, true);
 
@@ -601,12 +601,12 @@ describe("Service Users", () => {
         email: emailTest,
         password: "password",
         nom_etablissement: nomEtablissementTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
 
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.email === emailTest, true);
       assert.equal(found.nom_etablissement === nomEtablissementTest, true);
 
@@ -627,7 +627,7 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
         uai: testUai,
         siret: testSiret,
       });
@@ -635,7 +635,7 @@ describe("Service Users", () => {
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.uai === testUai, true);
       assert.equal(found.siret === testSiret, true);
       assert.equal(found._id !== null, true);
@@ -643,7 +643,7 @@ describe("Service Users", () => {
       // get user
       const gettedUser = await getUserFromUaiSiret({ uai: testUai, siret: testSiret });
       assert.equal(gettedUser.email === found.email, true);
-      assert.equal(gettedUser.role === ROLES.CFA, true);
+      assert.equal(gettedUser.role === ROLES.OF, true);
       assert.equal(gettedUser.uai === testUai, true);
       assert.equal(gettedUser.siret === testSiret, true);
       assert.equal(gettedUser._id !== null, true);
@@ -660,7 +660,7 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
         uai: testUai,
         siret: testSiret,
       });
@@ -668,7 +668,7 @@ describe("Service Users", () => {
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.uai === testUai, true);
       assert.equal(found.siret === testSiret, true);
       assert.equal(found._id !== null, true);
@@ -688,7 +688,7 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
         uai: testUai,
         siret: testSiret,
       });
@@ -696,7 +696,7 @@ describe("Service Users", () => {
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.uai === testUai, true);
       assert.equal(found.siret === testSiret, true);
       assert.equal(found._id !== null, true);
@@ -717,7 +717,7 @@ describe("Service Users", () => {
       // Création du user
       const insertedId = await createUser({
         email: emailTest,
-        role: ROLES.CFA,
+        role: ROLES.OF,
         uai: testUai,
         siret: testSiret,
       });
@@ -725,7 +725,7 @@ describe("Service Users", () => {
       // find user
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
       assert.equal(found.email === emailTest, true);
-      assert.equal(found.role === ROLES.CFA, true);
+      assert.equal(found.role === ROLES.OF, true);
       assert.equal(found.uai === testUai, true);
       assert.equal(found.siret === testSiret, true);
       assert.equal(found._id !== null, true);
