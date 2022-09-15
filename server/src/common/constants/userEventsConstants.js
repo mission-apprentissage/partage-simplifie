@@ -14,6 +14,7 @@ export const USER_EVENTS_ACTIONS = {
     SUCCESS: "login-success",
     FAIL: "login-failed",
   },
+  REGISTER: "register",
   UPDATE_PASSWORD: "update-password",
   USERS: {
     GET_ALL: "get-all",
