@@ -1,11 +1,41 @@
 import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Input, Select, Stack, Text } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import * as Yup from "yup";
 
 import { REGIONS } from "../../../common/constants/territoireConstants.js";
 
+const OUTILS_DE_GESTION = [
+  {
+    nom: "Fichier Excel",
+    selected: false,
+  },
+  {
+    nom: "Google Sheets",
+    selected: false,
+  },
+  {
+    nom: "CRM Salesforce",
+    selected: false,
+  },
+  {
+    nom: "CRM Hubspot",
+    selected: false,
+  },
+  {
+    nom: "Notion",
+    selected: false,
+  },
+  {
+    nom: "Autre",
+    selected: false,
+  },
+];
+
 const InscriptionForm = ({ onSubmit }) => {
+  const [showAutreOutilGestion, setShowAutreOutilGestion] = useState(false);
+
   return (
     <Formik
       initialValues={{
@@ -16,6 +46,7 @@ const InscriptionForm = ({ onSubmit }) => {
         telephone: "",
         region: "",
         outils_gestion: [],
+        autre_outil_gestion: "",
         is_consentement_ok: false,
       }}
       validationSchema={Yup.object().shape({
@@ -24,6 +55,7 @@ const InscriptionForm = ({ onSubmit }) => {
         fonction: Yup.string().required("Requis"),
         email: Yup.string().email().required("Requis"),
         telephone: Yup.string().required("Requis"),
+        region: Yup.string(),
         is_consentement_ok: Yup.boolean()
           .required(
             "Vous devez consentir à l'utilisation de vos données dans le cadre de la mission du Tableau de bord."
@@ -99,9 +131,48 @@ const InscriptionForm = ({ onSubmit }) => {
                 )}
               </Field>
 
+              <Field name="outils_gestion">
+                {({ meta }) => (
+                  <FormControl isInvalid={meta.error && meta.touched}>
+                    {OUTILS_DE_GESTION.map((item, index) => (
+                      <HStack key={index} marginLeft="1w" spacing="2w" marginTop="2w">
+                        <Field
+                          style={{
+                            transform: "scale(2)",
+                            accentColor: "#000091",
+                          }}
+                          type="checkbox"
+                          name="outils_gestion"
+                          value={item.nom}
+                          onClick={(event) => {
+                            if (item.nom === "Autre") setShowAutreOutilGestion(event?.target?.checked || false);
+                          }}
+                        />
+                        <Text>{item.nom}</Text>
+                      </HStack>
+                    ))}
+
+                    <FormErrorMessage>{meta.error}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+
+              {showAutreOutilGestion === true && (
+                <Field name="autre_outil_gestion">
+                  {({ field, meta }) => (
+                    <FormControl isRequired isInvalid={meta.error && meta.touched}>
+                      <Stack spacing="1w">
+                        <Input {...field} id={field.name} width="50%" placeholder="" />
+                        <FormErrorMessage>{meta.error}</FormErrorMessage>
+                      </Stack>
+                    </FormControl>
+                  )}
+                </Field>
+              )}
+
               <Field name="region">
                 {({ field, meta }) => (
-                  <FormControl isRequired isInvalid={meta.error && meta.touched}>
+                  <FormControl isInvalid={meta.error && meta.touched}>
                     <FormLabel color="grey.800">Région :</FormLabel>
                     <Select {...field} width="50%">
                       {[{ nom: "Sélectionnez une région" }, ...REGIONS].map((region, index) => (
@@ -122,6 +193,7 @@ const InscriptionForm = ({ onSubmit }) => {
                       <Field
                         style={{
                           transform: "scale(2)",
+                          accentColor: "#000091",
                         }}
                         type="checkbox"
                         name="is_consentement_ok"
