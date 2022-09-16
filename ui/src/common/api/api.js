@@ -80,3 +80,13 @@ export const getExistingUser = async (email) => {
   const URL = `/api/user/exist?email=${email}`;
   return await _get(URL);
 };
+
+/**
+ * Route d'API pour l'inscription d'un utilisateur
+ * @param {*} values
+ * @returns
+ */
+export const postRegister = async (values) => {
+  const URL = `/api/register`;
+  return await _post(URL, values);
+};
