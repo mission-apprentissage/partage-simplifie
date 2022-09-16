@@ -290,14 +290,14 @@ const DetailOFTrouve = ({ setShowOFNotIdentified, isDefaultOpened = false, organ
               Ceci est mon organisme
             </Button>
             <Link onClick={() => setShowOFNotIdentified(true)} color="bluefrance" textDecoration="underline">
-              Je ne connais pas mon UAI
+              Ceci n&apos;est pas mon organisme de formation
             </Link>
           </Stack>
           <OFConfirmModal
             isOpen={isOpenConfirmModal}
             onClose={onCloseConfirmModal}
             formState={verifyUaiSiretFormState}
-            submitVerifyUaiSiretExisting={() => submitVerifyUaiSiretExisting({ uai, siret })}
+            submitVerifyUaiSiretExisting={() => submitVerifyUaiSiretExisting(organisme)}
           />
         </>
       )}

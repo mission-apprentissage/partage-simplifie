@@ -70,3 +70,23 @@ export const getExistingUserByUaiSiret = async ({ uai, siret }) => {
   const URL = `/api/user/exist-uai-siret?uai=${uai}&siret=${siret}`;
   return await _get(URL);
 };
+
+/**
+ * Route d'API pour la vérification de l'existence d'un utilisateur par son email
+ * @param {*} email
+ * @returns
+ */
+export const getExistingUser = async (email) => {
+  const URL = `/api/user/exist?email=${email}`;
+  return await _get(URL);
+};
+
+/**
+ * Route d'API pour l'inscription d'un utilisateur
+ * @param {*} values
+ * @returns
+ */
+export const postRegister = async (values) => {
+  const URL = `/api/register`;
+  return await _post(URL, values);
+};

@@ -4,6 +4,7 @@ import { ROLES } from "../common/constants/roles.js";
 import { BaseFactory } from "./baseFactory.js";
 import { schema as uaiSchema } from "../domain/uai.js";
 import { schema as siretSchema } from "../domain/siret.js";
+import { schema as passwordSchema } from "../domain/password.js";
 
 export class UsersFactory extends BaseFactory {
   /**
@@ -14,7 +15,7 @@ export class UsersFactory extends BaseFactory {
   static create(props) {
     const schema = Joi.object({
       email: Joi.string().email().required(),
-      password: Joi.string().required(),
+      password: passwordSchema.required(),
       role: Joi.string()
         .valid(...Object.values(ROLES))
         .required(),
@@ -24,6 +25,7 @@ export class UsersFactory extends BaseFactory {
       prenom: Joi.string().allow("", null),
       fonction: Joi.string().allow("", null),
       telephone: Joi.string().allow("", null),
+      region: Joi.string().allow("", null),
       outils_gestion: Joi.array().items(Joi.string()).allow(null),
       nom_etablissement: Joi.string().allow("", null),
     });

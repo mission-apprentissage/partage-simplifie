@@ -2,8 +2,7 @@ import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-import { DownloadExplanationFile, Highlight } from "../../../common/components/index.js";
-import AlerteErreur from "./alerts/AlerteErreur.js";
+import { AlertErrorBlock, DownloadExplanationFile, Highlight } from "../../../common/components";
 import AlerteUaiNonConnu from "./alerts/AlerteUaiNonConnu.js";
 import AlerteUaiNonTrouve from "./alerts/AlerteUaiNonTrouve.js";
 import RechercherOrganismeParUaiForm from "./form/RechercherOrganismeParUaiForm.js";
@@ -19,7 +18,7 @@ const RechercherOrganismeParUai = () => {
   return (
     <>
       {formState === RECHERCHER_ORGANISME_FORM_STATE.INITIAL && (
-        <Button variant="primary" onClick={() => setShowRechercheOrganismeParUai(true)} marginTop="4w">
+        <Button variant="primary" onClick={() => setShowRechercheOrganismeParUai(true)} marginTop="4w" width="20%">
           Je crée mon compte
         </Button>
       )}
@@ -32,7 +31,7 @@ const RechercherOrganismeParUai = () => {
               setFormState={setFormState}
             />
           )}
-          {formState === RECHERCHER_ORGANISME_FORM_STATE.ERROR && <AlerteErreur />}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.ERROR && <AlertErrorBlock />}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN && <AlerteUaiNonConnu />}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_NOT_FOUND && <AlerteUaiNonTrouve uai={searchUai} />}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_OR_MANY_ORGANISMES_FOUND && (
@@ -59,7 +58,7 @@ const RechercherOrganismeParUaiBlock = ({ submitSearchOrganismeParUai, setFormSt
             color="bluefrance"
             textDecoration="underline"
           >
-            Je ne connais pas mon UAI
+            Je n&apos;identifie pas mon organisme
           </Link>
         </Stack>
       </Box>

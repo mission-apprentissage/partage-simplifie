@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { getExistingUserByUaiSiret } from "../../../../../common/api/api.js";
 import { NAVIGATION_PAGES } from "../../../../../common/constants/navigationPages.js";
+import { SESSION_STORAGE_ORGANISME } from "../../../../../common/constants/sessionStorageConstants.js";
 
 export const VERIFY_UAI_SIRET_EXISTING_STATE = {
   INITIAL: "INITIAL",
@@ -15,14 +16,17 @@ const useSubmitVerifyUaiSiretExisting = () => {
   const [formState, setFormState] = useState(VERIFY_UAI_SIRET_EXISTING_STATE.INITIAL);
   const history = useHistory();
 
-  const submitVerifyUaiSiretExisting = async ({ uai, siret }) => {
+  const submitVerifyUaiSiretExisting = async (organisme) => {
     try {
+      sessionStorage.setItem(SESSION_STORAGE_ORGANISME, JSON.stringify(organisme));
+
+      const { uai, siret } = organisme;
       const { found } = await getExistingUserByUaiSiret({ uai, siret });
 
       if (found === true) {
         setFormState(VERIFY_UAI_SIRET_EXISTING_STATE.ACCOUNT_EXISTANT);
       } else {
-        history.push(`${NAVIGATION_PAGES.Inscription.path}?uai=${uai}&siret=${siret}`);
+        history.push(NAVIGATION_PAGES.Inscription.path);
       }
     } catch (err) {
       setFormState(VERIFY_UAI_SIRET_EXISTING_STATE.ERROR);

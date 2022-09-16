@@ -3,9 +3,12 @@ import { config } from "../../../config/index.js";
 import { startServer } from "../../utils/testUtils.js";
 import jwt from "jsonwebtoken";
 import { ROLES } from "../../../src/common/constants/roles.js";
+import { dbCollection } from "../../../src/model/db/mongodbClient.js";
+import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
+import { USER_EVENTS_ACTIONS, USER_EVENTS_TYPES } from "../../../src/common/constants/userEventsConstants.js";
 
 describe("API Route Login", () => {
-  it("Vérifie qu'on peut se connecter en tant que CFA", async () => {
+  it("Vérifie qu'on peut se connecter en tant qu'OF", async () => {
     const { httpClient, services } = await startServer();
 
     const userEmail = "user@test.fr";
@@ -13,7 +16,7 @@ describe("API Route Login", () => {
     await services.users.createUser({
       email: userEmail,
       password: "password",
-      role: ROLES.CFA,
+      role: ROLES.OF,
     });
 
     const response = await httpClient.post("/api/login", {
@@ -27,7 +30,11 @@ describe("API Route Login", () => {
     assert.ok(decoded.exp);
     assert.equal(decoded.sub, userEmail);
     assert.equal(decoded.iss, config.appName);
-    assert.deepEqual(decoded.role, ROLES.CFA);
+    assert.deepEqual(decoded.role, ROLES.OF);
+
+    const userEventFoundInDb = await dbCollection(COLLECTIONS_NAMES.UserEvents).findOne({ user_email: userEmail });
+    assert.equal(userEventFoundInDb.type, USER_EVENTS_TYPES.POST);
+    assert.equal(userEventFoundInDb.action, USER_EVENTS_ACTIONS.LOGIN.SUCCESS);
   });
 
   it("Vérifie qu'on peut se connecter en tant qu'administrateur", async () => {
@@ -53,6 +60,10 @@ describe("API Route Login", () => {
     assert.equal(decoded.sub, userEmail);
     assert.equal(decoded.iss, config.appName);
     assert.deepEqual(decoded.role, ROLES.ADMINISTRATOR);
+
+    const userEventFoundInDb = await dbCollection(COLLECTIONS_NAMES.UserEvents).findOne({ user_email: userEmail });
+    assert.equal(userEventFoundInDb.type, USER_EVENTS_TYPES.POST);
+    assert.equal(userEventFoundInDb.action, USER_EVENTS_ACTIONS.LOGIN.SUCCESS);
   });
 
   it("Vérifie qu'un mot de passe invalide est rejeté", async () => {

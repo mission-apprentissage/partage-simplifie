@@ -7,9 +7,7 @@ const DownloadTemplateFile = () => {
     <Box width="40%">
       <a target="_blank" rel="noopener noreferrer" href={TEMPLATE_FILE.PATH}>
         <Box border="1px solid" borderColor="#DDDDDD" padding="4w" marginTop="6w">
-          <Heading fontSize="22px" as="h2">
-            Télécharger le document de dépôt de données
-          </Heading>
+          <Heading fontSize="22px">Télécharger le document de dépôt de données</Heading>
           <Text fontSize="zeta" color="gray.800" marginTop="2w">
             Une fois téléchargé, remplissez-le en suivant les champs demandés, puis revenez sur votre compte pour le
             téléverser.

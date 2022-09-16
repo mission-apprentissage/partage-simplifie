@@ -1,5 +1,5 @@
+import Joi from "joi";
 const PASSWORD_MIN_LENGTH = 16;
 
-export const validatePassword = (password) => {
-  return Boolean(password) && password.length >= PASSWORD_MIN_LENGTH;
-};
+export const schema = Joi.string().min(PASSWORD_MIN_LENGTH);
+export const validatePassword = (password) => !schema.required().validate(password).error;

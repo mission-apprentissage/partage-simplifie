@@ -7,20 +7,21 @@ import { addHours, isBefore } from "date-fns";
 import { validatePassword } from "../domain/password.js";
 import { config } from "../../config/index.js";
 import { escapeRegExp } from "../common/utils/regexUtils.js";
+import Joi from "joi";
 
 const PASSWORD_UPDATE_TOKEN_VALIDITY_HOURS = 48;
 
 /**
  * Méthode de création d'un utilisateur
  * génère un mot de passe par défaut
- * si aucun role n'est spécifié role CFA par défaut
+ * si aucun role n'est spécifié role OF par défaut
  * @param {*} userProps
  * @returns
  */
 const createUser = async (userProps) => {
   // Champs obligatoires
   const email = userProps.email;
-  const role = userProps.role || ROLES.cfa;
+  const role = userProps.role || ROLES.OF;
 
   // Mot de passe
   const password = userProps.password || generateRandomAlphanumericPhrase(80); // 1 hundred quadragintillion years to crack https://www.security.org/how-secure-is-my-password/
@@ -33,6 +34,7 @@ const createUser = async (userProps) => {
   const prenom = userProps.prenom || null;
   const fonction = userProps.fonction || null;
   const telephone = userProps.telephone || null;
+  const region = userProps.region || null;
   const outils_gestion = userProps.outils_gestion || [];
   const nom_etablissement = userProps.nom_etablissement || null;
 
@@ -47,6 +49,7 @@ const createUser = async (userProps) => {
     prenom,
     fonction,
     telephone,
+    region,
     outils_gestion,
     nom_etablissement,
   });
@@ -62,6 +65,10 @@ const createUser = async (userProps) => {
  * @returns
  */
 const generatePasswordUpdateToken = async (email) => {
+  if (Joi.string().email().required().validate(email).error) {
+    throw new Error("Email format not valid");
+  }
+
   const user = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ email });
 
   if (!user) {

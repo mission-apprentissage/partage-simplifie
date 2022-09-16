@@ -9,8 +9,9 @@ export class UserEventsFactory extends BaseFactory {
    */
   static create(props) {
     const schema = Joi.object({
-      username: Joi.string().required(),
+      user_email: Joi.string().required(),
       type: Joi.string().required(),
+      action: Joi.string(),
       data: Joi.object().allow(null),
     });
 

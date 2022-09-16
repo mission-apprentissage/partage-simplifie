@@ -19,9 +19,7 @@ const Header = () => {
           <Logo />
           <Box marginLeft="5w">
             <HStack>
-              <Heading as="h1" variant="h1" fontSize="gamma">
-                {PRODUCT_FULL_NAME}
-              </Heading>
+              <Heading fontSize="gamma">{PRODUCT_FULL_NAME}</Heading>
               <Badge
                 marginLeft="1"
                 borderRadius="4px"

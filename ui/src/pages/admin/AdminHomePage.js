@@ -11,7 +11,7 @@ const AdminHomePage = () => {
         <Box>
           <Flex>
             <Box flex="1">
-              <Heading as="h1" fontSize="40px">
+              <Heading as="h1" variant="h1">
                 Le {PRODUCT_NAME}
               </Heading>
               <Text fontSize="beta" color="grey.800" marginTop="4w">

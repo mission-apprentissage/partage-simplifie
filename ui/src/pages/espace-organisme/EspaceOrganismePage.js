@@ -16,7 +16,7 @@ const EspaceOrganismePage = () => {
         <Box>
           <Flex>
             <Box flex="1">
-              <Heading fontSize="40px" marginTop="3w">
+              <Heading as="h1" fontSize="40px" marginTop="3w">
                 Bienvenue sur {PRODUCT_NAME}, <br />
                 l’outil de partage de vos effectifs.
               </Heading>
@@ -44,18 +44,18 @@ const EspaceOrganismePage = () => {
         </Text>
 
         <SituationOrganisme
-          uai="1234567X"
-          siret="30540504500876"
-          nomEtablissement="ISTELI Lille"
-          adresse="10 rue de masure Bâtiment D 59100 Lille"
-          outilsGestion="Hubspot"
+          uai={auth.uai || ""}
+          siret={auth.siret || ""}
+          nomEtablissement={userNomEtablissement || ""}
+          adresse={auth.adresse || ""}
+          outilsGestion={auth.outils_gestion?.join(", ") || ""}
           showOutilGestionNotConnected
           showSendAnomalie
         />
         <Box
           width="80%"
           borderLeft="4px solid"
-          backgroundColor="#EEEEEE"
+          background="#EEEEEE"
           borderLeftColor="bluefrance"
           padding="4w"
           marginTop="6w"
