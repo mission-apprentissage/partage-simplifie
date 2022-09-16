@@ -1,10 +1,38 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Input, Select, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  HStack,
+  Input,
+  Link,
+  Select,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import * as Yup from "yup";
 
+import { getExistingUser } from "../../../common/api/api.js";
+import { CONTACT_ADDRESS } from "../../../common/constants/product.js";
 import { REGIONS } from "../../../common/constants/territoireConstants.js";
+
+// Add sequence mecanism for Yup
+Yup.addMethod(Yup.string, "sequence", function (funcList) {
+  return this.test(async (value, context) => {
+    try {
+      for (const func of funcList) {
+        await func().validate(value);
+      }
+    } catch ({ message }) {
+      return context.createError({ message });
+    }
+    return true;
+  });
+});
 
 const OUTILS_DE_GESTION = [
   {
@@ -35,6 +63,7 @@ const OUTILS_DE_GESTION = [
 
 const InscriptionForm = ({ onSubmit }) => {
   const [showAutreOutilGestion, setShowAutreOutilGestion] = useState(false);
+  const [showErreurEmailExistant, setShowErreurEmailExistant] = useState(false);
 
   return (
     <Formik
@@ -53,7 +82,21 @@ const InscriptionForm = ({ onSubmit }) => {
         nom: Yup.string().required("Requis"),
         prenom: Yup.string().required("Requis"),
         fonction: Yup.string().required("Requis"),
-        email: Yup.string().email().required("Requis"),
+        email: Yup.string().sequence([
+          () => Yup.string().email("Format d'email invalide").required("Requis"), // check email format
+          () =>
+            Yup.string().test("existence du mail", "", async (value) => {
+              // Check email existence in PS
+              try {
+                const { found } = await getExistingUser(value);
+                setShowErreurEmailExistant(found);
+                return !found;
+              } catch (err) {
+                return true;
+              }
+            }),
+        ]),
+
         telephone: Yup.string().required("Requis"),
         region: Yup.string(),
         is_consentement_ok: Yup.boolean()
@@ -113,7 +156,26 @@ const InscriptionForm = ({ onSubmit }) => {
                     <Stack spacing="1w">
                       <FormLabel color="grey.800">E-mail :</FormLabel>
                       <Input {...field} id={field.name} width="50%" placeholder="" />
-                      <FormErrorMessage>{meta.error}</FormErrorMessage>
+                      {showErreurEmailExistant === false && <FormErrorMessage>{meta.error}</FormErrorMessage>}
+                      {showErreurEmailExistant === true && (
+                        <div>
+                          <Box
+                            marginLeft="4w"
+                            marginTop="2w"
+                            marginBottom="2w"
+                            borderLeft="4px solid"
+                            borderColor="bluefrance"
+                          >
+                            <Text color="#ce0500" marginLeft="2w">
+                              Il semble qu’un compte soit déjà créé avec cette adresse e-mail. Veuillez contacter
+                              l’équipe du Tableau de bord à l’adresse suivante :{" "}
+                              <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">
+                                {CONTACT_ADDRESS}
+                              </Link>
+                            </Text>
+                          </Box>
+                        </div>
+                      )}
                     </Stack>
                   </FormControl>
                 )}
