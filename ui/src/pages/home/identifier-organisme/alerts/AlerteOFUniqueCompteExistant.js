@@ -1,7 +1,7 @@
 import { Box, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-import { CONTACT_ADDRESS } from "../../../../common/constants/product.js";
+import { CONTACT_ADDRESS, REFERENTIEL_URL } from "../../../../common/constants/product.js";
 
 const AlerteOFUniqueCompteExistant = ({ uai }) => (
   <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w">
@@ -16,8 +16,11 @@ const AlerteOFUniqueCompteExistant = ({ uai }) => (
         <Box as="i" color="#B60000" fontSize="alpha" className="ri-close-circle-fill" marginRight="2w" />
         <Stack fontSize="delta" color="#B60000" fontWeight="bold" spacing="2w">
           <Text marginTop="2w">
-            Nous avons pu identifier votre UAI dans le référentiel des organismes de formation. Cependant, votre numéro
-            UAI semble déjà associé à un compte existant.
+            Nous avons pu identifier votre UAI dans le{" "}
+            <Link target="_blank" rel="noopener noreferrer" href={REFERENTIEL_URL} fontWeight="700" color="bluefrance">
+              référentiel des organismes de formation
+            </Link>
+            . Cependant, votre numéro UAI semble déjà associé à un compte existant.
           </Text>
           <Text marginTop="2w">
             Veuillez contacter le support via{" "}
