@@ -9,8 +9,8 @@ import { INSCRIPTION_FORM_STATE } from "./InscriptionFormStates.js";
 import useSubmitInscription from "./useSubmitInscription.js";
 
 const InscriptionFormBlock = ({ organisme }) => {
-  const { formState, submitInscription } = useSubmitInscription();
   const { uai, siret, siren, nom_etablissement, nature, adresse, reseaux, academie, region } = organisme;
+  const { formState, submitInscription } = useSubmitInscription({ uai, siret, nom_etablissement });
 
   return (
     <>
