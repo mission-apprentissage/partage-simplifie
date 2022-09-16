@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
 
 import { FranceLocalization } from "../../../theme/components/icons/FranceLocalization.js";
-import { CONTACT_ADDRESS, PRODUCT_FULL_NAME, PRODUCT_NAME } from "../../constants/product.js";
+import { CONTACT_ADDRESS, PRODUCT_FULL_NAME, PRODUCT_NAME, TDB_URL } from "../../constants/product.js";
 import Highlight from "../Highlight/Highlight.js";
 
 const ProductHeader = () => {
@@ -27,9 +27,9 @@ const ProductHeader = () => {
       </Box>
       <Highlight marginTop="4w">
         {PRODUCT_NAME} est un nouveau service du{" "}
-        <Text as="span" textDecoration="underline" fontWeight="500">
+        <Link target="_blank" rel="noopener noreferrer" href={TDB_URL} textDecoration="underline" fontWeight="500">
           Tableau de bord
-        </Text>{" "}
+        </Link>{" "}
         en cours de <br /> développement. Pour faire évoluer ce service, aidez-nous à l’améliorer en <br /> nous
         contactant à{" "}
         <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">

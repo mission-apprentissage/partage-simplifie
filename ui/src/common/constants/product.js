@@ -15,3 +15,5 @@ export const EXPLANATION_FILE = {
   EXTENSION: "PDF",
   PATH: "http://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ComprendreLesDonneesRecoltees.pdf",
 };
+
+export const TDB_URL = "https://cfas.apprentissage.beta.gouv.fr/";
