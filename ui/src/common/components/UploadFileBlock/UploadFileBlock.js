@@ -4,7 +4,7 @@ import { CONTACT_ADDRESS } from "../../constants/product.js";
 
 const UploadFileBlock = () => {
   return (
-    <Box width="70%" backgroundColor="#E3E3FD" marginTop="6w" padding="4w">
+    <Box width="70%" background="#E3E3FD" marginTop="6w" padding="4w">
       <Text fontSize="gamma" fontWeight="bold" color="bluefrance">
         Transmettre le document de dépôt de vos données
       </Text>
@@ -34,12 +34,12 @@ const UploadFileBlock = () => {
       </Stack>
 
       <Box marginTop="4w">
-        <input backgroundColor="white" type="file" id="dataFile" name="dataFile" accept=".csv"></input>
+        <input type="file" id="dataFile" name="dataFile" accept=".csv"></input>
       </Box>
 
       <Box marginTop="4w">
         <Text marginBottom="8px">Si besoin laissez un commentaire : </Text>
-        <Input backgroundColor="white" placeholder="" size="sm" />
+        <Input background="white" placeholder="" size="sm" />
       </Box>
 
       <Button variant="primary" marginTop="4w">
