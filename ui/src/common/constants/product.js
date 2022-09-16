@@ -17,3 +17,5 @@ export const EXPLANATION_FILE = {
 };
 
 export const TDB_URL = "https://cfas.apprentissage.beta.gouv.fr/";
+export const TDB_FAQ_URL =
+  "https://cfas.apprentissage.beta.gouv.fr/questions-reponses/comment-fonctionne-le-tableau-de-bord";
