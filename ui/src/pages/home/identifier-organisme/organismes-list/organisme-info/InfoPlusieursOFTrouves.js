@@ -1,5 +1,7 @@
-import { Box, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+
+import { REFERENTIEL_URL } from "../../../../../common/constants/product.js";
 
 const InfoPlusieursOFTrouves = ({ uai }) => (
   <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w">
@@ -13,8 +15,12 @@ const InfoPlusieursOFTrouves = ({ uai }) => (
       <HStack>
         <Box as="i" color="#0D6635" fontSize="alpha" className="ri-checkbox-circle-fill" marginRight="2w" />
         <Text fontSize="delta" color="#0D6635" fontWeight="bold" marginTop="2w">
-          Nous avons pu identifier votre UAI dans le référentiel des organismes de formation. Cependant, votre numéro
-          UAI semble correspondre avec plusieurs SIRET. Pourriez-vous confirmer votre établissement parmi cette liste ?
+          Nous avons pu identifier votre UAI dans le{" "}
+          <Link target="_blank" rel="noopener noreferrer" href={REFERENTIEL_URL} fontWeight="700" color="bluefrance">
+            référentiel des organismes de formation
+          </Link>
+          . Cependant, votre numéro UAI semble correspondre avec plusieurs SIRET. Pourriez-vous confirmer votre
+          établissement parmi cette liste ?
         </Text>
       </HStack>
     </Stack>

@@ -1,7 +1,7 @@
 import { Box, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-import { CONTACT_ADDRESS } from "../../../../common/constants/product.js";
+import { CONTACT_ADDRESS, REFERENTIEL_URL } from "../../../../common/constants/product.js";
 
 const AlerteUaiNonTrouve = ({ uai }) => (
   <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w">
@@ -16,8 +16,11 @@ const AlerteUaiNonTrouve = ({ uai }) => (
         <Box as="i" color="#B60000" fontSize="alpha" className="ri-close-circle-fill" marginRight="2w" />
         <Stack fontSize="delta" color="#B60000" fontWeight="bold" spacing="2w">
           <Text marginTop="2w">
-            Nous n’avons pas pu trouver votre établissement dans le référentiel des organismes de formation. Par
-            conséquent, le service Partage Simplifié ne peut pas être utilisé.
+            Nous n’avons pas pu trouver votre établissement dans le{" "}
+            <Link target="_blank" rel="noopener noreferrer" href={REFERENTIEL_URL} fontWeight="700" color="bluefrance">
+              référentiel des organismes de formation
+            </Link>
+            . Par conséquent, le service Partage Simplifié ne peut pas être utilisé.
           </Text>
           <Text marginTop="2w">
             Veuillez contacter le support via{" "}
