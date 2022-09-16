@@ -17,7 +17,7 @@ import { useState } from "react";
 import * as Yup from "yup";
 
 import { getExistingUser } from "../../../common/api/api.js";
-import { CONTACT_ADDRESS } from "../../../common/constants/product.js";
+import { CONTACT_ADDRESS, TDB_FAQ_URL } from "../../../common/constants/product.js";
 import { REGIONS } from "../../../common/constants/territoireConstants.js";
 
 // Add sequence mecanism for Yup
@@ -266,8 +266,10 @@ const InscriptionForm = ({ onSubmit }) => {
                     </HStack>
                     <Text fontSize="omega" marginTop="4w">
                       Le Tableau de bord de l’apprentissage collecte les données des organismes de formation selon le
-                      principe de minimisation des données. Pour en savoir plus, veuillez consulter la page d’aide du
-                      Tableau de bord.
+                      principe de minimisation des données. Pour en savoir plus,{" "}
+                      <Link target="_blank" rel="noopener noreferrer" href={TDB_FAQ_URL} color="bluefrance">
+                        veuillez consulter la page d’aide du Tableau de bord.
+                      </Link>
                     </Text>
                     <FormErrorMessage>{meta.error}</FormErrorMessage>
                   </FormControl>
