@@ -8,11 +8,19 @@ describe("createUserToken", () => {
     const testRole = "testRole";
     const testEmail = "testEmail@test.fr";
     const testEtablissement = "testEtablissement";
+    const testUai = "0000000X";
+    const testSiret = "19921500500018";
+    const testAdresse = "ISTELI Lille 12 rue de la paix 59100 LILLE";
+    const testOutilsGestion = ["outil1", "outil2"];
 
     const user = {
       role: testRole,
       email: testEmail,
       nom_etablissement: testEtablissement,
+      uai: testUai,
+      siret: testSiret,
+      adresse: testAdresse,
+      outils_gestion: testOutilsGestion,
     };
 
     const token = createUserToken(user);
@@ -24,6 +32,10 @@ describe("createUserToken", () => {
     assert.equal(decoded.iss === config.appName, true);
     assert.equal(decoded.role === testRole, true);
     assert.equal(decoded.nom_etablissement === testEtablissement, true);
+    assert.equal(decoded.uai === testUai, true);
+    assert.equal(decoded.siret === testSiret, true);
+    assert.equal(decoded.adresse === testAdresse, true);
+    assert.deepEqual(decoded.outils_gestion, testOutilsGestion);
   });
 
   it("ne crée pas un token pour un utilisateur valide si le JWT_SECRET n'est pas bon", () => {
