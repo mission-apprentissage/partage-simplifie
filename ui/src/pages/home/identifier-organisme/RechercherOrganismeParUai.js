@@ -58,7 +58,7 @@ const RechercherOrganismeParUaiBlock = ({ submitSearchOrganismeParUai, setFormSt
             color="bluefrance"
             textDecoration="underline"
           >
-            Je ne connais pas mon UAI
+            Je n&apos;identifie pas mon organisme
           </Link>
         </Stack>
       </Box>
