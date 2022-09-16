@@ -19,7 +19,6 @@ const useSubmitInscription = ({ uai, siret, nom_etablissement }) => {
       const formValues = { ...formData, ...{ uai, siret, nom_etablissement } };
 
       // Appel à l'API pour envoi des données
-      console.log(JSON.stringify(formValues));
       const { message } = await postRegister(formValues);
 
       if (message === "success") {
