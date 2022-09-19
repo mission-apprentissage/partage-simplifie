@@ -5,10 +5,18 @@ export const createIndexes = async () => {
   await new BaseIndexer(COLLECTIONS_NAMES.UserEvents, COLLECTIONS_INDEXS.UserEvents).createIndexs();
   await new BaseIndexer(COLLECTIONS_NAMES.JobEvents, COLLECTIONS_INDEXS.JobEvents).createIndexs();
   await new BaseIndexer(COLLECTIONS_NAMES.Users, COLLECTIONS_INDEXS.Users).createIndexs();
+  await new BaseIndexer(
+    COLLECTIONS_NAMES.DemandesActivationCompte,
+    COLLECTIONS_INDEXS.DemandesActivationCompte
+  ).createIndexs();
 };
 
 export const dropIndexes = async () => {
   await new BaseIndexer(COLLECTIONS_NAMES.UserEvents, COLLECTIONS_INDEXS.UserEvents).dropIndexs();
   await new BaseIndexer(COLLECTIONS_NAMES.JobEvents, COLLECTIONS_INDEXS.JobEvents).dropIndexs();
   await new BaseIndexer(COLLECTIONS_NAMES.Users, COLLECTIONS_INDEXS.Users).dropIndexs();
+  await new BaseIndexer(
+    COLLECTIONS_NAMES.DemandesActivationCompte,
+    COLLECTIONS_INDEXS.DemandesActivationCompte
+  ).dropIndexs();
 };
