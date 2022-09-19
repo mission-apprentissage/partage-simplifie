@@ -17,7 +17,7 @@ const Page404 = () => {
                 Page non trouvée
               </Heading>
               <Text color="grey.800" fontSize="zeta" marginBottom="2w">
-                La page que vous recherchez n’existe pas ou à été déplacée
+                La page que vous recherchez n’existe pas ou a été déplacée
               </Text>
 
               <Link
