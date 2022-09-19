@@ -23,18 +23,21 @@ const UploadFileBlock = () => {
     try {
       // TODO Waiting API Simulation
       await new Promise((r) => setTimeout(r, 3000));
+      // TODO Log file & comment
+      console.log(file);
+      console.log(`Comment : ${comment}`);
+      // TODO Sample Error
       throw new Error("test erreur");
       // setUploadModalConfirmState(UPLOAD_STATES.SUCCESS);
     } catch (err) {
       setUploadModalConfirmState(UPLOAD_STATES.ERROR);
+      // TODO Sample errors list
       setUploadErrors([
         { field: "champTest", message: "Le champ est vide" },
         { field: "champTest2", message: "Le champ n'est pas valide" },
       ]);
     } finally {
       onClose();
-      console.log(file);
-      console.log(`Comment : ${comment}`);
     }
   };
 
