@@ -48,7 +48,7 @@ export default ({ userEvents }) => {
           user_email: user.email,
           type: USER_EVENTS_TYPES.POST,
           action: uploadStatus,
-          data: { ...file, buffer: file.buffer.toString(), errorMessages }, // ajout de toString au buffer pour stockage du fichier dans la base
+          data: { ...file, buffer: file?.buffer?.toString(), errorMessages }, // ajout de toString au buffer pour stockage du fichier dans la base
         });
       }
     })
