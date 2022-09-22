@@ -23,9 +23,10 @@ export default ({ userEvents }) => {
     upload.single("donneesApprenantsFile"),
     tryCatch(async (req, res) => {
       const { user, file } = req;
+      const { comment } = req.body;
 
       let uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.INIT;
-      let errorMessages;
+      let errors = [];
 
       try {
         // TODO REPLACE RANDOM INT FOR TESTS
@@ -36,19 +37,24 @@ export default ({ userEvents }) => {
           uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.SUCCESS;
         } else {
           uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.ERROR;
-          errorMessages = ["erreur1", "erreur2"];
+          errors = [
+            { field: "champTest", message: "Le champ est vide" },
+            { field: "champTest2", message: "Le champ n'est pas valide" },
+          ];
         }
 
         // TODO Handle XLSX Data
-        return res.json({ message: uploadStatus });
+        // TODO Waiting API Simulation
+        await new Promise((r) => setTimeout(r, 3000));
+        return res.json({ message: uploadStatus, errors });
       } catch (err) {
-        return res.status(500).json({ message: "Could not upload file !" });
+        return res.status(500).json({ message: "Could not upload file !", errors });
       } finally {
         await userEvents.createUserEvent({
           user_email: user.email,
           type: USER_EVENTS_TYPES.POST,
           action: uploadStatus,
-          data: { ...file, buffer: file?.buffer?.toString(), errorMessages }, // ajout de toString au buffer pour stockage du fichier dans la base
+          data: { ...file, comment, buffer: file?.buffer?.toString(), errors }, // ajout de toString au buffer pour stockage du fichier dans la base
         });
       }
     })
