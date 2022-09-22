@@ -50,7 +50,6 @@ const SituationOrganismeModal = ({ isOpen, onClose }) => {
       createSignalementAnomalie.mutateAsync({ message, email });
     },
   });
-  console.log();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay />
