@@ -60,7 +60,7 @@ const UploadFileBlock = () => {
 
       <Stack>
         <Text fontSize="zeta" color="gray.600" marginTop="2w">
-          Important : Taille maximale du fichier : xx Mo. Formats supportés : .csv uniquement.
+          Important : Taille maximale du fichier : xx Mo. Formats supportés : .xlsx uniquement.
         </Text>
         <Text fontSize="zeta" color="gray.600" marginTop="2w">
           Un seul fichier possible.
@@ -75,7 +75,7 @@ const UploadFileBlock = () => {
       </Stack>
 
       <Box marginTop="4w">
-        <input type="file" name="file" accept=".csv" onChange={handleFileInput} />
+        <input type="file" name="file" accept=".xlsx" onChange={handleFileInput} />
       </Box>
 
       <Box marginTop="4w">
