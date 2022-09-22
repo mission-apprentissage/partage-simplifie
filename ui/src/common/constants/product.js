@@ -6,8 +6,8 @@ export const CONTACT_ADDRESS = "tableau-de-bord@apprentissage.beta.gouv.fr";
 
 export const TEMPLATE_FILE = {
   SIZE: "61,88",
-  EXTENSION: "CSV",
-  PATH: "http://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ModeleDepotDeDonnees.csv",
+  EXTENSION: "XLSX",
+  PATH: "http://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ModeleDepotDeDonnees.xlsx",
 };
 
 export const EXPLANATION_FILE = {
