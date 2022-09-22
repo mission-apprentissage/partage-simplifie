@@ -1,10 +1,11 @@
 import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 
-import { DownloadTemplateFile, Page, Section, SituationOrganisme, UploadFileBlock } from "../../common/components";
+import { DownloadTemplateFile, Page, Section, SituationOrganisme } from "../../common/components";
 import { PRODUCT_FULL_NAME, PRODUCT_NAME } from "../../common/constants/product";
 import useAuth from "../../common/hooks/useAuth.js";
 import { FranceLocalization } from "../../theme/components/icons/FranceLocalization.js";
+import UploadFileBlock from "./televersement/UploadFileBlock.js";
 
 const EspaceOrganismePage = () => {
   const [auth] = useAuth();

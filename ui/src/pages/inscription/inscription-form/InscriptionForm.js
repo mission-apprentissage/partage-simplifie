@@ -196,6 +196,9 @@ const InscriptionForm = ({ onSubmit }) => {
               <Field name="outils_gestion">
                 {({ meta }) => (
                   <FormControl isInvalid={meta.error && meta.touched}>
+                    <FormLabel marginTop="1w" color="grey.800">
+                      Quel outil de gestion utilisez-vous actuellement ?
+                    </FormLabel>
                     {OUTILS_DE_GESTION.map((item, index) => (
                       <HStack key={index} marginLeft="1w" spacing="2w" marginTop="2w">
                         <Field
@@ -222,8 +225,11 @@ const InscriptionForm = ({ onSubmit }) => {
               {showAutreOutilGestion === true && (
                 <Field name="autre_outil_gestion">
                   {({ field, meta }) => (
-                    <FormControl isRequired isInvalid={meta.error && meta.touched}>
+                    <FormControl isInvalid={meta.error && meta.touched}>
                       <Stack spacing="1w">
+                        <FormLabel marginTop="1w" color="grey.800">
+                          Veuillez préciser lequel (ou lesquels)
+                        </FormLabel>
                         <Input {...field} id={field.name} width="50%" placeholder="" />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </Stack>
