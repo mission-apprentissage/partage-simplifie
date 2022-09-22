@@ -74,41 +74,41 @@ const UploadFileBlock = () => {
         </Text>
       </Stack>
 
-      <Box marginTop="4w">
-        <input type="file" name="file" accept=".xlsx" onChange={handleFileInput} />
-      </Box>
-
-      <Box marginTop="4w">
-        <Text marginBottom="8px">Si besoin laissez un commentaire : </Text>
-        <Input
-          id="commentaire"
-          name="commentaire"
-          background="white"
-          placeholder=""
-          size="sm"
-          onInput={(e) => setComment(e.target.value)}
-        />
-      </Box>
-
-      <Button
-        type="submit"
-        onClick={() => {
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
           setUploadModalConfirmState(UPLOAD_STATES.INITIAL);
           onOpen();
         }}
-        variant="primary"
-        marginTop="4w"
       >
-        Valider
-      </Button>
+        <Box marginTop="4w">
+          <input required type="file" name="file" accept=".xlsx" onChange={handleFileInput} />
+        </Box>
 
-      <TeleversementConfirmModal
-        file={file}
-        isOpen={isOpen}
-        onClose={onClose}
-        formState={uploadModalConfirmState}
-        submitUpload={submitUpload}
-      />
+        <Box marginTop="4w">
+          <Text marginBottom="8px">Si besoin laissez un commentaire : </Text>
+          <Input
+            id="commentaire"
+            name="commentaire"
+            background="white"
+            placeholder=""
+            size="sm"
+            onInput={(e) => setComment(e.target.value)}
+          />
+        </Box>
+
+        <Button type="submit" variant="primary" marginTop="4w">
+          Valider
+        </Button>
+
+        <TeleversementConfirmModal
+          file={file}
+          isOpen={isOpen}
+          onClose={onClose}
+          formState={uploadModalConfirmState}
+          submitUpload={submitUpload}
+        />
+      </form>
     </Box>
   );
 };
