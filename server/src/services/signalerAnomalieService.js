@@ -3,7 +3,7 @@ import { COLLECTIONS_NAMES } from "../model/collections/index.js";
 import { dbCollection } from "../model/db/mongodbClient.js";
 
 /**
- * Création d'une demande d'activation de compte
+ * Création d'un message de signalement d'anomalie
  * @param {*} param0
  * @returns
  */

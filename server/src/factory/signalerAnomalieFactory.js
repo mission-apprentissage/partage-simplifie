@@ -3,7 +3,7 @@ import { BaseFactory } from "./baseFactory.js";
 
 export class SignalerAnomalieFactory extends BaseFactory {
   /**
-   * Crée une demande d'activation de compte entité à partir de props
+   * Crée un message de signalement d'anomalie entité à partir de props
    * @param {*} props
    * @returns
    */
