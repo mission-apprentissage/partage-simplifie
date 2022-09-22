@@ -23,9 +23,14 @@ const DetailOFTrouve = ({ setShowOFNotIdentified, isDefaultOpened = false, organ
         _hover={{ background: "galt_hover" }}
       >
         <Flex minWidth="max-content" alignItems="center">
-          <Text fontSize="gamma">
-            <strong>{nom_etablissement}</strong> - UAI : {uai} - SIRET {siret}
-          </Text>
+          <Stack>
+            <Text fontSize="gamma" fontWeight="bold">
+              {nom_etablissement}
+            </Text>
+            <Text fontSize="gamma">
+              • UAI : {uai} - SIRET {siret}
+            </Text>
+          </Stack>
           <Spacer />
           <Box
             as="i"
