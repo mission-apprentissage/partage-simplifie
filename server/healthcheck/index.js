@@ -4,7 +4,7 @@ import axios from "axios";
 const isTrue = (v) => v === true;
 
 axios
-  .get("http://localhost:5000/api/healthcheck")
+  .get("http://localhost/api/healthcheck")
   .then((response) => {
     if (response.status === 200 && Object.values(response.data.healthcheck).every(isTrue)) {
       console.log("healthcheck passed!");
