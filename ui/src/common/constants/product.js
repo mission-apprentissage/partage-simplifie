@@ -5,13 +5,13 @@ export const PRODUCT_FULL_NAME = "Partage Simplifié par Tableau de bord de l'ap
 export const CONTACT_ADDRESS = "tableau-de-bord@apprentissage.beta.gouv.fr";
 
 export const TEMPLATE_FILE = {
-  SIZE: "61,88",
+  SIZE: "16",
   EXTENSION: "XLSX",
   PATH: "http://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ModeleDepotDeDonnees.xlsx",
 };
 
 export const EXPLANATION_FILE = {
-  SIZE: "XX",
+  SIZE: "53",
   EXTENSION: "PDF",
   PATH: "http://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ComprendreLesDonneesRecoltees.pdf",
 };
