@@ -36,11 +36,13 @@ const SituationOrganisme = ({ uai, nomEtablissement, adresse, siret, outilsGesti
           </HStack>
         )}
 
-        {showSendAnomalie === true && (
-          <Button width="40%" variant="secondary" marginTop="1w" onClick={onOpen}>
-            Signaler une anomalie
-          </Button>
-          // TODO : Put modal here
+        {showSendAnomalie && (
+          <>
+            <Button width="40%" variant="secondary" marginTop="1w" onClick={onOpen}>
+              Signaler une anomalie
+            </Button>
+            <SituationOrganismeModal isOpen={isOpen} onClose={onClose} />
+          </>
         )}
       </Stack>
     </Box>

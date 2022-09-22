@@ -14,6 +14,7 @@ import organismesRouter from "./routes/organismes.route.js";
 import demandesActivationCompteRouter from "./routes/demandesActivationCompte.route.js";
 import donneesApprenantsRouter from "./routes/donneesApprenants.js";
 import ofRouter from "./routes/of.route.js";
+import signalerAnomalieRouter from "./routes/signalerAnomalie.route.js";
 
 import { ROLES } from "../common/constants/roles.js";
 
@@ -33,6 +34,7 @@ export default async (services) => {
   app.use("/api/register", registerRouter(services));
   app.use("/api/user", userRouter(services));
   app.use("/api/organismes", organismesRouter(services));
+  app.use("/api/signalerAnomalie", signalerAnomalieRouter(services));
   app.use("/api/demandes-activation-compte", demandesActivationCompteRouter(services));
 
   // admin routes
