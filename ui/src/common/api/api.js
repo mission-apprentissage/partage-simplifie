@@ -90,3 +90,12 @@ export const postRegister = async (values) => {
   const URL = `/api/register`;
   return await _post(URL, values);
 };
+
+/**
+ * Route d'API pour la récupération de l'historique de téléversement
+ * @returns
+ */
+export const getUploadHistory = async () => {
+  const URL = `/api/of/upload-history`;
+  return await _get(URL);
+};
