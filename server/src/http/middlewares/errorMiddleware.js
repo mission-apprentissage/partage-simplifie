@@ -19,6 +19,6 @@ export default () => {
       });
     }
 
-    return res.status(error.output.statusCode).send(error.output.payload);
+    return res.status(error.output.statusCode).send({ ...error.output.payload, message: error.message });
   };
 };
