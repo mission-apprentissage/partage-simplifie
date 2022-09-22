@@ -46,6 +46,7 @@
     "migrate-mongo": "9.0.0",
     "mockdate": "3.0.5",
     "mongodb": "4.9.0",
+    "multer": "1.4.5-lts.1",
     "oleoduc": "0.7.0",
     "passport": "0.5.2",
     "passport-jwt": "4.0.0",

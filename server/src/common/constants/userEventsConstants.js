@@ -19,4 +19,9 @@ export const USER_EVENTS_ACTIONS = {
   USERS: {
     GET_ALL: "get-all",
   },
+  UPLOAD: {
+    INIT: "upload-init",
+    SUCCESS: "upload-success",
+    ERROR: "upload-error",
+  },
 };
