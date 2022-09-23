@@ -1,8 +1,10 @@
 import { Box, Button, HStack, Input, Link, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 
 import { uploadDonneesApprenantsFile } from "../../../common/api/api.js";
 import { CONTACT_ADDRESS } from "../../../common/constants/product.js";
+import { QUERY_KEYS } from "../../../common/constants/queryKeys.js";
 import TeleversementConfirmModal from "./TeleversementConfirmModal.js";
 import UploadFileErrors from "./UploadFileErrors.js";
 import UploadFileSuccess from "./UploadFileSuccess.js";
@@ -15,6 +17,7 @@ const UploadFileBlock = () => {
   const [comment, setComment] = useState(null);
   const [uploadModalConfirmState, setUploadModalConfirmState] = useState(UPLOAD_STATES.INITIAL);
   const [uploadErrors, setUploadErrors] = useState([]);
+  const queryClient = useQueryClient();
 
   const handleFileInput = (e) => setFile(e.target.files[0]);
 
@@ -33,6 +36,7 @@ const UploadFileBlock = () => {
       setUploadModalConfirmState(UPLOAD_STATES.ERROR);
     } finally {
       onClose();
+      queryClient.invalidateQueries([QUERY_KEYS.UPLOAD_HISTORY]);
     }
   };
 
