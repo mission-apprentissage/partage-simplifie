@@ -33,7 +33,7 @@ const UploadHistoryList = () => {
         </Stack>
       )}
 
-      {data && !error && !isLoading && (
+      {data?.uploadHistoryList.length > 0 && !error && !isLoading && (
         <Box color="black">
           <Heading marginBottom="2w" fontSize="28px">
             Historique de vos fichiers transmis
