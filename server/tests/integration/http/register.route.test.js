@@ -15,6 +15,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -23,6 +24,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     const foundInDb = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ email: testEmail });
@@ -35,6 +37,7 @@ describe("API Route Register", () => {
     assert.equal(foundInDb.nom === testNom, true);
     assert.equal(foundInDb.prenom === testPrenom, true);
     assert.equal(foundInDb.fonction === testFonction, true);
+    assert.equal(foundInDb.region === testRegion, true);
     assert.equal(foundInDb.role === ROLES.OF, true);
 
     const userEventFoundInDb = await dbCollection(COLLECTIONS_NAMES.UserEvents).findOne({ user_email: testEmail });
@@ -98,6 +101,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       uai: testUai,
@@ -105,6 +109,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -119,6 +124,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -127,6 +133,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -140,6 +147,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -147,6 +155,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -161,6 +170,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -169,6 +179,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -182,6 +193,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -189,6 +201,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -203,6 +216,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -211,6 +225,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -224,6 +239,7 @@ describe("API Route Register", () => {
     const testSiret = "19921500500018";
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -231,6 +247,7 @@ describe("API Route Register", () => {
       siret: testSiret,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -245,6 +262,7 @@ describe("API Route Register", () => {
     const testNom = 123;
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -253,6 +271,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -268,6 +287,7 @@ describe("API Route Register", () => {
     const testNomEtablissement = 123;
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -277,6 +297,7 @@ describe("API Route Register", () => {
       nom_etablissement: testNomEtablissement,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -290,14 +311,15 @@ describe("API Route Register", () => {
     const testSiret = "19921500500018";
     const testNom = "MBAPPE";
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
       uai: testUai,
       siret: testSiret,
       nom: testNom,
-
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -312,6 +334,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = 123;
     const testFonction = "Directeur";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -320,6 +343,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -333,6 +357,7 @@ describe("API Route Register", () => {
     const testSiret = "19921500500018";
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -340,6 +365,7 @@ describe("API Route Register", () => {
       siret: testSiret,
       nom: testNom,
       prenom: testPrenom,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -354,6 +380,7 @@ describe("API Route Register", () => {
     const testNom = "MBAPPE";
     const testPrenom = "Kylian";
     const testFonction = 123;
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -362,6 +389,7 @@ describe("API Route Register", () => {
       nom: testNom,
       prenom: testPrenom,
       fonction: testFonction,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -391,6 +419,26 @@ describe("API Route Register", () => {
     assert.equal(response.status, 400);
   });
 
+  it("Vérifie qu'on ne peut s'inscrire si la région est manquante", async () => {
+    const { httpClient } = await startServer();
+
+    const testEmail = "testCfa@test.fr";
+    const testUai = "0000000X";
+    const testSiret = "19921500500018";
+    const testNom = "MBAPPE";
+    const testPrenom = "Kylian";
+
+    const response = await httpClient.post("/api/register", {
+      email: testEmail,
+      uai: testUai,
+      siret: testSiret,
+      nom: testNom,
+      prenom: testPrenom,
+    });
+
+    assert.equal(response.status, 400);
+  });
+
   it("Vérifie qu'on ne peut s'inscrire si le téléphone est au mauvais format", async () => {
     const { httpClient } = await startServer();
 
@@ -401,6 +449,7 @@ describe("API Route Register", () => {
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
     const testTelephone = 123;
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -410,6 +459,7 @@ describe("API Route Register", () => {
       prenom: testPrenom,
       fonction: testFonction,
       telephone: testTelephone,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
@@ -425,6 +475,7 @@ describe("API Route Register", () => {
     const testPrenom = "Kylian";
     const testFonction = "Directeur";
     const testOutilsGestion = 123;
+    const testRegion = "Ma région";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -434,6 +485,7 @@ describe("API Route Register", () => {
       prenom: testPrenom,
       fonction: testFonction,
       outils_gestion: testOutilsGestion,
+      region: testRegion,
     });
 
     assert.equal(response.status, 400);
