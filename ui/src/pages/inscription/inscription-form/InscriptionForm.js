@@ -97,7 +97,7 @@ const InscriptionForm = ({ onSubmit }) => {
             }),
         ]),
 
-        telephone: Yup.string().required("Requis"),
+        telephone: Yup.string(),
         region: Yup.string(),
         is_consentement_ok: Yup.boolean()
           .required(
@@ -183,7 +183,7 @@ const InscriptionForm = ({ onSubmit }) => {
 
               <Field name="telephone">
                 {({ field, meta }) => (
-                  <FormControl isRequired isInvalid={meta.error && meta.touched}>
+                  <FormControl isInvalid={meta.error && meta.touched}>
                     <Stack spacing="1w">
                       <FormLabel color="grey.800">Téléphone :</FormLabel>
                       <Input {...field} id={field.name} width="50%" placeholder="" />
