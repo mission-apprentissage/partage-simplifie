@@ -21,7 +21,7 @@ export default ({ users, userEvents }) => {
         nom_etablissement: Joi.string().allow("", null),
         prenom: Joi.string().required(),
         fonction: Joi.string().required(),
-        region: Joi.string().allow(null, ""),
+        region: Joi.string().required(),
         telephone: Joi.string().allow(null, ""),
         outils_gestion: Joi.array().items(Joi.string()).allow(null),
       })
