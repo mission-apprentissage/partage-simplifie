@@ -98,7 +98,7 @@ const InscriptionForm = ({ onSubmit }) => {
         ]),
 
         telephone: Yup.string(),
-        region: Yup.string(),
+        region: Yup.string().required("Requis"),
         is_consentement_ok: Yup.boolean()
           .required(
             "Vous devez consentir à l'utilisation de vos données dans le cadre de la mission du Tableau de bord."
@@ -240,11 +240,11 @@ const InscriptionForm = ({ onSubmit }) => {
 
               <Field name="region">
                 {({ field, meta }) => (
-                  <FormControl isInvalid={meta.error && meta.touched}>
+                  <FormControl isRequired isInvalid={meta.error && meta.touched}>
                     <FormLabel color="grey.800">Région :</FormLabel>
                     <Select {...field} width="50%">
                       {[{ nom: "Sélectionnez une région" }, ...REGIONS].map((region, index) => (
-                        <option key={index} value={region.nom}>
+                        <option key={index} value={region.nom === "Sélectionnez une région" ? null : region.nom}>
                           {region.nom}
                         </option>
                       ))}
