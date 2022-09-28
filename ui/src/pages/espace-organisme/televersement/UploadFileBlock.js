@@ -1,7 +1,10 @@
 import { Box, Button, HStack, Input, Link, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 
+import { uploadDonneesApprenantsFile } from "../../../common/api/api.js";
 import { CONTACT_ADDRESS } from "../../../common/constants/product.js";
+import { QUERY_KEYS } from "../../../common/constants/queryKeys.js";
 import TeleversementConfirmModal from "./TeleversementConfirmModal.js";
 import UploadFileErrors from "./UploadFileErrors.js";
 import UploadFileSuccess from "./UploadFileSuccess.js";
@@ -14,6 +17,7 @@ const UploadFileBlock = () => {
   const [comment, setComment] = useState(null);
   const [uploadModalConfirmState, setUploadModalConfirmState] = useState(UPLOAD_STATES.INITIAL);
   const [uploadErrors, setUploadErrors] = useState([]);
+  const queryClient = useQueryClient();
 
   const handleFileInput = (e) => setFile(e.target.files[0]);
 
@@ -21,23 +25,18 @@ const UploadFileBlock = () => {
     setUploadModalConfirmState(UPLOAD_STATES.LOADING);
 
     try {
-      // TODO Waiting API Simulation
-      await new Promise((r) => setTimeout(r, 3000));
-      // TODO Log file & comment
-      console.log(file);
-      console.log(`Comment : ${comment}`);
-      // TODO Sample Error
-      throw new Error("test erreur");
-      // setUploadModalConfirmState(UPLOAD_STATES.SUCCESS);
+      const { errors } = await uploadDonneesApprenantsFile(file, comment);
+      if (errors.length > 0) {
+        setUploadErrors(errors);
+        setUploadModalConfirmState(UPLOAD_STATES.ERROR);
+      } else {
+        setUploadModalConfirmState(UPLOAD_STATES.SUCCESS);
+      }
     } catch (err) {
       setUploadModalConfirmState(UPLOAD_STATES.ERROR);
-      // TODO Sample errors list
-      setUploadErrors([
-        { field: "champTest", message: "Le champ est vide" },
-        { field: "champTest2", message: "Le champ n'est pas valide" },
-      ]);
     } finally {
       onClose();
+      queryClient.invalidateQueries([QUERY_KEYS.UPLOAD_HISTORY]);
     }
   };
 
@@ -74,41 +73,41 @@ const UploadFileBlock = () => {
         </Text>
       </Stack>
 
-      <Box marginTop="4w">
-        <input type="file" name="file" accept=".xlsx" onChange={handleFileInput} />
-      </Box>
-
-      <Box marginTop="4w">
-        <Text marginBottom="8px">Si besoin laissez un commentaire : </Text>
-        <Input
-          id="commentaire"
-          name="commentaire"
-          background="white"
-          placeholder=""
-          size="sm"
-          onInput={(e) => setComment(e.target.value)}
-        />
-      </Box>
-
-      <Button
-        type="submit"
-        onClick={() => {
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
           setUploadModalConfirmState(UPLOAD_STATES.INITIAL);
           onOpen();
         }}
-        variant="primary"
-        marginTop="4w"
       >
-        Valider
-      </Button>
+        <Box marginTop="4w">
+          <input required type="file" name="file" accept=".xlsx" onChange={handleFileInput} />
+        </Box>
 
-      <TeleversementConfirmModal
-        file={file}
-        isOpen={isOpen}
-        onClose={onClose}
-        formState={uploadModalConfirmState}
-        submitUpload={submitUpload}
-      />
+        <Box marginTop="4w">
+          <Text marginBottom="8px">Si besoin laissez un commentaire : </Text>
+          <Input
+            id="commentaire"
+            name="commentaire"
+            background="white"
+            placeholder=""
+            size="sm"
+            onInput={(e) => setComment(e.target.value)}
+          />
+        </Box>
+
+        <Button type="submit" variant="primary" marginTop="4w">
+          Valider
+        </Button>
+
+        <TeleversementConfirmModal
+          file={file}
+          isOpen={isOpen}
+          onClose={onClose}
+          formState={uploadModalConfirmState}
+          submitUpload={submitUpload}
+        />
+      </form>
     </Box>
   );
 };

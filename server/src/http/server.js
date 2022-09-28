@@ -12,6 +12,8 @@ import usersRouter from "./routes/users.route.js";
 import userRouter from "./routes/user.route.js";
 import organismesRouter from "./routes/organismes.route.js";
 import demandesActivationCompteRouter from "./routes/demandesActivationCompte.route.js";
+import donneesApprenantsRouter from "./routes/donneesApprenants.js";
+import ofRouter from "./routes/of.route.js";
 
 import { ROLES } from "../common/constants/roles.js";
 
@@ -20,6 +22,7 @@ export default async (services) => {
 
   const requireAuthentication = requireJwtAuthentication(services);
   const adminOnly = rolesMiddleware(ROLES.ADMINISTRATOR);
+  const ofOnly = rolesMiddleware(ROLES.OF);
 
   app.use(bodyParser.json());
   app.use(logMiddleware());
@@ -34,6 +37,10 @@ export default async (services) => {
 
   // admin routes
   app.use("/api/users", requireAuthentication, adminOnly, usersRouter(services));
+
+  // user OF routes
+  app.use("/api/of", requireAuthentication, ofOnly, ofRouter(services));
+  app.use("/api/donnees-apprenants", requireAuthentication, ofOnly, donneesApprenantsRouter(services));
 
   app.use(errorMiddleware());
 

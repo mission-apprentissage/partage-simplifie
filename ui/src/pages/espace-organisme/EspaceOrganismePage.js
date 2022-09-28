@@ -5,6 +5,7 @@ import { DownloadTemplateFile, Page, Section, SituationOrganisme } from "../../c
 import { PRODUCT_FULL_NAME, PRODUCT_NAME } from "../../common/constants/product";
 import useAuth from "../../common/hooks/useAuth.js";
 import { FranceLocalization } from "../../theme/components/icons/FranceLocalization.js";
+import UploadHistoryList from "./historique-televersement/UploadHistoryList.js";
 import UploadFileBlock from "./televersement/UploadFileBlock.js";
 
 const EspaceOrganismePage = () => {
@@ -78,6 +79,7 @@ const EspaceOrganismePage = () => {
         </Box>
         <DownloadTemplateFile />
         <UploadFileBlock />
+        <UploadHistoryList />
       </Section>
     </Page>
   );

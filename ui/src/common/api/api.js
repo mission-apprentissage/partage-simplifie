@@ -1,4 +1,4 @@
-import { _get, _post } from "../httpClient.js";
+import { _get, _post, _postFormData } from "../httpClient.js";
 
 /**
  * Route API de Login
@@ -89,4 +89,28 @@ export const getExistingUser = async (email) => {
 export const postRegister = async (values) => {
   const URL = `/api/register`;
   return await _post(URL, values);
+};
+
+/**
+ * Route d'API pour la récupération de l'historique de téléversement
+ * @returns
+ */
+export const getUploadHistory = async () => {
+  const URL = `/api/of/upload-history`;
+  return await _get(URL);
+};
+
+/**
+ * Route d'API pour l'upload du fichier des données apprenants
+ * @param {*} email
+ * @returns
+ */
+export const uploadDonneesApprenantsFile = async (file, comment) => {
+  const URL = "/api/donnees-apprenants/upload";
+
+  var formData = new FormData();
+  formData.append("donneesApprenantsFile", file);
+  formData.append("comment", comment);
+
+  return await _postFormData(URL, formData);
 };
