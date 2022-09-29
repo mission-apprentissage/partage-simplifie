@@ -9,6 +9,7 @@ export const createIndexes = async () => {
     COLLECTIONS_NAMES.DemandesActivationCompte,
     COLLECTIONS_INDEXS.DemandesActivationCompte
   ).createIndexs();
+  await new BaseIndexer(COLLECTIONS_NAMES.DonneesApprenants, COLLECTIONS_INDEXS.DonneesApprenants).createIndexs();
 };
 
 export const dropIndexes = async () => {
@@ -19,4 +20,5 @@ export const dropIndexes = async () => {
     COLLECTIONS_NAMES.DemandesActivationCompte,
     COLLECTIONS_INDEXS.DemandesActivationCompte
   ).dropIndexs();
+  await new BaseIndexer(COLLECTIONS_NAMES.DonneesApprenants, COLLECTIONS_INDEXS.DonneesApprenants).dropIndexs();
 };

@@ -1,3 +1,7 @@
+import Joi from "joi";
+import { schema as uaiSchema } from "../domain/uai.js";
+import { schema as siretSchema } from "../domain/siret.js";
+
 export const DONNEES_APPRENANT_XLSX_FIELDS = {
   NomDuChamp: "Nom du champ",
   CFD: "CFD",
@@ -36,3 +40,34 @@ export const DONNEES_APPRENANT_XLSX_FILE = {
     DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation,
   ],
 };
+
+export const schema = Joi.object()
+  .keys({
+    user_email: Joi.string().email().required(),
+    user_uai: uaiSchema.required(),
+    user_siret: siretSchema.required(),
+    user_nom_etablissement: Joi.string().required(),
+
+    cfd: Joi.string().required(),
+    annee_scolaire: Joi.string().required(),
+    annee_formation: Joi.number().required(),
+    nom_apprenant: Joi.string().required(),
+    prenom_apprenant: Joi.string().required(),
+    date_de_naissance_apprenant: Joi.date().iso().required(),
+
+    code_rncp: Joi.string().allow("", null),
+    telephone_apprenant: Joi.string().allow("", null),
+    email_apprenant: Joi.string().email().allow("", null),
+    ine_apprenant: Joi.string().allow("", null),
+    code_commune_insee_apprenant: Joi.string().allow("", null),
+    date_inscription: Joi.date().iso().allow(null),
+    date_contrat: Joi.date().iso().allow(null),
+    date_sortie_formation: Joi.date().iso().allow(null),
+  })
+  .or("date_inscription", "date_contrat", "date_sortie_formation");
+
+const arraySchema = Joi.array().items(schema);
+
+export const validate = (donneesApprenant) => !schema.required().validate(donneesApprenant).error;
+
+export const validateList = (donneesApprenantList) => !arraySchema.required().validate(donneesApprenantList).error;

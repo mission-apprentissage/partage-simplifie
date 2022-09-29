@@ -2,8 +2,15 @@ import JobEventsSchema from "./jobEventsSchema.js";
 import UserEventsSchema from "./userEventsSchema.js";
 import UsersSchema from "./userSchema.js";
 import DemandeActivationCompteSchema from "./demandeActivationCompteSchema.js";
+import DonneesApprenantsSchema from "./donneesApprenantsSchema.js";
 
-export const COLLECTIONS_SCHEMAS = [JobEventsSchema, UserEventsSchema];
+export const COLLECTIONS_SCHEMAS = [
+  JobEventsSchema,
+  UserEventsSchema,
+  UsersSchema,
+  DemandeActivationCompteSchema,
+  DonneesApprenantsSchema,
+];
 
 export const COLLECTIONS_NAMES = {
   JobEvents: JobEventsSchema.name,
@@ -11,6 +18,7 @@ export const COLLECTIONS_NAMES = {
   Users: UsersSchema.name,
   Logs: "logs",
   DemandesActivationCompte: DemandeActivationCompteSchema.name,
+  DonneesApprenants: DonneesApprenantsSchema.name,
 };
 
 export const COLLECTIONS_INDEXS = {
@@ -18,4 +26,5 @@ export const COLLECTIONS_INDEXS = {
   UserEvents: UserEventsSchema.indexes,
   Users: UsersSchema.indexes,
   DemandesActivationCompte: DemandeActivationCompteSchema.indexes,
+  DonneesApprenants: DonneesApprenantsSchema.indexes,
 };
