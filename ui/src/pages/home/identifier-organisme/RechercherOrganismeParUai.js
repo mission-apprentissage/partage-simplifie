@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 
 import { AlertErrorBlock, DownloadExplanationFile, Highlight } from "../../../common/components";
+import RetourHomePageLink from "../../../common/components/RetourHomePageLink/RetourHomePageLink.js";
 import AlerteUaiNonConnu from "./alerts/AlerteUaiNonConnu.js";
 import AlerteUaiNonTrouve from "./alerts/AlerteUaiNonTrouve.js";
 import RechercherOrganismeParUaiForm from "./form/RechercherOrganismeParUaiForm.js";
@@ -31,9 +32,24 @@ const RechercherOrganismeParUai = () => {
               setFormState={setFormState}
             />
           )}
-          {formState === RECHERCHER_ORGANISME_FORM_STATE.ERROR && <AlertErrorBlock />}
-          {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN && <AlerteUaiNonConnu />}
-          {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_NOT_FOUND && <AlerteUaiNonTrouve uai={searchUai} />}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.ERROR && (
+            <>
+              <AlertErrorBlock />
+              <RetourHomePageLink />
+            </>
+          )}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_UNKNOWN && (
+            <>
+              <AlerteUaiNonConnu />
+              <RetourHomePageLink />
+            </>
+          )}
+          {formState === RECHERCHER_ORGANISME_FORM_STATE.UAI_NOT_FOUND && (
+            <>
+              <AlerteUaiNonTrouve uai={searchUai} />
+              <RetourHomePageLink />
+            </>
+          )}
           {formState === RECHERCHER_ORGANISME_FORM_STATE.ONE_OR_MANY_ORGANISMES_FOUND && (
             <ListOFTrouves organismes={organismesFound} searchUai={searchUai} />
           )}
