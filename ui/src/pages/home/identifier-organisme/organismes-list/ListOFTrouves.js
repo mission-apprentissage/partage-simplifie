@@ -2,6 +2,7 @@ import { Stack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
+import RetourHomePageLink from "../../../../common/components/RetourHomePageLink/RetourHomePageLink.js";
 import DetailOFTrouve from "./DetailOFTrouve.js";
 import AlertOFNotIdentified from "./organisme-alert/AlertOFNotIdentified.js";
 import InfoPlusieursOFTrouves from "./organisme-info/InfoPlusieursOFTrouves.js";
@@ -16,6 +17,7 @@ const ListOFTrouves = ({ searchUai, organismes }) => {
         <Stack spacing="4w">
           {organismes.length === 1 && <InfoUniqueOFTrouve uai={searchUai} />}
           {organismes.length > 1 && <InfoPlusieursOFTrouves uai={searchUai} />}
+          <RetourHomePageLink />
 
           {organismes.map((item, index) => (
             <DetailOFTrouve
@@ -28,7 +30,12 @@ const ListOFTrouves = ({ searchUai, organismes }) => {
         </Stack>
       )}
 
-      {showOFNotIdentified === true && <AlertOFNotIdentified uai={searchUai} />}
+      {showOFNotIdentified === true && (
+        <>
+          <AlertOFNotIdentified uai={searchUai} />
+          <RetourHomePageLink />
+        </>
+      )}
     </>
   );
 };
