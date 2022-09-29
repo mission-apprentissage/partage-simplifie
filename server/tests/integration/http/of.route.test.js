@@ -7,7 +7,7 @@ import { USER_EVENTS_ACTIONS, USER_EVENTS_TYPES } from "../../../src/common/cons
 
 describe("API Route User", () => {
   describe("GET /of/upload-history", () => {
-    it("renvoie une erreur HTTP 403 lorsque l'utilisateur n'est pas connecté", async () => {
+    it("renvoie une erreur HTTP 401 lorsque l'utilisateur n'est pas connecté", async () => {
       const { httpClient } = await startServer();
       const response = await httpClient.get("/api/of/upload-history", {});
 

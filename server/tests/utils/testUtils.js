@@ -1,4 +1,5 @@
 import axiosist from "axiosist";
+import request from "supertest";
 
 import { createServices } from "../../src/services/services.js";
 import server from "../../src/http/server.js";
@@ -10,6 +11,7 @@ export const startServer = async () => {
 
   const app = await server(services);
   const httpClient = axiosist(app);
+  const superTestHttpClient = request(app);
 
   const createAndLogUser = async (email, password, role, options) => {
     await services.users.createUser({ email, password, role, ...options });
@@ -23,6 +25,7 @@ export const startServer = async () => {
 
   return {
     httpClient,
+    superTestHttpClient,
     services,
     createAndLogUser,
   };
