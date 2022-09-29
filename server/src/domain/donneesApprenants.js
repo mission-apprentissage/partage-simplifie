@@ -1,0 +1,38 @@
+export const DONNEES_APPRENANT_XLSX_FIELDS = {
+  NomDuChamp: "Nom du champ",
+  CFD: "CFD",
+  CodeRNCP: "Code RNCP",
+  AnneeScolaire: "Année scolaire sur laquelle l'apprenant est positionné",
+  AnneeFormation: "Année de formation dans le cursus (1,2 ou 3)",
+  NomApprenant: "Nom de l'apprenant",
+  PrenomApprenant: "Prénom de l'apprenant",
+  DateDeNaissanceApprenant: "Date de naissance de l'apprenant",
+  TelephoneApprenant: "Téléphone de l'apprenant",
+  EmailApprenant: "Email de l'apprenant",
+  IneApprenant: "INE de l'apprenant",
+  CodeCommuneInseeApprenant: "Code commune INSEE de l'apprenant",
+  DateInscription: "Date d'inscription en formation sans contrat (soit initialement soit après une rupture de contrat)",
+  DateContrat: "Date de contrat",
+  DateSortieFormation: "Date de sortie de la formation : arrêt du contrat + de cette formation",
+};
+
+export const DONNEES_APPRENANT_XLSX_FILE = {
+  NB_LINES_TO_REMOVE: 4,
+  HEADERS: [
+    DONNEES_APPRENANT_XLSX_FIELDS.NomDuChamp,
+    DONNEES_APPRENANT_XLSX_FIELDS.CFD,
+    DONNEES_APPRENANT_XLSX_FIELDS.CodeRNCP,
+    DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire,
+    DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation,
+    DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant,
+    DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant,
+    DONNEES_APPRENANT_XLSX_FIELDS.TelephoneApprenant,
+    DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant,
+    DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant,
+    DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateInscription,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateContrat,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation,
+  ],
+};

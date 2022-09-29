@@ -4,7 +4,7 @@ import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
 import multer from "multer";
 import path from "path";
 
-export default ({ userEvents }) => {
+export default ({ userEvents, donneesApprenantsService }) => {
   const router = express.Router();
   const ALLOWED_FILE_EXTENSION = ".xlsx";
 
@@ -29,25 +29,12 @@ export default ({ userEvents }) => {
       let errors = [];
 
       try {
-        // TODO REPLACE RANDOM INT FOR TESTS
-        const getRandomInt = (max) => Math.floor(Math.random() * max);
-        const randomInt = getRandomInt(2);
-
-        if (randomInt > 0) {
-          uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.SUCCESS;
-        } else {
-          uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.ERROR;
-          errors = [
-            { field: "champTest", message: "Le champ est vide" },
-            { field: "champTest2", message: "Le champ n'est pas valide" },
-          ];
-        }
-
-        // TODO Handle XLSX Data
-        // TODO Waiting API Simulation
-        await new Promise((r) => setTimeout(r, 3000));
+        let { uploadStatus, errors } = await donneesApprenantsService.importDonneesApprenantsFromXlsxBuffer(
+          file?.buffer
+        );
         return res.json({ message: uploadStatus, errors });
       } catch (err) {
+        uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.ERROR;
         return res.status(500).json({ message: "Could not upload file !", errors });
       } finally {
         await userEvents.createUserEvent({
