@@ -1,15 +1,7 @@
 import { Box, Button, Heading, HStack, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-const SituationOrganisme = ({
-  uai,
-  nomEtablissement,
-  adresse,
-  siret,
-  outilsGestion,
-  showOutilGestionNotConnected = false,
-  showSendAnomalie = false,
-}) => {
+const SituationOrganisme = ({ uai, nomEtablissement, adresse, siret, outilsGestion, showSendAnomalie = false }) => {
   const { onOpen } = useDisclosure();
 
   return (
@@ -22,21 +14,6 @@ const SituationOrganisme = ({
             N° UAI responsable : {uai}
           </Text>
         </HStack>
-        <HStack>
-          <Box as="i" color="#B60000" fontSize="alpha" className="ri-close-circle-fill" marginRight="2w" />
-          <Text fontSize="delta" color="#B60000" fontWeight="bold" marginTop="2w">
-            Votre organisme ne transmet pas encore de données au Tableau de bord de l’apprentissage.
-          </Text>
-        </HStack>
-
-        {showOutilGestionNotConnected === true && (
-          <HStack>
-            <Box as="i" color="#B60000" fontSize="alpha" className="ri-close-circle-fill" marginRight="2w" />
-            <Text fontSize="delta" color="#B60000" fontWeight="bold" marginTop="2w">
-              Votre organisme n’est pas équipé d’un outil de gestion connecté.
-            </Text>
-          </HStack>
-        )}
 
         <HStack>
           <Box as="i" color="bluefrance" fontSize="alpha" className="ri-account-circle-fill" marginRight="2w" />
@@ -76,7 +53,6 @@ SituationOrganisme.propTypes = {
   adresse: PropTypes.string.isRequired,
   siret: PropTypes.string.isRequired,
   outilsGestion: PropTypes.string,
-  showOutilGestionNotConnected: PropTypes.bool,
   showSendAnomalie: PropTypes.bool,
 };
 
