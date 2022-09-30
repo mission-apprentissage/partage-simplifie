@@ -68,6 +68,30 @@ export const schema = Joi.object()
 
 const arraySchema = Joi.array().items(schema);
 
-export const validate = (donneesApprenant) => !schema.required().validate(donneesApprenant).error;
+export const getValidationResult = (donneesApprenant) =>
+  schema.required().validate(donneesApprenant, { abortEarly: false });
 
-export const validateList = (donneesApprenantList) => !arraySchema.required().validate(donneesApprenantList).error;
+export const getValidationResultFromList = (donneesApprenantList) =>
+  arraySchema.required().validate(donneesApprenantList, { abortEarly: false });
+
+export const getFormattedErrors = (error) => {
+  let errorsFormattedList = [];
+
+  // Récupération du nombre de lignes uniques en erreur
+  const uniqueErrorsPath = [...new Set(error.details.map((item) => item?.path[0]))];
+  const errorsLength = uniqueErrorsPath.length;
+
+  // Construction de la liste des couples "champs-type" pour chaque erreur de chaque ligne
+  for (let index = 0; index < errorsLength; index++) {
+    const errorsForLine = error.details.filter((item) => item?.path[0] === index);
+
+    let errorsDetails = [];
+    for (const key in errorsForLine) {
+      errorsDetails.push({ errorType: errorsForLine[key]?.type, errorField: errorsForLine[key]?.context?.key });
+    }
+
+    errorsFormattedList.push({ lineNumber: index + 1, errors: errorsDetails });
+  }
+
+  return errorsFormattedList;
+};
