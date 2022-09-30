@@ -3,6 +3,7 @@ import {
   getValidationResultFromList,
   getValidationResult,
   getFormattedErrors,
+  DONNEES_APPRENANT_XLSX_FIELDS,
 } from "../../../src/domain/donneesApprenants.js";
 import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesApprenantsXlsxMapper.js";
 import { createRandomXlsxDonneesApprenant } from "../../utils/data/createRandomDonneesApprenants.js";
@@ -59,6 +60,22 @@ describe("Domain DonneesApprenants", () => {
         user_nom_etablissement: "Super Etablissement",
       };
       const mappedInputWithUserFields = { ...mappedInputWithoutCfd, ...userFields };
+      const result = getValidationResult(mappedInputWithUserFields);
+      assert.ok(result.error);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user mais avec date de naissance invalide est invalide", () => {
+      const paramWithDateDeNaissanceInvalid = {};
+      paramWithDateDeNaissanceInvalid[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant] = "2004-01-10";
+      const input = createRandomXlsxDonneesApprenant(paramWithDateDeNaissanceInvalid);
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+      const mappedInputWithUserFields = { ...toDonneesApprenantsFromXlsx(input), ...userFields };
       const result = getValidationResult(mappedInputWithUserFields);
       assert.ok(result.error);
     });

@@ -1,4 +1,6 @@
 import { strict as assert } from "assert";
+import { format } from "date-fns";
+import { parseFormattedDate } from "../../../../src/domain/date.js";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../../../src/domain/donneesApprenants.js";
 import { toDonneesApprenantsFromXlsx } from "../../../../src/model/api/donneesApprenantsXlsxMapper.js";
 import { createRandomXlsxDonneesApprenant } from "../../../utils/data/createRandomDonneesApprenants.js";
@@ -43,8 +45,10 @@ describe("Mapper DonneesApprenantsXlsx", () => {
         true
       );
       assert.equal(
-        mappedDonneesApprenant.date_de_naissance_apprenant ===
-          randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant],
+        mappedDonneesApprenant.date_de_naissance_apprenant.getTime() ===
+          parseFormattedDate(
+            randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]
+          ).getTime(),
         true
       );
     });
@@ -56,9 +60,23 @@ describe("Mapper DonneesApprenantsXlsx", () => {
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant] = "test@email.fr";
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant] = "111111111XX";
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant] = "31555";
-      optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = new Date("2022-10-01");
-      optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] = new Date("2022-10-03");
-      optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] = new Date("2022-10-10");
+
+      const DATE_FORMAT = "dd-MM-yyyy";
+
+      optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = format(
+        new Date("2022-10-01"),
+        DATE_FORMAT
+      ).toString();
+
+      optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] = format(
+        new Date("2022-10-05"),
+        DATE_FORMAT
+      ).toString();
+
+      optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] = format(
+        new Date("2022-10-10"),
+        DATE_FORMAT
+      ).toString();
 
       // Vérification de la génération
       const randomXlsxDonneesApprenant = createRandomXlsxDonneesApprenant(optionalFields);
@@ -108,8 +126,10 @@ describe("Mapper DonneesApprenantsXlsx", () => {
         true
       );
       assert.equal(
-        mappedDonneesApprenant.date_de_naissance_apprenant ===
-          randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant],
+        mappedDonneesApprenant.date_de_naissance_apprenant.getTime() ===
+          parseFormattedDate(
+            randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]
+          ).getTime(),
         true
       );
 
@@ -136,18 +156,20 @@ describe("Mapper DonneesApprenantsXlsx", () => {
           randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant],
         true
       );
+
       assert.equal(
-        mappedDonneesApprenant.date_inscription ===
-          randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription],
+        mappedDonneesApprenant.date_inscription.getTime() ===
+          parseFormattedDate(randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]).getTime(),
         true
       );
       assert.equal(
-        mappedDonneesApprenant.date_contrat === randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat],
+        mappedDonneesApprenant.date_contrat.getTime() ===
+          parseFormattedDate(randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]).getTime(),
         true
       );
       assert.equal(
-        mappedDonneesApprenant.date_sortie_formation ===
-          randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation],
+        mappedDonneesApprenant.date_sortie_formation.getTime() ===
+          parseFormattedDate(randomXlsxDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]).getTime(),
         true
       );
     });
