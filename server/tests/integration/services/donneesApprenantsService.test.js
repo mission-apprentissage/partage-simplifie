@@ -1,5 +1,5 @@
-import { createSampleXlsxBuffer } from "../../utils/xlsx/createSampleXlsx.js";
 import XLSX from "xlsx";
+import { createSampleXlsxBuffer } from "../../utils/data/createRandomXlsxDonneesApprenants.js";
 
 describe("Service DonneesApprenants", () => {
   describe("importDonneesApprenantsFromXlsxFile", () => {

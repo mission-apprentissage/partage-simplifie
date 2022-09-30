@@ -1,6 +1,7 @@
 import XLSX from "xlsx";
 import { USER_EVENTS_ACTIONS } from "../common/constants/userEventsConstants.js";
 import { DONNEES_APPRENANT_XLSX_FILE } from "../domain/donneesApprenants.js";
+import { toDonneesApprenantsFromXlsx } from "../model/api/donneesApprenantsXlsxMapper.js";
 
 /**
  * Récupération des données apprenants depuis un buffer de fichier XLSX
@@ -11,13 +12,8 @@ const importDonneesApprenantsFromXlsxBuffer = async (fileBuffer) => {
   let uploadStatus;
   let errors = [];
 
-  // Lecture des données depuis le buffer du fichier XLSX en gérant l'entête du fichier
-  const workbook = XLSX.read(fileBuffer);
-  const aoa = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {
-    header: DONNEES_APPRENANT_XLSX_FILE.HEADERS,
-  });
-  const donneesApprenants = aoa?.splice(DONNEES_APPRENANT_XLSX_FILE.NB_LINES_TO_REMOVE);
-
+  const donneesApprenantsXlsx = readDonneesApprenantsFromXlsxBuffer(fileBuffer);
+  const donneesApprenants = toDonneesApprenantsFromXlsx(donneesApprenantsXlsx);
   // TODO Remove log
   console.log(donneesApprenants);
 
@@ -37,6 +33,21 @@ const importDonneesApprenantsFromXlsxBuffer = async (fileBuffer) => {
   uploadStatus = isDonneesApprenantsImportValid ? USER_EVENTS_ACTIONS.UPLOAD.SUCCESS : USER_EVENTS_ACTIONS.UPLOAD.ERROR;
 
   return { uploadStatus, errors };
+};
+
+/**
+ * Lecture d'une liste d'objets depuis le buffer du XLSX
+ * @param {*} fileBuffer
+ * @returns
+ */
+const readDonneesApprenantsFromXlsxBuffer = (fileBuffer) => {
+  // Lecture des données depuis le buffer du fichier XLSX en gérant l'entête du fichier
+  const workbook = XLSX.read(fileBuffer);
+  const aoa = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {
+    header: DONNEES_APPRENANT_XLSX_FILE.HEADERS,
+  });
+  const donneesApprenants = aoa?.splice(DONNEES_APPRENANT_XLSX_FILE.NB_LINES_TO_REMOVE);
+  return donneesApprenants;
 };
 
 export default () => ({ importDonneesApprenantsFromXlsxBuffer });
