@@ -1,7 +1,7 @@
 import { strict as assert } from "assert";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../../../src/domain/donneesApprenants.js";
 import { toDonneesApprenantsFromXlsx } from "../../../../src/model/api/donneesApprenantsXlsxMapper.js";
-import { createRandomXlsxDonneesApprenant } from "../../../utils/data/createRandomXlsxDonneesApprenants.js";
+import { createRandomXlsxDonneesApprenant } from "../../../utils/data/createRandomDonneesApprenants.js";
 
 describe("Mapper DonneesApprenantsXlsx", () => {
   describe("toDonneesApprenantsFromXlsx", () => {
