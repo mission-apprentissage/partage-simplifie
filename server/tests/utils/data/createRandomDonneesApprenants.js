@@ -3,6 +3,7 @@ import { faker } from "@faker-js/faker/locale/fr";
 import RandExp from "randexp";
 import { subMonths, subWeeks, subDays } from "date-fns";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../../src/domain/donneesApprenants.js";
+import { format } from "date-fns";
 
 const getRandomIne = () => new RandExp(/^[0-9]{9}[A-Z]{2}$/).gen().toUpperCase();
 
@@ -22,13 +23,19 @@ const getRandomAnneeScolaire = () => {
   return anneeScolaire.join("-");
 };
 
-const getRandomDateInscription = () => faker.date.between(subMonths(new Date(), 2), subMonths(new Date(), 1));
+const DATE_FORMAT = "dd-MM-yyyy";
 
-const getRandomDateContrat = () => faker.date.between(subWeeks(new Date(), 3), subWeeks(new Date(), 1));
+const getRandomDateInscription = () =>
+  format(faker.date.between(subMonths(new Date(), 2), subMonths(new Date(), 1)), DATE_FORMAT).toString();
 
-const getRandomDateSortieFormation = () => faker.date.between(subDays(new Date(), 3), subDays(new Date(), 1));
+const getRandomDateContrat = () =>
+  format(faker.date.between(subWeeks(new Date(), 3), subWeeks(new Date(), 1)), DATE_FORMAT).toString();
 
-const getRandomDateNaissance = () => faker.date.birthdate({ min: 18, max: 25, mode: "age" });
+const getRandomDateSortieFormation = () =>
+  format(faker.date.between(subDays(new Date(), 3), subDays(new Date(), 1)), DATE_FORMAT).toString();
+
+const getRandomDateNaissance = () =>
+  format(faker.date.birthdate({ min: 18, max: 25, mode: "age" }), DATE_FORMAT).toString();
 
 export const createRandomXlsxDonneesApprenant = (params) => {
   const randomDonneesApprenant = {};
