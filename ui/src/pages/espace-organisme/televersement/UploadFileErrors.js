@@ -1,37 +1,22 @@
 import { Stack, Text } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 
 import AlertBlock from "../../../common/components/AlertBlock/AlertBlock.js";
 
-const UploadFileErrors = ({ uploadErrors }) => {
+const UploadFileErrors = () => {
   return (
     <Stack marginTop="2w" spacing="2w">
       <AlertBlock variant="error">
-        <Text>
-          <strong>Erreurs dans le fichier.</strong>
+        <strong>Erreurs dans votre fichier transmis.</strong>
+        <Text marginLeft="2w" marginBottom="2w">
+          <ul>
+            <li>Soit un champ obligatoire n&apos;est pas rempli</li>
+            <li>Soit le format demandé est erroné</li>
+          </ul>
         </Text>
-        <Text marginBottom="2w">
-          Veuillez corriger les champs sur votre ordinateur et téléversez à nouveau votre fichier.
-        </Text>
-        {uploadErrors.map((item, index) => (
-          <Text key={index}>
-            Erreur sur le champ{" "}
-            <strong>
-              {item.field} : <u>{item.message}</u>
-            </strong>
-          </Text>
-        ))}
+        Veuillez corriger les champs indiqués ci-dessous et téléversez à nouveau votre fichier.
       </AlertBlock>
     </Stack>
   );
 };
 
-UploadFileErrors.propTypes = {
-  uploadErrors: PropTypes.arrayOf(
-    PropTypes.shape({
-      field: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    })
-  ),
-};
 export default UploadFileErrors;
