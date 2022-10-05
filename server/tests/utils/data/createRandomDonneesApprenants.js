@@ -83,3 +83,40 @@ export const createSampleXlsxBuffer = async (data, defaultSheetName = "Example")
   const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
   return buffer;
 };
+
+export const sampleDonneesApprenantsXlsx = [
+  {
+    [DONNEES_APPRENANT_XLSX_FIELDS.NomDuChamp]: "test",
+    [DONNEES_APPRENANT_XLSX_FIELDS.CFD]: "1463430A",
+    [DONNEES_APPRENANT_XLSX_FIELDS.CodeRNCP]: "RNCP34945",
+    [DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire]: "2022-2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation]: 1,
+    [DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant]: "TEST",
+    [DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant]: "Jack",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]: "18-12-1981",
+    [DONNEES_APPRENANT_XLSX_FIELDS.TelephoneApprenant]: "0165224488",
+    [DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant]: "jack@email.fr",
+    [DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant]: "111111111AA",
+    [DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant]: "35487",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]: "18-09-2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]: "28-09-2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]: "30-09-2022",
+  },
+  {
+    [DONNEES_APPRENANT_XLSX_FIELDS.NomDuChamp]: "test",
+    [DONNEES_APPRENANT_XLSX_FIELDS.CFD]: "1463430A",
+    [DONNEES_APPRENANT_XLSX_FIELDS.CodeRNCP]: "RNCP34777",
+    [DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire]: "2023-2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation]: 2,
+    [DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant]: "SMITH",
+    [DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant]: "Kevin",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]: "25-05-2000",
+    [DONNEES_APPRENANT_XLSX_FIELDS.TelephoneApprenant]: "0144224488",
+    [DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant]: "Kevin@email.fr",
+    [DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant]: "111111111BB",
+    [DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant]: "77487",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]: "18-04-2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]: "28-04-2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]: "30-04-2022",
+  },
+];

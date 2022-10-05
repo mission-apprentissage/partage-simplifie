@@ -54,7 +54,16 @@ export default ({ userEvents, donneesApprenantsService }) => {
         } else {
           // Si les données sont valides on écrase les données du user par celles ci
           await donneesApprenantsService.clearDonneesApprenantsForUserEmail(user?.email);
-          await donneesApprenantsService.importDonneesApprenantsForUser(donneesApprenants);
+          await donneesApprenantsService.importDonneesApprenants(donneesApprenants);
+
+          // On trace l'import et la liste des donneesApprenants importés
+          await userEvents.createUserEvent({
+            user_email: user.email,
+            type: USER_EVENTS_TYPES.POST,
+            action: USER_EVENTS_ACTIONS.UPLOAD.IMPORT,
+            data: { donneesApprenants },
+          });
+
           uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.SUCCESS;
         }
 
