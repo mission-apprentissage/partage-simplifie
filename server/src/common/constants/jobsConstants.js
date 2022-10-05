@@ -6,6 +6,7 @@ export const JOB_NAMES = {
   createAdmin: "users:create-admin",
   createIndexes: "indexes:create",
   generatePasswordUpdateToken: "users:generate-password-update-token",
+  sendDossiersApprenants: "donneesApprenants:send-dossiersApprenants",
 };
 
 /**
