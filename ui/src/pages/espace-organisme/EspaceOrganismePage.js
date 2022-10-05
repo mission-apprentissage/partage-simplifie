@@ -51,7 +51,6 @@ const EspaceOrganismePage = () => {
           nomEtablissement={userNomEtablissement || ""}
           adresse={auth.adresse || ""}
           outilsGestion={auth.outils_gestion?.join(", ") || ""}
-          showOutilGestionNotConnected
           showSendAnomalie
         />
         <Box

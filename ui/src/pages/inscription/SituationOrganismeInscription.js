@@ -24,12 +24,6 @@ const SituationOrganismeInscription = ({
             N° UAI de votre organisme : {uai}
           </Text>
         </HStack>
-        <HStack>
-          <Box as="i" color="#B60000" fontSize="alpha" className="ri-close-circle-fill" marginRight="2w" />
-          <Text fontSize="delta" color="#B60000" fontWeight="bold" marginTop="2w">
-            Votre organisme ne transmet pas encore de données au Tableau de bord de l’apprentissage.
-          </Text>
-        </HStack>
 
         <HStack>
           <Box as="i" color="bluefrance" fontSize="alpha" className="ri-account-circle-fill" marginRight="2w" />

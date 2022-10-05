@@ -3,8 +3,10 @@ import { USER_EVENTS_TYPES, USER_EVENTS_ACTIONS } from "../../common/constants/u
 import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
 import multer from "multer";
 import path from "path";
+import { toDonneesApprenantsFromXlsx } from "../../model/api/donneesApprenantsXlsxMapper.js";
+import { getFormattedErrors, getValidationResultFromList } from "../../domain/donneesApprenants.js";
 
-export default ({ userEvents }) => {
+export default ({ userEvents, donneesApprenantsService }) => {
   const router = express.Router();
   const ALLOWED_FILE_EXTENSION = ".xlsx";
 
@@ -24,30 +26,53 @@ export default ({ userEvents }) => {
     tryCatch(async (req, res) => {
       const { user, file } = req;
       const { comment } = req.body;
+      const userFields = {
+        user_email: user?.email,
+        user_uai: user?.uai,
+        user_siret: user?.siret,
+        user_nom_etablissement: user?.nom_etablissement,
+      };
 
       let uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.INIT;
+      let originalUploadLength = 0;
       let errors = [];
 
       try {
-        // TODO REPLACE RANDOM INT FOR TESTS
-        const getRandomInt = (max) => Math.floor(Math.random() * max);
-        const randomInt = getRandomInt(2);
+        // Lecture & mapping des données du XLSX
+        const donneesApprenantsXlsx = donneesApprenantsService.readDonneesApprenantsFromXlsxBuffer(file?.buffer);
 
-        if (randomInt > 0) {
-          uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.SUCCESS;
-        } else {
+        const donneesApprenants = donneesApprenantsXlsx.map((item) => ({
+          ...toDonneesApprenantsFromXlsx(item),
+          ...userFields,
+        }));
+
+        originalUploadLength = donneesApprenants.length;
+
+        // Validation des données
+        const validationResult = getValidationResultFromList(donneesApprenants);
+
+        if (validationResult.error) {
+          errors = getFormattedErrors(validationResult.error);
           uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.ERROR;
-          errors = [
-            { field: "champTest", message: "Le champ est vide" },
-            { field: "champTest2", message: "Le champ n'est pas valide" },
-          ];
+        } else {
+          // Si les données sont valides on écrase les données du user par celles ci
+          await donneesApprenantsService.clearDonneesApprenantsForUserEmail(user?.email);
+          await donneesApprenantsService.importDonneesApprenants(donneesApprenants);
+
+          // On trace l'import et la liste des donneesApprenants importés
+          await userEvents.createUserEvent({
+            user_email: user.email,
+            type: USER_EVENTS_TYPES.POST,
+            action: USER_EVENTS_ACTIONS.UPLOAD.IMPORT,
+            data: { donneesApprenants },
+          });
+
+          uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.SUCCESS;
         }
 
-        // TODO Handle XLSX Data
-        // TODO Waiting API Simulation
-        await new Promise((r) => setTimeout(r, 3000));
-        return res.json({ message: uploadStatus, errors });
+        return res.json({ message: uploadStatus, originalUploadLength, errors });
       } catch (err) {
+        uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.ERROR;
         return res.status(500).json({ message: "Could not upload file !", errors });
       } finally {
         await userEvents.createUserEvent({
