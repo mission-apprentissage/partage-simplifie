@@ -34,6 +34,7 @@ const UploadFileBlock = () => {
         setOriginalUploadLength(originalUploadLength);
         setUploadModalConfirmState(UPLOAD_STATES.ERROR);
       } else {
+        setUploadErrors([]);
         setUploadModalConfirmState(UPLOAD_STATES.SUCCESS);
       }
     } catch (err) {
@@ -114,7 +115,6 @@ const UploadFileBlock = () => {
           />
         </form>
       </Box>
-
       <UploadFileErrorsList uploadErrors={uploadErrors} originalUploadLength={originalUploadLength} />
     </>
   );
