@@ -80,7 +80,7 @@ describe("Domain DonneesApprenants", () => {
       assert.ok(result.error);
     });
 
-    it("Vérifie qu'une donnée apprenant random mappée avec données du user est valide", () => {
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user mais sans l'une des 3 dates obligatoires est invalide", () => {
       const input = createRandomXlsxDonneesApprenant();
       const mappedInput = toDonneesApprenantsFromXlsx(input);
       const userFields = {
@@ -90,8 +90,13 @@ describe("Domain DonneesApprenants", () => {
         user_nom_etablissement: "Super Etablissement",
       };
       const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+
+      delete mappedInputWithUserFields.date_contrat;
+      delete mappedInputWithUserFields.date_inscription;
+      delete mappedInputWithUserFields.date_sortie_formation;
+
       const result = getValidationResult(mappedInputWithUserFields);
-      assert.ok(!result.error);
+      assert.ok(result.error);
     });
   });
 
@@ -136,6 +141,33 @@ describe("Domain DonneesApprenants", () => {
       assert.ok(result.error.details.length === 2, true);
       assert.ok(result.error.details[0]?.context?.key === "cfd", true);
       assert.ok(result.error.details[1]?.context?.key === "cfd", true);
+    });
+
+    it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans aucune des 3 dates nécessaire est invalide", () => {
+      const randomList = [];
+
+      for (let index = 0; index < 10; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+
+        delete mappedInputWithUserFields.date_contrat;
+        delete mappedInputWithUserFields.date_inscription;
+        delete mappedInputWithUserFields.date_sortie_formation;
+
+        randomList.push(mappedInputWithUserFields);
+      }
+
+      const result = getValidationResultFromList(randomList);
+
+      assert.ok(result.error);
+      assert.ok(result.error.details.length === 10, true);
+      assert.ok(result.error.details[0]?.context?.peers.length === 3, true);
     });
 
     it("Vérifie qu'une liste de données apprenants au bon format est valide", () => {
@@ -250,6 +282,39 @@ describe("Domain DonneesApprenants", () => {
       assert.ok(errorsByFields[1].errorsForField.length === 2, true);
       assert.ok(errorsByFields[1].errorsForField[0]?.type === "date.base", true);
       assert.ok(errorsByFields[1].errorsForField[1]?.type === "date.base", true);
+    });
+
+    it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans aucune des 3 dates nécessaire est invalide", () => {
+      const randomList = [];
+      const nbItems = 10;
+
+      for (let index = 0; index < nbItems; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+
+        delete mappedInputWithUserFields.date_contrat;
+        delete mappedInputWithUserFields.date_inscription;
+        delete mappedInputWithUserFields.date_sortie_formation;
+
+        randomList.push(mappedInputWithUserFields);
+      }
+
+      const result = getValidationResultFromList(randomList);
+      assert.ok(result.error);
+
+      const errorsByFields = getFormattedErrors(result.error);
+      assert.ok(errorsByFields.length === 1, true);
+
+      for (let index = 0; index < nbItems; index++) {
+        assert.ok(errorsByFields[0].errorField === "dates_inscription_contrat_sortie_formation", true);
+        assert.ok(errorsByFields[0].errorsForField[index]?.type === "object.missing", true);
+      }
     });
   });
 });
