@@ -15,7 +15,7 @@ export const config = {
   auth: {
     passwordHashRounds: env.get("PARTAGE_SIMPLIFIE_AUTH_PASSWORD_HASH_ROUNDS").default(10000).asInt(),
     user: {
-      jwtSecret: env.get("PARTAGE_SIMPLIFIE_AUTH_USER_JWT_SECRET").required().asString(),
+      jwtSecret: env.get("PARTAGE_SIMPLIFIE_AUTH_USER_JWT_SECRET").default("123").asString(),
       expiresIn: env.get("PARTAGE_SIMPLIFIE_AUTH_USER_JWT_SECRET_EXPIRES").default("24h").asString(),
     },
   },

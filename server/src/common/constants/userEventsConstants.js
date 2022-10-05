@@ -23,5 +23,6 @@ export const USER_EVENTS_ACTIONS = {
     INIT: "upload-init",
     SUCCESS: "upload-success",
     ERROR: "upload-error",
+    IMPORT: "upload-import-data",
   },
 };
