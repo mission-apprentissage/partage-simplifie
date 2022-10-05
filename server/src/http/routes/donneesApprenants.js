@@ -34,6 +34,7 @@ export default ({ userEvents, donneesApprenantsService }) => {
       };
 
       let uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.INIT;
+      let originalUploadLength = 0;
       let errors = [];
 
       try {
@@ -44,6 +45,8 @@ export default ({ userEvents, donneesApprenantsService }) => {
           ...toDonneesApprenantsFromXlsx(item),
           ...userFields,
         }));
+
+        originalUploadLength = donneesApprenants.length;
 
         // Validation des données
         const validationResult = getValidationResultFromList(donneesApprenants);
@@ -67,7 +70,7 @@ export default ({ userEvents, donneesApprenantsService }) => {
           uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.SUCCESS;
         }
 
-        return res.json({ message: uploadStatus, errors });
+        return res.json({ message: uploadStatus, originalUploadLength, errors });
       } catch (err) {
         uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.ERROR;
         return res.status(500).json({ message: "Could not upload file !", errors });

@@ -74,24 +74,22 @@ export const getValidationResult = (donneesApprenant) =>
 export const getValidationResultFromList = (donneesApprenantList) =>
   arraySchema.required().validate(donneesApprenantList, { abortEarly: false });
 
+/**
+ * Formatte les erreurs JOI en liste par champ en erreur
+ * @param {*} error
+ * @returns
+ */
 export const getFormattedErrors = (error) => {
-  let errorsFormattedList = [];
+  // Récupération des champs uniques en erreur
+  const uniqueErrorsFields = [...new Set(error.details.map((item) => item?.context?.key))];
+  let errorsByFields = [];
 
-  // Récupération du nombre de lignes uniques en erreur
-  const uniqueErrorsPath = [...new Set(error.details.map((item) => item?.path[0]))];
-  const errorsLength = uniqueErrorsPath.length;
-
-  // Construction de la liste des couples "champs-type" pour chaque erreur de chaque ligne
-  for (let index = 0; index < errorsLength; index++) {
-    const errorsForLine = error.details.filter((item) => item?.path[0] === index);
-
-    let errorsDetails = [];
-    for (const key in errorsForLine) {
-      errorsDetails.push({ errorType: errorsForLine[key]?.type, errorField: errorsForLine[key]?.context?.key });
-    }
-
-    errorsFormattedList.push({ lineNumber: index + 1, errors: errorsDetails });
+  // Récupération du nombre de lignes uniques en erreur par champ
+  for (const key in uniqueErrorsFields) {
+    const errorField = uniqueErrorsFields[key];
+    const errorsForField = error.details.filter((item) => item?.context?.key === errorField);
+    errorsByFields.push({ errorField, errorsForField });
   }
 
-  return errorsFormattedList;
+  return errorsByFields;
 };
