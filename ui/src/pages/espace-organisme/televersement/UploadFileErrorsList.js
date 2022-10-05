@@ -22,7 +22,7 @@ const UploadFileErrorsList = ({ uploadErrors, originalUploadLength }) => {
                   {item.errorsForField.length} erreurs
                 </Text>
                 <Text color="black">
-                  sur la colonne {fieldLabel} sur {originalUploadLength} lignes complétées
+                  sur {fieldLabel} sur {originalUploadLength} lignes complétées
                 </Text>
               </HStack>
             </Box>
