@@ -34,5 +34,10 @@ export const config = {
       .get("PARTAGE_SIMPLIFIE_MNA_REFERENTIEL_ENDPOINT_URL")
       .default(DEFAULT_MNA_REFERENTIEL_API_URL)
       .asString(),
+    mnaTdb: {
+      endPoint: env.get("PARTAGE_SIMPLIFIE_MNA_TDB_ENDPOINT_URL").default("").asString(),
+      userName: env.get("PARTAGE_SIMPLIFIE_MNA_TDB_USER_NAME").default("").asString(),
+      userPassword: env.get("PARTAGE_SIMPLIFIE_MNA_TDB_USER_PASSWORD").default("").asString(),
+    },
   },
 };
