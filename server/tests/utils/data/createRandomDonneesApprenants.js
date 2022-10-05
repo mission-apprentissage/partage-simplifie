@@ -70,6 +70,15 @@ export const createRandomXlsxDonneesApprenant = (params) => {
     ? getRandomDateSortieFormation()
     : null;
 
+  // Gère une des 3 dates obligatoire
+  if (
+    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] === null &&
+    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] === null &&
+    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] === null
+  ) {
+    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = getRandomDateInscription();
+  }
+
   return {
     ...randomDonneesApprenant,
     ...params,

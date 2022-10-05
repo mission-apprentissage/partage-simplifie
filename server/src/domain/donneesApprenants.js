@@ -80,8 +80,11 @@ export const getValidationResultFromList = (donneesApprenantList) =>
  * @returns
  */
 export const getFormattedErrors = (error) => {
+  const errorsWithoutMissingObjects = error.details.filter((item) => item.type !== "object.missing");
+  const errorsWithMissingObjects = error.details.filter((item) => item.type === "object.missing");
+
   // Récupération des champs uniques en erreur
-  const uniqueErrorsFields = [...new Set(error.details.map((item) => item?.context?.key))];
+  const uniqueErrorsFields = [...new Set(errorsWithoutMissingObjects.map((item) => item?.context?.key))];
   let errorsByFields = [];
 
   // Récupération du nombre de lignes uniques en erreur par champ
@@ -89,6 +92,14 @@ export const getFormattedErrors = (error) => {
     const errorField = uniqueErrorsFields[key];
     const errorsForField = error.details.filter((item) => item?.context?.key === errorField);
     errorsByFields.push({ errorField, errorsForField });
+  }
+
+  // Ajout du du nombre de lignes en erreur avec l'une des 3 dates nécessaires manquante
+  if (errorsWithMissingObjects.length > 0) {
+    errorsByFields.push({
+      errorField: "dates_inscription_contrat_sortie_formation",
+      errorsForField: errorsWithMissingObjects,
+    });
   }
 
   return errorsByFields;
