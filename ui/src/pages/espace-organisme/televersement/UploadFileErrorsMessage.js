@@ -2,7 +2,7 @@ import { Stack, Text } from "@chakra-ui/react";
 
 import AlertBlock from "../../../common/components/AlertBlock/AlertBlock.js";
 
-const UploadFileErrors = () => {
+const UploadFileErrorsMessage = () => {
   return (
     <Stack marginTop="2w" spacing="2w">
       <AlertBlock variant="error">
@@ -19,4 +19,4 @@ const UploadFileErrors = () => {
   );
 };
 
-export default UploadFileErrors;
+export default UploadFileErrorsMessage;
