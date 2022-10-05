@@ -193,17 +193,14 @@ describe("Domain DonneesApprenants", () => {
       const result = getValidationResultFromList(randomList);
       assert.ok(result.error);
 
-      const errorsFormattedList = getFormattedErrors(result.error);
-      assert.ok(errorsFormattedList.length === 2, true);
-      assert.ok(errorsFormattedList[0].lineNumber === 1, true);
-      assert.ok(errorsFormattedList[0].errors.length === 1, true);
-      assert.ok(errorsFormattedList[0]?.errors[0]?.errorField === "cfd", true);
-      assert.ok(errorsFormattedList[0]?.errors[0]?.errorType === "string.base", true);
+      const errorsByFields = getFormattedErrors(result.error);
 
-      assert.ok(errorsFormattedList[1].lineNumber === 2, true);
-      assert.ok(errorsFormattedList[1].errors.length === 1, true);
-      assert.ok(errorsFormattedList[1]?.errors[0]?.errorField === "cfd", true);
-      assert.ok(errorsFormattedList[1]?.errors[0]?.errorType === "string.base", true);
+      assert.ok(errorsByFields.length === 1, true);
+      assert.ok(errorsByFields[0].errorField === "cfd", true);
+      assert.ok(errorsByFields[0].errorsForField.length === 2, true);
+
+      assert.ok(errorsByFields[0].errorsForField[0]?.type === "string.base", true);
+      assert.ok(errorsByFields[0].errorsForField[1]?.type === "string.base", true);
     });
 
     it("Vérifie qu'une liste de données apprenants contenant des données apprenants sans cfd et avec date de naissance au mauvais format est invalide", () => {
@@ -241,21 +238,18 @@ describe("Domain DonneesApprenants", () => {
       const result = getValidationResultFromList(randomList);
       assert.ok(result.error);
 
-      const errorsFormattedList = getFormattedErrors(result.error);
-      assert.ok(errorsFormattedList.length === 2, true);
-      assert.ok(errorsFormattedList[0].lineNumber === 1, true);
-      assert.ok(errorsFormattedList[0].errors.length === 2, true);
-      assert.ok(errorsFormattedList[0]?.errors[0]?.errorField === "cfd", true);
-      assert.ok(errorsFormattedList[0]?.errors[0]?.errorType === "any.required", true);
-      assert.ok(errorsFormattedList[0]?.errors[1]?.errorField === "date_de_naissance_apprenant", true);
-      assert.ok(errorsFormattedList[0]?.errors[1]?.errorType === "date.base", true);
+      const errorsByFields = getFormattedErrors(result.error);
+      assert.ok(errorsByFields.length === 2, true);
 
-      assert.ok(errorsFormattedList[1].lineNumber === 2, true);
-      assert.ok(errorsFormattedList[1].errors.length === 2, true);
-      assert.ok(errorsFormattedList[1]?.errors[0]?.errorField === "cfd", true);
-      assert.ok(errorsFormattedList[1]?.errors[0]?.errorType === "any.required", true);
-      assert.ok(errorsFormattedList[1]?.errors[1]?.errorField === "date_de_naissance_apprenant", true);
-      assert.ok(errorsFormattedList[1]?.errors[1]?.errorType === "date.base", true);
+      assert.ok(errorsByFields[0].errorField === "cfd", true);
+      assert.ok(errorsByFields[0].errorsForField.length === 2, true);
+      assert.ok(errorsByFields[0].errorsForField[0]?.type === "any.required", true);
+      assert.ok(errorsByFields[0].errorsForField[1]?.type === "any.required", true);
+
+      assert.ok(errorsByFields[1].errorField === "date_de_naissance_apprenant", true);
+      assert.ok(errorsByFields[1].errorsForField.length === 2, true);
+      assert.ok(errorsByFields[1].errorsForField[0]?.type === "date.base", true);
+      assert.ok(errorsByFields[1].errorsForField[1]?.type === "date.base", true);
     });
   });
 });
