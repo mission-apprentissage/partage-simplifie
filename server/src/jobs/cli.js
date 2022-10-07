@@ -3,6 +3,7 @@ import { JOB_NAMES } from "../common/constants/jobsConstants.js";
 import { ROLES } from "../common/constants/roles.js";
 import { runCreateIndexes } from "./create-indexes/index.js";
 import { runScript } from "./scriptWrapper.js";
+import { runSendDossiersApprenantsToTdb } from "./send-dossiersApprenants/index.js";
 import { runTest } from "./test/index.js";
 import { runCreateUser } from "./users/create/index.js";
 import { runGeneratePasswordUpdateToken } from "./users/generate-password-update-token/index.js";
@@ -69,6 +70,18 @@ cli
     runScript(async ({ users }) => {
       return runGeneratePasswordUpdateToken(users, { email });
     }, JOB_NAMES.generatePasswordUpdateToken);
+  });
+
+/**
+ * Job d'envoi des données apprenants à l'API du TDB
+ */
+cli
+  .command("send-dossiersApprenants")
+  .description("Job d'envoi des données apprenants sous forme de dossiersApprenants à l'API du Tdb")
+  .action(() => {
+    runScript(async ({ jobEvents }) => {
+      return runSendDossiersApprenantsToTdb(jobEvents);
+    }, JOB_NAMES.sendDossiersApprenants);
   });
 
 cli.parse(process.argv);

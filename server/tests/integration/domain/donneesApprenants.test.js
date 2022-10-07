@@ -5,7 +5,7 @@ import {
   getFormattedErrors,
   DONNEES_APPRENANT_XLSX_FIELDS,
 } from "../../../src/domain/donneesApprenants.js";
-import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesApprenantsXlsxMapper.js";
+import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesApprenantsMapper.js";
 import { createRandomXlsxDonneesApprenant } from "../../utils/data/createRandomDonneesApprenants.js";
 
 describe("Domain DonneesApprenants", () => {

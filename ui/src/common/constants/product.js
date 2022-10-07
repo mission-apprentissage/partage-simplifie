@@ -7,13 +7,13 @@ export const CONTACT_ADDRESS = "tableau-de-bord@apprentissage.beta.gouv.fr";
 export const TEMPLATE_FILE = {
   SIZE: "16",
   EXTENSION: "XLSX",
-  PATH: "http://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ModeleDepotDeDonnees.xlsx",
+  PATH: "https://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ModeleDepotDeDonnees.xlsx",
 };
 
 export const EXPLANATION_FILE = {
   SIZE: "53",
   EXTENSION: "PDF",
-  PATH: "http://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ComprendreLesDonneesRecoltees.pdf",
+  PATH: "https://fichiers-partage-simplifie.apprentissage.beta.gouv.fr/public/PartageSimplifie_ComprendreLesDonneesRecoltees.pdf",
 };
 
 export const TDB_URL = "https://cfas.apprentissage.beta.gouv.fr/";
