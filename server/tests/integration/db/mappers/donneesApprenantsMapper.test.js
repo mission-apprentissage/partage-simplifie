@@ -2,10 +2,10 @@ import { strict as assert } from "assert";
 import { format } from "date-fns";
 import { parseFormattedDate } from "../../../../src/domain/date.js";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../../../src/domain/donneesApprenants.js";
-import { toDonneesApprenantsFromXlsx } from "../../../../src/model/api/donneesApprenantsXlsxMapper.js";
+import { toDonneesApprenantsFromXlsx } from "../../../../src/model/api/donneesApprenantsMapper.js";
 import { createRandomXlsxDonneesApprenant } from "../../../utils/data/createRandomDonneesApprenants.js";
 
-describe("Mapper DonneesApprenantsXlsx", () => {
+describe("Mapper DonneesApprenants", () => {
   describe("toDonneesApprenantsFromXlsx", () => {
     it("Vérifie le mapping d'un objet XLSX avec tous les champs obligatoires vers DossierApprenants", async () => {
       const randomXlsxDonneesApprenant = createRandomXlsxDonneesApprenant();

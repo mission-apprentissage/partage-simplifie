@@ -3,7 +3,7 @@ import { USER_EVENTS_TYPES, USER_EVENTS_ACTIONS } from "../../common/constants/u
 import { tryCatch } from "../middlewares/tryCatchMiddleware.js";
 import multer from "multer";
 import path from "path";
-import { toDonneesApprenantsFromXlsx } from "../../model/api/donneesApprenantsXlsxMapper.js";
+import { toDonneesApprenantsFromXlsx } from "../../model/api/donneesApprenantsMapper.js";
 import { getFormattedErrors, getValidationResultFromList } from "../../domain/donneesApprenants.js";
 
 export default ({ userEvents, donneesApprenantsService }) => {

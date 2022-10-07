@@ -1,6 +1,6 @@
 import { strict as assert } from "assert";
 import { DonneesApprenantsFactory } from "../../../src/factory/donneesApprenantsFactory.js";
-import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesApprenantsXlsxMapper.js";
+import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesApprenantsMapper.js";
 import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import {
