@@ -79,8 +79,8 @@ cli
   .command("send-dossiersApprenants")
   .description("Job d'envoi des données apprenants sous forme de dossiersApprenants à l'API du Tdb")
   .action(() => {
-    runScript(async ({ donneesApprenants }) => {
-      return runSendDossiersApprenantsToTdb(donneesApprenants);
+    runScript(async ({ jobEvents }) => {
+      return runSendDossiersApprenantsToTdb(jobEvents);
     }, JOB_NAMES.sendDossiersApprenants);
   });
 
