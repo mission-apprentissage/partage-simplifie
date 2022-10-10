@@ -4,10 +4,9 @@ import { Redirect, Route } from "react-router";
 import useAuth from "../hooks/useAuth.js";
 
 const ProtectedRoute = ({ authorizedRole, ...routeProps }) => {
-  const [auth] = useAuth();
-  const isLoggedIn = Boolean(auth?.sub);
+  const { isAuthTokenValid, auth } = useAuth();
 
-  if (!isLoggedIn) {
+  if (!isAuthTokenValid) {
     const loginPath = `/login?redirect=${encodeURIComponent(routeProps.location.pathname)}`;
     return <Redirect to={loginPath} />;
   }
