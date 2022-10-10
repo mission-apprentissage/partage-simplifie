@@ -4,18 +4,18 @@ import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import { startServer } from "../../utils/testUtils.js";
 import { ObjectId } from "mongodb";
 
-describe("API Route SignalerAnomalie", () => {
-  describe("POST /signalerAnomalie/", () => {
+describe("API Route SignalementAnomalie", () => {
+  describe("POST /signalementAnomalie/", () => {
     it("renvoie une 200 quand l'email et le message fourni est valide", async () => {
       const { httpClient } = await startServer();
 
       const email = "user1@test.fr";
       const message = "Je suis une anomalie";
-      const response = await httpClient.post("/api/signalerAnomalie", { email, message });
+      const response = await httpClient.post("/api/signalementAnomalie", { email, message });
       assert.equal(response.status, 200);
       assert.equal(response.data.createdId !== null, true);
 
-      const foundInDb = await dbCollection(COLLECTIONS_NAMES.SignalerAnomalie).findOne({
+      const foundInDb = await dbCollection(COLLECTIONS_NAMES.SignalementAnomalie).findOne({
         _id: new ObjectId(response.data.createdId),
       });
 

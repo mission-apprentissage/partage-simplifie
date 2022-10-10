@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import * as Yup from "yup";
 
-import { postSignalerAnomalie } from "../../api/api";
+import { postSignalementAnomalie } from "../../api/api";
 import { LOCAL_STORAGE_USER_EMAIL } from "../../constants/localStorageConstants";
 import { QUERY_KEYS } from "../../constants/queryKeys";
 import AlertBlock from "../AlertBlock/AlertBlock";
@@ -28,11 +28,11 @@ const SituationOrganismeModal = ({ isOpen, onClose }) => {
   const [isSent, setIsSent] = useState(false);
   const createSignalementAnomalie = useMutation(
     (newAnomalie) => {
-      return postSignalerAnomalie(newAnomalie);
+      return postSignalementAnomalie(newAnomalie);
     },
     {
       onSuccess() {
-        queryClient.invalidateQueries([QUERY_KEYS.SIGNALER_ANOMALIE]);
+        queryClient.invalidateQueries([QUERY_KEYS.SIGNALEMENT_ANOMALIE]);
         setIsSent(true);
       },
     }

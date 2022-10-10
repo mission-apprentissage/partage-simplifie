@@ -92,12 +92,12 @@ export const postRegister = async (values) => {
 };
 
 /**
- * Route d'API pour signaler une anomalie
+ * Route d'API pour signalement une anomalie
  * @param {*} values
  * @returns
  */
-export const postSignalerAnomalie = async (values) => {
-  const URL = `/api/signalerAnomalie`;
+export const postSignalementAnomalie = async (values) => {
+  const URL = `/api/signalementAnomalie`;
   return await _post(URL, values);
 };
 

@@ -5,7 +5,7 @@ import createUsersService from "./usersService.js";
 import createOrganismesService from "./organismesService.js";
 import createDemandesActivationCompteService from "./demandesActivationCompteService.js";
 import createDonneesApprenantsService from "./donneesApprenantsService.js";
-import createSignalerAnomalieService from "./signalerAnomalieService.js";
+import createSignalementAnomalieService from "./signalementAnomalieService.js";
 
 export const createServices = async (options = {}) => {
   const db = options.db || (await connectToMongodb()).db;
@@ -15,7 +15,7 @@ export const createServices = async (options = {}) => {
   const organismes = options.organismes || createOrganismesService();
   const demandesActivationCompte = options.demandesActivationCompte || createDemandesActivationCompteService();
   const donneesApprenantsService = options.donneesApprenantsService || createDonneesApprenantsService();
-  const signalerAnomalie = options.signalerAnomalie || createSignalerAnomalieService();
+  const signalementAnomalie = options.signalementAnomalie || createSignalementAnomalieService();
 
   return {
     userEvents,
@@ -25,7 +25,6 @@ export const createServices = async (options = {}) => {
     demandesActivationCompte,
     donneesApprenantsService,
     db,
-    signalerAnomalie,
-    db: options.db || (await connectToMongodb()).db,
+    signalementAnomalie,
   };
 };

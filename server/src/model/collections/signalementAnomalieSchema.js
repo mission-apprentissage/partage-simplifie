@@ -1,6 +1,6 @@
 import { date, object, objectId, string } from "./jsonSchema/jsonSchemaTypes.js";
 
-export const name = "signalerAnomalie";
+export const name = "signalementAnomalie";
 
 export const indexes = () => {
   return [[{ email: 1 }, { name: "email" }]];

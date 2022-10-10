@@ -1,5 +1,5 @@
 export const QUERY_KEYS = {
   SEARCH_USERS: "search-users",
-  SIGNALER_ANOMALIE: "signaler anomalie",
+  SIGNALEMENT_ANOMALIE: "signalement anomalie",
   UPLOAD_HISTORY: "upload-history",
 };

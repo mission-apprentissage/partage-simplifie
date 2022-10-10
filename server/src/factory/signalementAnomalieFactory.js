@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { BaseFactory } from "./baseFactory.js";
 
-export class SignalerAnomalieFactory extends BaseFactory {
+export class SignalementAnomalieFactory extends BaseFactory {
   /**
    * Crée un message de signalement d'anomalie entité à partir de props
    * @param {*} props
@@ -24,4 +24,4 @@ export class SignalerAnomalieFactory extends BaseFactory {
   }
 }
 
-export default { SignalerAnomalieFactory };
+export default { SignalementAnomalieFactory };

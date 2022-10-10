@@ -1,15 +1,15 @@
 import { strict as assert } from "assert";
-import signalerAnomalieService from "../../../src/services/signalerAnomalieService.js";
+import signalementAnomalieService from "../../../src/services/signalementAnomalieService.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 
 describe("Service AnomalyMessage", () => {
   describe("createAnomalyMessage", () => {
     it("Permet de créer un message pour prevenir d'une anomalie et de le sauver en base", async () => {
-      const { createSignalerAnomalie } = signalerAnomalieService();
+      const { createSignalementAnomalie } = signalementAnomalieService();
 
-      const insertedId = await createSignalerAnomalie("test@test.fr", "Je suis une anomalie");
-      const foundInDb = await dbCollection(COLLECTIONS_NAMES.SignalerAnomalie).findOne({
+      const insertedId = await createSignalementAnomalie("test@test.fr", "Je suis une anomalie");
+      const foundInDb = await dbCollection(COLLECTIONS_NAMES.SignalementAnomalie).findOne({
         _id: insertedId,
       });
 

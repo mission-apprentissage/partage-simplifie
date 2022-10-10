@@ -1,8 +1,10 @@
 import { Box, Button, Heading, HStack, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
+import SituationOrganismeModal from "./SituationOrganismeModal";
+
 const SituationOrganisme = ({ uai, nomEtablissement, adresse, siret, outilsGestion, showSendAnomalie = false }) => {
-  const { onOpen } = useDisclosure();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <Box width="70%" border="1px solid" borderColor="bluefrance" padding="4w" marginTop="6w">
