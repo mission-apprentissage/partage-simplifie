@@ -9,8 +9,8 @@ import LogoutButton from "../LogoutButton/LogoutButton";
 import Section from "../Section/Section";
 
 const Header = () => {
-  const [auth] = useAuth();
-  const isLoggedIn = Boolean(auth?.sub);
+  const { isAuthTokenValid } = useAuth();
+  const displayLogoutButton = isAuthTokenValid();
 
   return (
     <Section as="header">
@@ -37,7 +37,7 @@ const Header = () => {
             </Text>
           </Box>
         </Flex>
-        <HStack justifyContent="space-between">{isLoggedIn === true ? <LogoutButton /> : <LoginButton />}</HStack>
+        <HStack justifyContent="space-between">{displayLogoutButton ? <LogoutButton /> : <LoginButton />}</HStack>
       </Flex>
     </Section>
   );

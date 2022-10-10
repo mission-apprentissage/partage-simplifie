@@ -9,7 +9,7 @@ import UploadHistoryList from "./historique-televersement/UploadHistoryList.js";
 import UploadFileBlock from "./televersement/UploadFileBlock.js";
 
 const EspaceOrganismePage = () => {
-  const [auth] = useAuth();
+  const { auth } = useAuth();
   const userNomEtablissement = auth.nom_etablissement || "NC";
 
   return (

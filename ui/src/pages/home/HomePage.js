@@ -9,7 +9,7 @@ import useAuth from "../../common/hooks/useAuth.js";
 import RechercherOrganismeParUai from "./identifier-organisme/RechercherOrganismeParUai.js";
 
 const HomePage = () => {
-  const [auth] = useAuth();
+  const { auth } = useAuth();
 
   if (auth?.sub && auth?.role === ROLES.ADMINISTRATOR)
     return <Redirect to={NAVIGATION_PAGES.GestionUtilisateurs.path} />;

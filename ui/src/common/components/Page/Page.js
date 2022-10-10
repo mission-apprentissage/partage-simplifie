@@ -11,7 +11,7 @@ import NavBar from "./NavBar.js";
 
 const Page = ({ children }) => {
   const IS_ENV_RECETTE = process.env.REACT_APP_ENV === "recette";
-  const [auth] = useAuth();
+  const { auth } = useAuth();
   const isAdministrator = auth?.role === ROLES.ADMINISTRATOR;
   return (
     <>
