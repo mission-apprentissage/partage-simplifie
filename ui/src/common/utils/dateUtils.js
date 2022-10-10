@@ -12,7 +12,7 @@ export const formatDate = (date) => (date ? format(date, DATE_FORMAT) : "");
 export const isDateFuture = (date) => date > endOfMonth(new Date());
 
 export const formatDateDayMonthYear = (date) =>
-  new Date(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  new Date(date).toLocaleTimeString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 
 export const getUniquesMonthAndYearFromDatesList = (input) => {
   const output = [];
