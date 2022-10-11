@@ -19,6 +19,7 @@ export default ({ users, userEvents }) => {
         siret: siretSchema.required(),
         nom: Joi.string().required(),
         nom_etablissement: Joi.string().allow("", null),
+        adresse_etablissement: Joi.string().allow("", null),
         prenom: Joi.string().required(),
         fonction: Joi.string().required(),
         region: Joi.string().required(),
