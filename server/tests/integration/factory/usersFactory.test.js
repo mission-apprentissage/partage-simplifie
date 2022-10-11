@@ -32,6 +32,8 @@ describe("Factory Users", () => {
       const testTelephone = "telephone";
       const testOutilsGestion = ["outil1", "outil2"];
       const testNom_etablissement = "nom_etablissement";
+      const testAdresse = "ISTELI Lille 12 rue de la paix 59100 LILLE";
+
       const testUai = "0881529J";
       const testSiret = "13002798000031";
 
@@ -47,6 +49,7 @@ describe("Factory Users", () => {
         telephone: testTelephone,
         outils_gestion: testOutilsGestion,
         nom_etablissement: testNom_etablissement,
+        adresse_etablissement: testAdresse,
       });
 
       assert.equal(entity.email === testEmail, true);
@@ -324,6 +327,26 @@ describe("Factory Users", () => {
             password: testPassword,
             role: testRole,
             nom_etablissement: 123,
+          }),
+        (err) => {
+          assert.equal(err.message.includes("Can't create user, schema not valid"), true);
+          return true;
+        }
+      );
+    });
+
+    it("Vérifie la non création d'user via sa factory si une adresse_etablissement au mauvais format est fournie", async () => {
+      const testEmail = "user@email.fr";
+      const testPassword = generateRandomAlphanumericPhrase(80);
+      const testRole = ROLES.OF;
+
+      await assert.rejects(
+        async () =>
+          UsersFactory.create({
+            email: testEmail,
+            password: testPassword,
+            role: testRole,
+            adresse_etablissement: 123,
           }),
         (err) => {
           assert.equal(err.message.includes("Can't create user, schema not valid"), true);

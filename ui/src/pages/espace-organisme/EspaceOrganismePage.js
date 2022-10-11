@@ -9,7 +9,7 @@ import UploadHistoryList from "./historique-televersement/UploadHistoryList.js";
 import UploadFileBlock from "./televersement/UploadFileBlock.js";
 
 const EspaceOrganismePage = () => {
-  const [auth] = useAuth();
+  const { auth } = useAuth();
   const userNomEtablissement = auth.nom_etablissement || "NC";
 
   return (
@@ -44,12 +44,11 @@ const EspaceOrganismePage = () => {
           organismes de formation, permettant aux pouvoirs publics de piloter au mieux la politique de l’apprentissage
           nationalement et localement.
         </Text>
-
         <SituationOrganisme
           uai={auth.uai || ""}
           siret={auth.siret || ""}
           nomEtablissement={userNomEtablissement || ""}
-          adresse={auth.adresse || ""}
+          adresse={auth.adresse_etablissement || ""}
           outilsGestion={auth.outils_gestion?.join(", ") || ""}
           showSendAnomalie
         />

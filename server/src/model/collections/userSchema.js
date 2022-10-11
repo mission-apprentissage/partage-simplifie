@@ -39,6 +39,7 @@ export const schema = () => {
       region: string(),
       outils_gestion: arrayOf(string()),
       nom_etablissement: string(),
+      adresse_etablissement: string(),
 
       updated_at: date(),
       created_at: date(),

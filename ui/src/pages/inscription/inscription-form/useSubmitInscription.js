@@ -3,7 +3,7 @@ import { useState } from "react";
 import { postRegister } from "../../../common/api/api.js";
 import { INSCRIPTION_FORM_STATE } from "./InscriptionFormStates.js";
 
-const useSubmitInscription = ({ uai, siret, nom_etablissement }) => {
+const useSubmitInscription = ({ uai, siret, nom_etablissement, adresse_etablissement }) => {
   const [formState, setFormState] = useState(INSCRIPTION_FORM_STATE.INITIAL);
 
   const submitInscription = async (formData) => {
@@ -16,7 +16,7 @@ const useSubmitInscription = ({ uai, siret, nom_etablissement }) => {
       delete formData.autre_outil_gestion;
       delete formData.is_consentement_ok;
 
-      const formValues = { ...formData, ...{ uai, siret, nom_etablissement } };
+      const formValues = { ...formData, ...{ uai, siret, nom_etablissement, adresse_etablissement } };
 
       // Appel à l'API pour envoi des données
       const { message } = await postRegister(formValues);

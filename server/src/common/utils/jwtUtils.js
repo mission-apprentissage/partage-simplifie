@@ -11,9 +11,9 @@ export const createUserToken = (user) => {
   const payload = {
     role: user.role,
     nom_etablissement: user.nom_etablissement || null,
+    adresse_etablissement: user.adresse_etablissement || null,
     uai: user.uai || null,
     siret: user.siret || null,
-    adresse: user.adresse || null,
     outils_gestion: user.outils_gestion || null,
   };
   const subject = user.email;

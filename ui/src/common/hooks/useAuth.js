@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { useAuthState } from "../auth/auth";
 import {
   LOCAL_STORAGE_ACCESS_TOKEN,
@@ -11,7 +13,7 @@ import {
 import decodeJWT from "../utils/decodeJWT";
 
 export default function useAuth() {
-  const [auth, setAuth] = useAuthState();
+  const [decodedAuthToken, setAuth] = useAuthState();
 
   const setAuthFromToken = (access_token) => {
     if (!access_token) {
@@ -24,11 +26,18 @@ export default function useAuth() {
       localStorage.setItem(LOCAL_STORAGE_USER_NOM_ETABLISSEMENT, decodedAccessToken.nom_etablissement);
       localStorage.setItem(LOCAL_STORAGE_USER_UAI, decodedAccessToken.uai);
       localStorage.setItem(LOCAL_STORAGE_USER_SIRET, decodedAccessToken.siret);
-      localStorage.setItem(LOCAL_STORAGE_USER_ADRESSE, decodedAccessToken.adresse);
+      localStorage.setItem(LOCAL_STORAGE_USER_ADRESSE, decodedAccessToken.adresse_etablissement);
       localStorage.setItem(LOCAL_STORAGE_USER_OUTILS_GESTION, decodedAccessToken.outils_gestion);
       setAuth(decodedAccessToken);
     }
   };
 
-  return [auth, setAuthFromToken];
+  const isAuthTokenValid = useCallback(() => {
+    if (!decodedAuthToken) return false;
+
+    const expiryDate = new Date(decodedAuthToken.exp * 1000); // jwt expiry timestamp is in seconds, we need it in ms
+    return expiryDate > new Date();
+  }, [decodedAuthToken]);
+
+  return { auth: decodedAuthToken, isAuthTokenValid, setAuthFromToken };
 }

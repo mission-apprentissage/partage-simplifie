@@ -17,6 +17,7 @@ describe("createUserToken", () => {
       role: testRole,
       email: testEmail,
       nom_etablissement: testEtablissement,
+      adresse_etablissement: testAdresse,
       uai: testUai,
       siret: testSiret,
       adresse: testAdresse,
@@ -32,9 +33,9 @@ describe("createUserToken", () => {
     assert.equal(decoded.iss === config.appName, true);
     assert.equal(decoded.role === testRole, true);
     assert.equal(decoded.nom_etablissement === testEtablissement, true);
+    assert.equal(decoded.adresse_etablissement === testAdresse, true);
     assert.equal(decoded.uai === testUai, true);
     assert.equal(decoded.siret === testSiret, true);
-    assert.equal(decoded.adresse === testAdresse, true);
     assert.deepEqual(decoded.outils_gestion, testOutilsGestion);
   });
 

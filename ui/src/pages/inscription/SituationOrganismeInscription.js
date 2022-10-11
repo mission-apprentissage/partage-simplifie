@@ -8,7 +8,7 @@ const SituationOrganismeInscription = ({
   nature,
   nom_etablissement,
   reseaux,
-  adresse,
+  adresse_etablissement,
   region,
   academie,
 }) => {
@@ -51,7 +51,7 @@ const SituationOrganismeInscription = ({
             Reseaux : <strong>{reseaux.join(", ")}</strong>
           </Text>
           <Text>
-            Adresse : <strong>{adresse}</strong>
+            Adresse : <strong>{adresse_etablissement}</strong>
           </Text>
           <Text>
             Région : <strong>{region}</strong>
@@ -72,7 +72,7 @@ SituationOrganismeInscription.propTypes = {
   siren: PropTypes.string.isRequired,
   nom_etablissement: PropTypes.string.isRequired,
   reseaux: PropTypes.arrayOf(PropTypes.string).isRequired,
-  adresse: PropTypes.string.isRequired,
+  adresse_etablissement: PropTypes.string.isRequired,
   region: PropTypes.string.isRequired,
   academie: PropTypes.string.isRequired,
 };

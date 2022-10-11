@@ -91,6 +91,7 @@ describe("Service Users", () => {
       const testTelephone = "telephone";
       const testOutilsGestion = ["outil1", "outil2"];
       const testNom_etablissement = "nom_etablissement";
+      const testAdresse_etablissement = "adresse_etablissement";
       const testRegion = "region";
 
       const insertedId = await createUser({
@@ -103,6 +104,7 @@ describe("Service Users", () => {
         region: testRegion,
         outils_gestion: testOutilsGestion,
         nom_etablissement: testNom_etablissement,
+        adresse_etablissement: testAdresse_etablissement,
       });
 
       const found = await dbCollection(COLLECTIONS_NAMES.Users).findOne({ _id: insertedId });
@@ -117,6 +119,7 @@ describe("Service Users", () => {
       assert.equal(found.region, testRegion);
       assert.deepEqual(found.outils_gestion, testOutilsGestion);
       assert.deepEqual(found.nom_etablissement, testNom_etablissement);
+      assert.deepEqual(found.adresse_etablissement, testAdresse_etablissement);
     });
 
     it("Ne permets pas de créer un deuxième utilisateur avec le même couple uai-siret", async () => {
@@ -498,6 +501,7 @@ describe("Service Users", () => {
         telephone: "TELEPHONE1",
         outils_gestion: ["test1", "test2"],
         nom_etablissement: "ETABLISSEMENT1",
+        adresse_etablissement: "ADRESSE ETABLISSEMENT1",
       });
 
       await createUser({
@@ -509,6 +513,7 @@ describe("Service Users", () => {
         telephone: "TELEPHONE2",
         outils_gestion: ["test1", "test2", "test3"],
         nom_etablissement: "ETABLISSEMENT2",
+        adresse_etablissement: "ADRESSE ETABLISSEMENT2",
       });
 
       const allUsers = await getAllUsers();
@@ -524,6 +529,7 @@ describe("Service Users", () => {
       assert.equal(allUsers[0].telephone, "TELEPHONE1");
       assert.deepEqual(allUsers[0].outils_gestion, ["test1", "test2"]);
       assert.equal(allUsers[0].nom_etablissement, "ETABLISSEMENT1");
+      assert.equal(allUsers[0].adresse_etablissement, "ADRESSE ETABLISSEMENT1");
 
       // Utilisateur 2
       assert.ok(allUsers[1]._id);
@@ -535,6 +541,7 @@ describe("Service Users", () => {
       assert.equal(allUsers[1].telephone, "TELEPHONE2");
       assert.deepEqual(allUsers[1].outils_gestion, ["test1", "test2", "test3"]);
       assert.equal(allUsers[1].nom_etablissement, "ETABLISSEMENT2");
+      assert.equal(allUsers[1].adresse_etablissement, "ADRESSE ETABLISSEMENT2");
     });
   });
 

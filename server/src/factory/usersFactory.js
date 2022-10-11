@@ -28,6 +28,7 @@ export class UsersFactory extends BaseFactory {
       region: Joi.string().allow("", null),
       outils_gestion: Joi.array().items(Joi.string()).allow(null),
       nom_etablissement: Joi.string().allow("", null),
+      adresse_etablissement: Joi.string().allow("", null),
     });
 
     const { error } = schema.validate(props);

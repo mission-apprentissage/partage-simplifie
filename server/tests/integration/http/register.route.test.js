@@ -58,6 +58,7 @@ describe("API Route Register", () => {
     const testTelephone = "0100224488";
     const testOutilsGestion = ["outil1", "outil2"];
     const testNomEtablissement = "Etablissement de test";
+    const testAdresseEtablissement = "Adresse Etablissement de test";
 
     const response = await httpClient.post("/api/register", {
       email: testEmail,
@@ -65,6 +66,7 @@ describe("API Route Register", () => {
       siret: testSiret,
       nom: testNom,
       nom_etablissement: testNomEtablissement,
+      adresse_etablissement: testAdresseEtablissement,
       prenom: testPrenom,
       fonction: testFonction,
       region: testRegion,
@@ -81,6 +83,7 @@ describe("API Route Register", () => {
     assert.equal(foundInDb.siret === testSiret, true);
     assert.equal(foundInDb.nom === testNom, true);
     assert.equal(foundInDb.nom_etablissement === testNomEtablissement, true);
+    assert.equal(foundInDb.adresse_etablissement === testAdresseEtablissement, true);
     assert.equal(foundInDb.prenom === testPrenom, true);
     assert.equal(foundInDb.fonction === testFonction, true);
     assert.equal(foundInDb.role === ROLES.OF, true);
@@ -295,6 +298,32 @@ describe("API Route Register", () => {
       siret: testSiret,
       nom: testNom,
       nom_etablissement: testNomEtablissement,
+      prenom: testPrenom,
+      fonction: testFonction,
+      region: testRegion,
+    });
+
+    assert.equal(response.status, 400);
+  });
+
+  it("Vérifie qu'on ne peut s'inscrire si l'adresse d'établissement est au mauvais format", async () => {
+    const { httpClient } = await startServer();
+
+    const testEmail = "testCfa@test.fr";
+    const testUai = "0000000X";
+    const testSiret = "19921500500018";
+    const testNom = "NOM";
+    const testAdresseEtablissement = 123;
+    const testPrenom = "Kylian";
+    const testFonction = "Directeur";
+    const testRegion = "Ma région";
+
+    const response = await httpClient.post("/api/register", {
+      email: testEmail,
+      uai: testUai,
+      siret: testSiret,
+      nom: testNom,
+      adresse_etablissement: testAdresseEtablissement,
       prenom: testPrenom,
       fonction: testFonction,
       region: testRegion,
