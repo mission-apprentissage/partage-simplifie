@@ -37,6 +37,7 @@ const createUser = async (userProps) => {
   const region = userProps.region || null;
   const outils_gestion = userProps.outils_gestion || [];
   const nom_etablissement = userProps.nom_etablissement || null;
+  const adresse_etablissement = userProps.adresse_etablissement || null;
 
   // Création via Factory
   const userEntity = UsersFactory.create({
@@ -52,6 +53,7 @@ const createUser = async (userProps) => {
     region,
     outils_gestion,
     nom_etablissement,
+    adresse_etablissement,
   });
 
   // Ajout et renvoi de l'id

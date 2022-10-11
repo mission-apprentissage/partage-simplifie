@@ -26,7 +26,7 @@ export default function useAuth() {
       localStorage.setItem(LOCAL_STORAGE_USER_NOM_ETABLISSEMENT, decodedAccessToken.nom_etablissement);
       localStorage.setItem(LOCAL_STORAGE_USER_UAI, decodedAccessToken.uai);
       localStorage.setItem(LOCAL_STORAGE_USER_SIRET, decodedAccessToken.siret);
-      localStorage.setItem(LOCAL_STORAGE_USER_ADRESSE, decodedAccessToken.adresse);
+      localStorage.setItem(LOCAL_STORAGE_USER_ADRESSE, decodedAccessToken.adresse_etablissement);
       localStorage.setItem(LOCAL_STORAGE_USER_OUTILS_GESTION, decodedAccessToken.outils_gestion);
       setAuth(decodedAccessToken);
     }

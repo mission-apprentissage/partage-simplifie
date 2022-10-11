@@ -44,12 +44,11 @@ const EspaceOrganismePage = () => {
           organismes de formation, permettant aux pouvoirs publics de piloter au mieux la politique de l’apprentissage
           nationalement et localement.
         </Text>
-
         <SituationOrganisme
           uai={auth.uai || ""}
           siret={auth.siret || ""}
           nomEtablissement={userNomEtablissement || ""}
-          adresse={auth.adresse || ""}
+          adresse={auth.adresse_etablissement || ""}
           outilsGestion={auth.outils_gestion?.join(", ") || ""}
           showSendAnomalie
         />

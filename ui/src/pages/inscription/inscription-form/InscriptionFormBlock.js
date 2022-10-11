@@ -10,7 +10,12 @@ import useSubmitInscription from "./useSubmitInscription.js";
 
 const InscriptionFormBlock = ({ organisme }) => {
   const { uai, siret, siren, nom_etablissement, nature, adresse, reseaux, academie, region } = organisme;
-  const { formState, submitInscription } = useSubmitInscription({ uai, siret, nom_etablissement });
+  const { formState, submitInscription } = useSubmitInscription({
+    uai,
+    siret,
+    nom_etablissement,
+    adresse_etablissement: adresse,
+  });
 
   return (
     <>
@@ -22,7 +27,7 @@ const InscriptionFormBlock = ({ organisme }) => {
             siren={siren}
             nom_etablissement={nom_etablissement}
             nature={nature}
-            adresse={adresse}
+            adresse_etablissement={adresse}
             reseaux={reseaux}
             academie={academie}
             region={region}

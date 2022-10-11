@@ -34,6 +34,7 @@ describe("API Route Users", () => {
         telephone: "TELEPHONE1",
         outils_gestion: ["test1", "test2"],
         nom_etablissement: "ETABLISSEMENT1",
+        adresse_etablissement: "ADRESSE ETABLISSEMENT1",
       });
 
       await services.users.createUser({
@@ -45,6 +46,7 @@ describe("API Route Users", () => {
         telephone: "TELEPHONE2",
         outils_gestion: ["test1", "test2", "test3"],
         nom_etablissement: "ETABLISSEMENT2",
+        adresse_etablissement: "ADRESSE ETABLISSEMENT2",
       });
 
       const response = await httpClient.get("/api/users", { headers: bearerToken });
@@ -69,6 +71,7 @@ describe("API Route Users", () => {
       assert.equal(response.data[1].telephone, "TELEPHONE1");
       assert.deepEqual(response.data[1].outils_gestion, ["test1", "test2"]);
       assert.equal(response.data[1].nom_etablissement, "ETABLISSEMENT1");
+      assert.equal(response.data[1].adresse_etablissement, "ADRESSE ETABLISSEMENT1");
 
       // Utilisateur 1
       assert.ok(response.data[2].id);
@@ -81,6 +84,7 @@ describe("API Route Users", () => {
       assert.equal(response.data[2].telephone, "TELEPHONE2");
       assert.deepEqual(response.data[2].outils_gestion, ["test1", "test2", "test3"]);
       assert.equal(response.data[2].nom_etablissement, "ETABLISSEMENT2");
+      assert.equal(response.data[2].adresse_etablissement, "ADRESSE ETABLISSEMENT2");
     });
   });
 
