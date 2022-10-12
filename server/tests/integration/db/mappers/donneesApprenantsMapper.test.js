@@ -66,20 +66,20 @@ describe("Mapper DonneesApprenants", () => {
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant] = "111111111XX";
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant] = "31555";
 
-      const DATE_FORMAT = "dd-MM-yyyy";
+      const DATE_FORMAT = "dd/MM/yyyy";
 
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = format(
-        new Date("2022-10-01"),
+        new Date("2022/10/01"),
         DATE_FORMAT
       ).toString();
 
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] = format(
-        new Date("2022-10-05"),
+        new Date("2022/10/05"),
         DATE_FORMAT
       ).toString();
 
       optionalFields[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] = format(
-        new Date("2022-10-10"),
+        new Date("2022/10/10"),
         DATE_FORMAT
       ).toString();
 
@@ -193,12 +193,12 @@ describe("Mapper DonneesApprenants", () => {
       const testAnneeFormation = 2;
       const testNomApprenant = "SMITH";
       const testPrenomApprenant = "John";
-      const testDateDeNaissance = new Date("2002-04-01");
+      const testDateDeNaissance = new Date("2002/04/01");
       const testTelephoneApprenant = "0638444989";
       const testEmailApprenant = "kevin@adams.fr";
       const testIneApprenant = "111111111AA";
       const testCodeCommuneInseeApprenant = "59122";
-      const testDateInscription = new Date("2022-09-01");
+      const testDateInscription = new Date("2022/09/01");
 
       const donneeApprenantTest = await DonneesApprenantsFactory.create({
         user_email: testUserEmail,
@@ -271,12 +271,12 @@ describe("Mapper DonneesApprenants", () => {
       const testAnneeFormation = 2;
       const testNomApprenant = "SMITH";
       const testPrenomApprenant = "John";
-      const testDateDeNaissance = new Date("2002-04-01");
+      const testDateDeNaissance = new Date("2002/04/01");
       const testTelephoneApprenant = "0638444989";
       const testEmailApprenant = "kevin@adams.fr";
       const testIneApprenant = "111111111AA";
       const testCodeCommuneInseeApprenant = "59122";
-      const testDateContrat = new Date("2022-09-01");
+      const testDateContrat = new Date("2022/09/01");
 
       const donneeApprenantTest = await DonneesApprenantsFactory.create({
         user_email: testUserEmail,
@@ -346,12 +346,12 @@ describe("Mapper DonneesApprenants", () => {
       const testAnneeFormation = 2;
       const testNomApprenant = "SMITH";
       const testPrenomApprenant = "John";
-      const testDateDeNaissance = new Date("2002-04-01");
+      const testDateDeNaissance = new Date("2002/04/01");
       const testTelephoneApprenant = "0638444989";
       const testEmailApprenant = "kevin@adams.fr";
       const testIneApprenant = "111111111AA";
       const testCodeCommuneInseeApprenant = "59122";
-      const testDateSortie = new Date("2022-09-01");
+      const testDateSortie = new Date("2022/09/01");
 
       const donneeApprenantTest = await DonneesApprenantsFactory.create({
         user_email: testUserEmail,
@@ -421,13 +421,13 @@ describe("Mapper DonneesApprenants", () => {
       const testAnneeFormation = 2;
       const testNomApprenant = "SMITH";
       const testPrenomApprenant = "John";
-      const testDateDeNaissance = new Date("2002-04-01");
+      const testDateDeNaissance = new Date("2002/04/01");
       const testTelephoneApprenant = "0638444989";
       const testEmailApprenant = "kevin@adams.fr";
       const testIneApprenant = "111111111AA";
       const testCodeCommuneInseeApprenant = "59122";
-      const testDateInscription = new Date("2022-09-01");
-      const testDateContrat = new Date("2022-10-01");
+      const testDateInscription = new Date("2022/09/01");
+      const testDateContrat = new Date("2022/10/01");
 
       const donneeApprenantTest = await DonneesApprenantsFactory.create({
         user_email: testUserEmail,
@@ -537,14 +537,14 @@ describe("Mapper DonneesApprenants", () => {
       const testAnneeFormation = 2;
       const testNomApprenant = "SMITH";
       const testPrenomApprenant = "John";
-      const testDateDeNaissance = new Date("2002-04-01");
+      const testDateDeNaissance = new Date("2002/04/01");
       const testTelephoneApprenant = "0638444989";
       const testEmailApprenant = "kevin@adams.fr";
       const testIneApprenant = "111111111AA";
       const testCodeCommuneInseeApprenant = "59122";
-      const testDateInscription = new Date("2022-09-01");
-      const testDateContrat = new Date("2022-10-01");
-      const testDateSortie = new Date("2022-10-31");
+      const testDateInscription = new Date("2022/09/01");
+      const testDateContrat = new Date("2022/10/01");
+      const testDateSortie = new Date("2022/10/31");
 
       const donneeApprenantTest = await DonneesApprenantsFactory.create({
         user_email: testUserEmail,
