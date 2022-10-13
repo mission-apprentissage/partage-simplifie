@@ -44,7 +44,10 @@ describe("API Route Organismes", () => {
       response.data.organismes[0].nature === sampleUniqueOrganismeFromReferentiel.organismes[0].nature,
       true
     );
-    assert.deepEqual(response.data.organismes[0].reseaux, sampleUniqueOrganismeFromReferentiel.organismes[0].reseaux);
+    assert.deepEqual(
+      response.data.organismes[0].reseaux,
+      sampleUniqueOrganismeFromReferentiel.organismes[0].reseaux?.map((item) => item.label)
+    );
     assert.equal(
       response.data.organismes[0].nom_etablissement ===
         sampleUniqueOrganismeFromReferentiel.organismes[0].raison_sociale,
@@ -94,7 +97,7 @@ describe("API Route Organismes", () => {
       );
       assert.deepEqual(
         response.data.organismes[index].reseaux,
-        sampleMultiplesOrganismesFromReferentiel.organismes[index].reseaux
+        sampleMultiplesOrganismesFromReferentiel.organismes[index].reseaux?.map((item) => item.label)
       );
       assert.equal(
         response.data.organismes[index].nom_etablissement ===
