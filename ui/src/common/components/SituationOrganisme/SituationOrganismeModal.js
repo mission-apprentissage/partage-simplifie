@@ -18,14 +18,16 @@ import { useMutation, useQueryClient } from "react-query";
 import * as Yup from "yup";
 
 import { postSignalementAnomalie } from "../../api/api";
-import { LOCAL_STORAGE_USER_EMAIL } from "../../constants/localStorageConstants";
 import { QUERY_KEYS } from "../../constants/queryKeys";
+import useAuth from "../../hooks/useAuth";
 import AlertBlock from "../AlertBlock/AlertBlock";
 import ModalClosingButton from "../ModalClosingButton/ModalClosingButton";
 
 const SituationOrganismeModal = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
   const [isSent, setIsSent] = useState(false);
+  const [auth] = useAuth();
+
   const createSignalementAnomalie = useMutation(
     (newAnomalie) => {
       return postSignalementAnomalie(newAnomalie);
@@ -46,7 +48,7 @@ const SituationOrganismeModal = ({ isOpen, onClose }) => {
       message: Yup.string().required("Requis"),
     }),
     onSubmit: ({ message }) => {
-      const email = localStorage.getItem(LOCAL_STORAGE_USER_EMAIL);
+      const email = auth?.sub;
       createSignalementAnomalie.mutateAsync({ message, email });
     },
   });

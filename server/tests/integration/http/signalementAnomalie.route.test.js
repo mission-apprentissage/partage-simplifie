@@ -25,32 +25,56 @@ describe("API Route SignalementAnomalie", () => {
       assert.equal(foundInDb.created_at !== null, true);
     });
 
-    it("renvoie une erreur HTTP 400 lorsque qu'il maque un ou plusieurs parametres", async () => {
+    it("renvoie une erreur HTTP 400 lorsqu'il manque le parametre message", async () => {
       const { httpClient } = await startServer();
       const email = "user1@test.fr";
+
+      const responseOnlyEmail = await httpClient.post("/api/signalementAnomalie", { email });
+
+      assert.equal(responseOnlyEmail.status, 400);
+    });
+
+    it("renvoie une erreur HTTP 400 lorsqu'il manque le parametre email", async () => {
+      const { httpClient } = await startServer();
       const message = "Je suis une anomalie";
 
-      const response = await httpClient.post("/api/signalementAnomalie", {});
-      const responseOnlyEmail = await httpClient.post("/api/signalementAnomalie", { email });
       const responseOnlyMessage = await httpClient.post("/api/signalementAnomalie", { message });
 
-      assert.equal(response.status, 400);
-      assert.equal(responseOnlyEmail.status, 400);
       assert.equal(responseOnlyMessage.status, 400);
     });
 
-    it("renvoie une erreur HTTP 400 lorsque que le format d'un parametre est invalide", async () => {
+    it("renvoie une erreur HTTP 400 lorsqu'il il y aucun parametre", async () => {
       const { httpClient } = await startServer();
-      const email = "user1@test.fr";
+
+      const responseWithoutEmailAndMessage = await httpClient.post("/api/signalementAnomalie", {});
+
+      assert.equal(responseWithoutEmailAndMessage.status, 400);
+    });
+
+    it("renvoie une erreur HTTP 400 lorsque que le format du parametre email est invalide", async () => {
+      const { httpClient } = await startServer();
       const message = 'Je suis une anomalie"';
       const invalideEmail = "user1";
+
+      const responseInvalideEmail = await httpClient.post("/api/signalementAnomalie", {
+        email: invalideEmail,
+        message,
+      });
+
+      assert.equal(responseInvalideEmail.status, 400);
+    });
+
+    it("renvoie une erreur HTTP 400 lorsque que le format du parametre message est invalide", async () => {
+      const { httpClient } = await startServer();
+      const email = "user1@test.fr";
       const invalideMessage = 23232;
 
-      const responseInvalideMessage = await httpClient.post("/api/signalementAnomalie", { email, invalideMessage });
-      const responseInvalideEmail = await httpClient.post("/api/signalementAnomalie", { invalideEmail, message });
+      const responseInvalideMessage = await httpClient.post("/api/signalementAnomalie", {
+        email,
+        message: invalideMessage,
+      });
 
       assert.equal(responseInvalideMessage.status, 400);
-      assert.equal(responseInvalideEmail.status, 400);
     });
   });
 });

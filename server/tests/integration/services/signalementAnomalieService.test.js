@@ -20,7 +20,19 @@ describe("Service SignalementAnomalyMessage", () => {
       assert.equal(foundInDb.created_at !== null, true);
     });
 
-    it("Ne créé pas de un message pour prevenir d'une anomalie si l'email ou le message est au mauvais format", async () => {
+    it("Ne créé pas de un message pour prevenir d'une anomalie si le message est au mauvais format", async () => {
+      const { createSignalementAnomalie } = signalementAnomalieService();
+
+      const insertedIdInvalideMessage = await createSignalementAnomalie("test@test.fr", 123);
+
+      const foundInDbInvalideMessage = await dbCollection(COLLECTIONS_NAMES.SignalementAnomalie).findOne({
+        _id: insertedIdInvalideMessage,
+      });
+
+      assert.equal(foundInDbInvalideMessage === null, true);
+    });
+
+    it("Ne créé pas de un message pour prevenir d'une anomalie si l'email est au mauvais format", async () => {
       const { createSignalementAnomalie } = signalementAnomalieService();
 
       const insertedIdInvalideEmail = await createSignalementAnomalie("tes", "Je suis une anomalie");
@@ -29,14 +41,7 @@ describe("Service SignalementAnomalyMessage", () => {
         _id: insertedIdInvalideEmail,
       });
 
-      const insertedIdInvalideMessage = await createSignalementAnomalie("test@test.fr", 123);
-
-      const foundInDbInvalideMessage = await dbCollection(COLLECTIONS_NAMES.SignalementAnomalie).findOne({
-        _id: insertedIdInvalideMessage,
-      });
-
       assert.equal(foundInDbInvalideEmail === null, true);
-      assert.equal(foundInDbInvalideMessage === null, true);
     });
   });
 });
