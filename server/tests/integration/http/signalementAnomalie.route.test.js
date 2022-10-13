@@ -24,5 +24,33 @@ describe("API Route SignalementAnomalie", () => {
       assert.equal(foundInDb.message === message, true);
       assert.equal(foundInDb.created_at !== null, true);
     });
+
+    it("renvoie une erreur HTTP 400 lorsque qu'il maque un ou plusieurs parametres", async () => {
+      const { httpClient } = await startServer();
+      const email = "user1@test.fr";
+      const message = "Je suis une anomalie";
+
+      const response = await httpClient.post("/api/signalementAnomalie", {});
+      const responseOnlyEmail = await httpClient.post("/api/signalementAnomalie", { email });
+      const responseOnlyMessage = await httpClient.post("/api/signalementAnomalie", { message });
+
+      assert.equal(response.status, 400);
+      assert.equal(responseOnlyEmail.status, 400);
+      assert.equal(responseOnlyMessage.status, 400);
+    });
+
+    it("renvoie une erreur HTTP 400 lorsque que le format d'un parametre est invalide", async () => {
+      const { httpClient } = await startServer();
+      const email = "user1@test.fr";
+      const message = 'Je suis une anomalie"';
+      const invalideEmail = "user1";
+      const invalideMessage = 23232;
+
+      const responseInvalideMessage = await httpClient.post("/api/signalementAnomalie", { email, invalideMessage });
+      const responseInvalideEmail = await httpClient.post("/api/signalementAnomalie", { invalideEmail, message });
+
+      assert.equal(responseInvalideMessage.status, 400);
+      assert.equal(responseInvalideEmail.status, 400);
+    });
   });
 });
