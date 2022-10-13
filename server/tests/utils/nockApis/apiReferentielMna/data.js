@@ -13,7 +13,20 @@ export const sampleUniqueOrganismeFromReferentiel = {
     {
       siret: "19921500500018",
       nature: "formateur",
-      reseaux: ["reseau1", "reseau2"],
+      reseaux: [
+        {
+          code: "reseau1",
+          label: "reseau1",
+          sources: ["tableau-de-bord"],
+          date_vue: "2022-10-12T04:08:45.574Z",
+        },
+        {
+          code: "reseau1",
+          label: "reseau1",
+          sources: ["tableau-de-bord"],
+          date_vue: "2022-10-12T04:08:45.574Z",
+        },
+      ],
       adresse: {
         academie: {
           code: "25",
@@ -60,7 +73,20 @@ export const sampleMultiplesOrganismesFromReferentiel = {
     {
       siret: "19921500500099",
       nature: "formateur",
-      reseaux: ["reseau1", "reseau2"],
+      reseaux: [
+        {
+          code: "reseau1",
+          label: "reseau1",
+          sources: ["tableau-de-bord"],
+          date_vue: "2022-10-12T04:08:45.574Z",
+        },
+        {
+          code: "reseau1",
+          label: "reseau1",
+          sources: ["tableau-de-bord"],
+          date_vue: "2022-10-12T04:08:45.574Z",
+        },
+      ],
       adresse: {
         academie: {
           code: "25",
@@ -96,7 +122,20 @@ export const sampleMultiplesOrganismesFromReferentiel = {
     {
       siret: "19921500500098",
       nature: "formateur",
-      reseaux: ["reseau1", "reseau2"],
+      reseaux: [
+        {
+          code: "reseau1",
+          label: "reseau1",
+          sources: ["tableau-de-bord"],
+          date_vue: "2022-10-12T04:08:45.574Z",
+        },
+        {
+          code: "reseau1",
+          label: "reseau1",
+          sources: ["tableau-de-bord"],
+          date_vue: "2022-10-12T04:08:45.574Z",
+        },
+      ],
       adresse: {
         academie: {
           code: "25",
