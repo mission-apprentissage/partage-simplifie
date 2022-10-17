@@ -10,6 +10,7 @@ export const createIndexes = async () => {
     COLLECTIONS_INDEXS.DemandesActivationCompte
   ).createIndexs();
   await new BaseIndexer(COLLECTIONS_NAMES.DonneesApprenants, COLLECTIONS_INDEXS.DonneesApprenants).createIndexs();
+  await new BaseIndexer(COLLECTIONS_NAMES.SignalementAnomalie, COLLECTIONS_INDEXS.SignalementAnomalie).createIndexs();
 };
 
 export const dropIndexes = async () => {
@@ -21,4 +22,5 @@ export const dropIndexes = async () => {
     COLLECTIONS_INDEXS.DemandesActivationCompte
   ).dropIndexs();
   await new BaseIndexer(COLLECTIONS_NAMES.DonneesApprenants, COLLECTIONS_INDEXS.DonneesApprenants).dropIndexs();
+  await new BaseIndexer(COLLECTIONS_NAMES.SignalementAnomalie, COLLECTIONS_INDEXS.SignalementAnomalie).dropIndexs();
 };
