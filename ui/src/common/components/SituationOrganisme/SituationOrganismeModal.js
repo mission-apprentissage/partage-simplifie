@@ -64,7 +64,7 @@ const SituationOrganismeModal = ({ isOpen, onClose }) => {
         </ModalHeader>
         <ModalClosingButton />
         <ModalBody paddingX="12w" color="#161616" paddingBottom="10w">
-          <Box border="1px solid" borderColor="bluefrance" padding="4w">
+          <Box padding="4w">
             {!isSent ? (
               <>
                 <FormControl isRequired isInvalid={errors.nom_etablissement}>

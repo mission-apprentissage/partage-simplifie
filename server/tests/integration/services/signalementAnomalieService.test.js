@@ -3,8 +3,8 @@ import signalementAnomalieService from "../../../src/services/signalementAnomali
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 
-describe("Service SignalementAnomalyMessage", () => {
-  describe("createSignalementAnomalyMessage", () => {
+describe("Service SignalementAnomalie", () => {
+  describe("createSignalementAnomalie", () => {
     it("Permet de créer un message pour prevenir d'une anomalie et de le sauver en base", async () => {
       const { createSignalementAnomalie } = signalementAnomalieService();
 
