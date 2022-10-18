@@ -1,7 +1,7 @@
 import { Box, Button, Heading, HStack, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-import SituationOrganismeModal from "./SituationOrganismeModal";
+import SignalerAnomalieModal from "./SignalerAnomalieModal";
 
 const SituationOrganisme = ({ uai, nomEtablissement, adresse, siret, outilsGestion, showSendAnomalie = false }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -43,7 +43,7 @@ const SituationOrganisme = ({ uai, nomEtablissement, adresse, siret, outilsGesti
             <Button width="40%" variant="secondary" marginTop="1w" onClick={onOpen}>
               Signaler une anomalie
             </Button>
-            <SituationOrganismeModal isOpen={isOpen} onClose={onClose} />
+            <SignalerAnomalieModal isOpen={isOpen} onClose={onClose} />
           </>
         )}
       </Stack>

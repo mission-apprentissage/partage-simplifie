@@ -23,10 +23,10 @@ import useAuth from "../../hooks/useAuth";
 import AlertBlock from "../AlertBlock/AlertBlock";
 import ModalClosingButton from "../ModalClosingButton/ModalClosingButton";
 
-const SituationOrganismeModal = ({ isOpen, onClose }) => {
+const SignalerAnomalieModal = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
   const [isSent, setIsSent] = useState(false);
-  const [auth] = useAuth();
+  const { auth } = useAuth();
 
   const createSignalementAnomalie = useMutation(
     (newAnomalie) => {
@@ -97,9 +97,9 @@ const SituationOrganismeModal = ({ isOpen, onClose }) => {
   );
 };
 
-SituationOrganismeModal.propTypes = {
+SignalerAnomalieModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default SituationOrganismeModal;
+export default SignalerAnomalieModal;
