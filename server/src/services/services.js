@@ -5,6 +5,7 @@ import createUsersService from "./usersService.js";
 import createOrganismesService from "./organismesService.js";
 import createDemandesActivationCompteService from "./demandesActivationCompteService.js";
 import createDonneesApprenantsService from "./donneesApprenantsService.js";
+import createSignalementAnomalieService from "./signalementAnomalieService.js";
 
 export const createServices = async (options = {}) => {
   const db = options.db || (await connectToMongodb()).db;
@@ -14,6 +15,8 @@ export const createServices = async (options = {}) => {
   const organismes = options.organismes || createOrganismesService();
   const demandesActivationCompte = options.demandesActivationCompte || createDemandesActivationCompteService();
   const donneesApprenantsService = options.donneesApprenantsService || createDonneesApprenantsService();
+  const signalementAnomalie = options.signalementAnomalie || createSignalementAnomalieService();
+
   return {
     userEvents,
     jobEvents,
@@ -22,5 +25,6 @@ export const createServices = async (options = {}) => {
     demandesActivationCompte,
     donneesApprenantsService,
     db,
+    signalementAnomalie,
   };
 };
