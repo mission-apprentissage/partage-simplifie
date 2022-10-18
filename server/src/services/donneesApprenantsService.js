@@ -4,6 +4,7 @@ import { dbCollection } from "../model/db/mongodbClient.js";
 import { COLLECTIONS_NAMES } from "../model/collections/index.js";
 import { asyncForEach } from "../common/utils/asyncUtils.js";
 import { DonneesApprenantsFactory } from "../factory/donneesApprenantsFactory.js";
+import { XLSX_DateNF_Format } from "../domain/date.js";
 
 /**
  * Import des données apprenants pour l'utilisateur
@@ -36,9 +37,11 @@ const readDonneesApprenantsFromXlsxBuffer = (
   headerNbLinesToRemove = DONNEES_APPRENANT_XLSX_FILE.NB_LINES_TO_REMOVE
 ) => {
   // Lecture des données depuis le buffer du fichier XLSX en gérant l'entête du fichier
-  const workbook = XLSX.read(fileBuffer);
+  const workbook = XLSX.read(fileBuffer, { cellText: false, cellDates: true });
   const aoa = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {
     header: DONNEES_APPRENANT_XLSX_FILE.HEADERS,
+    raw: false,
+    dateNF: XLSX_DateNF_Format,
   });
   const donneesApprenants = aoa?.splice(headerNbLinesToRemove);
   return donneesApprenants;
