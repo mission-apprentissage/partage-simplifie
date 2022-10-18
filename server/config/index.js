@@ -1,6 +1,6 @@
 import env from "env-var";
 
-const DEFAULT_MNA_REFERENTIEL_API_URL = "https://referentiel.apprentissage.beta.gouv.fr/api/v1";
+const DEFAULT_MNA_REFERENTIEL_API_URL = "https://referentiel.apprentissage.onisep.fr/api/v1";
 
 export const config = {
   appName: env.get("PARTAGE_SIMPLIFIE_NAME").default("Partage simplifié").asString(),
