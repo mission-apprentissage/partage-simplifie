@@ -4,7 +4,7 @@ import { schema as siretSchema } from "../domain/siret.js";
 
 export const DONNEES_APPRENANT_XLSX_FIELDS = {
   NomDuChamp: "Nom du champ",
-  CFD: "CFD",
+  CFD: "Code Formation Diplôme",
   CodeRNCP: "Code RNCP",
   AnneeScolaire: "Année scolaire sur laquelle l'apprenant est positionné",
   AnneeFormation: "Année de formation dans le cursus (1,2 ou 3)",
@@ -15,9 +15,12 @@ export const DONNEES_APPRENANT_XLSX_FIELDS = {
   EmailApprenant: "Email de l'apprenant",
   IneApprenant: "INE de l'apprenant",
   CodeCommuneInseeApprenant: "Code commune INSEE de l'apprenant",
-  DateInscription: "Date d'inscription en formation sans contrat (soit initialement soit après une rupture de contrat)",
-  DateContrat: "Date de contrat",
-  DateSortieFormation: "Date de sortie de la formation : arrêt du contrat + de cette formation",
+  DateInscription: "Date d'inscription en formation",
+  DateFinFormation: "Date de fin de formation prévue",
+  DateDebutContrat: "Date de début de contrat en cours",
+  DateFinContrat: "Date de fin de contrat prévue du contrat en cours",
+  DateRuptureContrat: "Date de rupture de contrat",
+  DateSortieFormation: "Sortie de la formation (arrêt du contrat et de cette formation en apprentissage).",
 };
 
 export const DONNEES_APPRENANT_XLSX_FILE = {
@@ -36,7 +39,10 @@ export const DONNEES_APPRENANT_XLSX_FILE = {
     DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant,
     DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant,
     DONNEES_APPRENANT_XLSX_FIELDS.DateInscription,
-    DONNEES_APPRENANT_XLSX_FIELDS.DateContrat,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat,
+    DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat,
     DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation,
   ],
 };
@@ -61,10 +67,13 @@ export const schema = Joi.object()
     ine_apprenant: Joi.string().allow("", null),
     code_commune_insee_apprenant: Joi.string().allow("", null),
     date_inscription: Joi.date().iso().allow(null),
-    date_contrat: Joi.date().iso().allow(null),
+    date_fin_formation: Joi.date().iso().allow(null),
+    date_debut_contrat: Joi.date().iso().allow(null),
+    date_fin_contrat: Joi.date().iso().allow(null),
+    date_rupture_contrat: Joi.date().iso().allow(null),
     date_sortie_formation: Joi.date().iso().allow(null),
   })
-  .or("date_inscription", "date_contrat", "date_sortie_formation");
+  .or("date_inscription", "date_debut_contrat", "date_sortie_formation");
 
 const arraySchema = Joi.array().items(schema);
 

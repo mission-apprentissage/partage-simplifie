@@ -1,7 +1,7 @@
 import XLSX from "xlsx";
 import { faker } from "@faker-js/faker/locale/fr";
 import RandExp from "randexp";
-import { subMonths, subWeeks, subDays } from "date-fns";
+import { subMonths, subWeeks, subDays, addMonths } from "date-fns";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../../src/domain/donneesApprenants.js";
 import { format } from "date-fns";
 
@@ -28,8 +28,17 @@ const DATE_FORMAT = "dd/MM/yyyy";
 const getRandomDateInscription = () =>
   format(faker.date.between(subMonths(new Date(), 2), subMonths(new Date(), 1)), DATE_FORMAT).toString();
 
+const getRandomDateFinFormation = () =>
+  format(faker.date.between(addMonths(new Date(), 18), addMonths(new Date(), 24)), DATE_FORMAT).toString();
+
 const getRandomDateContrat = () =>
   format(faker.date.between(subWeeks(new Date(), 3), subWeeks(new Date(), 1)), DATE_FORMAT).toString();
+
+const getRandomDateFinContrat = () =>
+  format(faker.date.between(addMonths(new Date(), 12), addMonths(new Date(), 12)), DATE_FORMAT).toString();
+
+const getRandomDateRuptureContrat = () =>
+  format(faker.date.between(addMonths(new Date(), 1), addMonths(new Date(), 2)), DATE_FORMAT).toString();
 
 const getRandomDateSortieFormation = () =>
   format(faker.date.between(subDays(new Date(), 3), subDays(new Date(), 1)), DATE_FORMAT).toString();
@@ -60,12 +69,20 @@ export const createRandomXlsxDonneesApprenant = (params) => {
   randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant] = faker.datatype.boolean()
     ? faker.address.zipCode()
     : null;
-  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = faker.datatype.boolean()
-    ? getRandomDateInscription()
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = getRandomDateInscription();
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation] = faker.datatype.boolean()
+    ? getRandomDateFinFormation()
     : null;
-  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] = faker.datatype.boolean()
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat] = faker.datatype.boolean()
     ? getRandomDateContrat()
     : null;
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat] = faker.datatype.boolean()
+    ? getRandomDateFinContrat()
+    : null;
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat] = faker.datatype.boolean()
+    ? getRandomDateRuptureContrat()
+    : null;
+
   randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] = faker.datatype.boolean()
     ? getRandomDateSortieFormation()
     : null;

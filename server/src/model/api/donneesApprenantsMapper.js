@@ -25,13 +25,15 @@ export const toDonneesApprenantsFromXlsx = (donneesApprenantsXlsx) => {
   const parsedDateInscription = parseFormattedDate(
     donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]
   );
-  const parsedDateContrat = parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]);
+  const parsedDateDebutContrat = parseFormattedDate(
+    donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]
+  );
   const parsedDateSortieFormation = parseFormattedDate(
     donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]
   );
 
   if (parsedDateInscription !== null) mapped.date_inscription = parsedDateInscription;
-  if (parsedDateContrat !== null) mapped.date_contrat = parsedDateContrat;
+  if (parsedDateDebutContrat !== null) mapped.date_debut_contrat = parsedDateDebutContrat;
   if (parsedDateSortieFormation !== null) mapped.date_sortie_formation = parsedDateSortieFormation;
 
   return mapped;
