@@ -9,7 +9,7 @@ export const toDonneesApprenantsFromXlsx = (donneesApprenantsXlsx) => {
   const mapped = {
     cfd: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CFD],
     annee_scolaire: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire],
-    annee_formation: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation],
+    annee_formation: parseInt(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation]),
     nom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant],
     prenom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant],
     date_de_naissance_apprenant: parseFormattedDate(
