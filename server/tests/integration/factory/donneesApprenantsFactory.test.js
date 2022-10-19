@@ -64,6 +64,7 @@ describe("Factory DonneesApprenants", () => {
       const testCodeCommuneInseeApprenant = "59122";
       const testDateInscription = new Date("2022-09-01");
       const testDateContrat = new Date("2022-10-01");
+      const testDateFinContrat = new Date("2023-10-01");
       const testDateSortieFormation = new Date("2022-10-23");
 
       const entity = await DonneesApprenantsFactory.create({
@@ -83,8 +84,10 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
+        date_fin_contrat: testDateFinContrat,
         date_sortie_formation: testDateSortieFormation,
+        date_rupture_contrat: testDateSortieFormation,
       });
 
       assert.equal(entity.user_email === testUserEmail, true);
@@ -103,7 +106,7 @@ describe("Factory DonneesApprenants", () => {
       assert.equal(entity.ine_apprenant === testIneApprenant, true);
       assert.equal(entity.code_commune_insee_apprenant === testCodeCommuneInseeApprenant, true);
       assert.equal(entity.date_inscription.getTime() === testDateInscription.getTime(), true);
-      assert.equal(entity.date_contrat.getTime() === testDateContrat.getTime(), true);
+      assert.equal(entity.date_debut_contrat.getTime() === testDateContrat.getTime(), true);
       assert.equal(entity.date_sortie_formation.getTime() === testDateSortieFormation.getTime(), true);
 
       assert.equal(entity.created_at !== null, true);
@@ -727,7 +730,7 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
@@ -771,7 +774,7 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
@@ -815,7 +818,7 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
@@ -859,7 +862,7 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
@@ -903,7 +906,7 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
@@ -947,14 +950,14 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
       assert.equal(entity === null, true);
     });
 
-    it("Vérifie la non création de donnée apprenant via sa factory avec date_contrat au mauvais format", async () => {
+    it("Vérifie la non création de donnée apprenant via sa factory avec date_debut_contrat au mauvais format", async () => {
       const testUserEmail = "user@cfa.fr";
       const testUai = "0881529J";
       const testSiret = "13002798000031";
@@ -991,7 +994,7 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
@@ -1035,14 +1038,14 @@ describe("Factory DonneesApprenants", () => {
         ine_apprenant: testIneApprenant,
         code_commune_insee_apprenant: testCodeCommuneInseeApprenant,
         date_inscription: testDateInscription,
-        date_contrat: testDateContrat,
+        date_debut_contrat: testDateContrat,
         date_sortie_formation: testDateSortieFormation,
       });
 
       assert.equal(entity === null, true);
     });
 
-    it("Vérifie la non création de demande d'activation de compte via sa factory si un des 3 champs date_inscription / date_contrat / date_sortie_formation est manquant", async () => {
+    it("Vérifie la non création de demande d'activation de compte via sa factory si un des 3 champs date_inscription / date_debut_contrat / date_sortie_formation est manquant", async () => {
       const testUserEmail = "user@cfa.fr";
       const testUai = "0881529J";
       const testSiret = "13002798000031";

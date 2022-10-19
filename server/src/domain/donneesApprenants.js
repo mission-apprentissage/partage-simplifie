@@ -47,33 +47,64 @@ export const DONNEES_APPRENANT_XLSX_FILE = {
   ],
 };
 
-export const schema = Joi.object()
-  .keys({
-    user_email: Joi.string().email().required(),
-    user_uai: uaiSchema.required(),
-    user_siret: siretSchema.required(),
-    user_nom_etablissement: Joi.string().required(),
+export const schema = Joi.object().keys({
+  user_email: Joi.string().email().required(),
+  user_uai: uaiSchema.required(),
+  user_siret: siretSchema.required(),
+  user_nom_etablissement: Joi.string().required(),
 
-    cfd: Joi.string().required(),
-    annee_scolaire: Joi.string().required(),
-    annee_formation: Joi.number().required(),
-    nom_apprenant: Joi.string().required(),
-    prenom_apprenant: Joi.string().required(),
-    date_de_naissance_apprenant: Joi.date().iso().required(),
+  cfd: Joi.string().required(),
+  annee_scolaire: Joi.string().required(),
+  annee_formation: Joi.number().required(),
+  nom_apprenant: Joi.string().required(),
+  prenom_apprenant: Joi.string().required(),
+  date_de_naissance_apprenant: Joi.date().iso().required(),
+  code_rncp: Joi.string().allow("", null),
+  telephone_apprenant: Joi.string().allow("", null),
+  email_apprenant: Joi.string().email().allow("", null),
+  ine_apprenant: Joi.string().allow("", null),
+  code_commune_insee_apprenant: Joi.string().allow("", null),
 
-    code_rncp: Joi.string().allow("", null),
-    telephone_apprenant: Joi.string().allow("", null),
-    email_apprenant: Joi.string().email().allow("", null),
-    ine_apprenant: Joi.string().allow("", null),
-    code_commune_insee_apprenant: Joi.string().allow("", null),
-    date_inscription: Joi.date().iso().allow(null),
-    date_fin_formation: Joi.date().iso().allow(null),
-    date_debut_contrat: Joi.date().iso().allow(null),
-    date_fin_contrat: Joi.date().iso().allow(null),
-    date_rupture_contrat: Joi.date().iso().allow(null),
-    date_sortie_formation: Joi.date().iso().allow(null),
+  date_inscription: Joi.date().iso().required(),
+  date_fin_formation: Joi.date().iso().allow(null),
+
+  // Si date_rupture_contrat fournie alors date_debut_contrat requise
+  date_debut_contrat: Joi.date().iso().allow(null).when("date_rupture_contrat", {
+    is: Joi.exist(),
+    then: Joi.date().iso().required(),
+  }),
+
+  date_fin_contrat: Joi.when("date_debut_contrat", {
+    // Si date_debut_contrat fournie alors date_fin_contrat requise
+    is: Joi.exist(),
+    then: Joi.date().iso().required(),
   })
-  .or("date_inscription", "date_debut_contrat", "date_sortie_formation");
+    // Si date_fin_contrat et date_debut_contrat fournie alors date_fin_contrat doit avoir lieu après la date_debut_contrat
+    .when("date_debut_contrat", {
+      is: Joi.date().timestamp().min(Joi.ref("date_fin_contrat")),
+      then: Joi.forbidden(),
+    }),
+
+  date_rupture_contrat: Joi.date()
+    .iso()
+    .allow(null)
+    // Si date_rupture_contrat fournie alors doit avoir lieu après la date_inscription et la date_debut_contrat mais avant la date_fin_contrat
+    .when(Joi.date().timestamp().max(Joi.ref("date_inscription")), { then: Joi.forbidden() })
+    .when(Joi.date().timestamp().max(Joi.ref("date_debut_contrat")), { then: Joi.forbidden() })
+    .when(Joi.date().timestamp().min(Joi.ref("date_fin_contrat")), { then: Joi.forbidden() })
+    // Si date_sortie_formation fournie alors date_rupture_contrat requise
+    .when("date_sortie_formation", {
+      is: Joi.exist(),
+      then: Joi.date().iso().required(),
+    }),
+
+  date_sortie_formation: Joi.date()
+    .iso()
+    .allow(null)
+    // Si date_sortie_formation fournie doit se situer après la date_inscription et la date_debut_contrat
+    .when(Joi.date().timestamp().max(Joi.ref("date_inscription")), { then: Joi.forbidden() })
+    .when(Joi.date().timestamp().max(Joi.ref("date_debut_contrat")), { then: Joi.forbidden() }),
+});
 
 const arraySchema = Joi.array().items(schema);
 

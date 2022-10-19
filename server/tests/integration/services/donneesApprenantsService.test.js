@@ -4,8 +4,8 @@ import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesAppre
 import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import {
-  createRandomXlsxDonneesApprenant,
   createSampleXlsxBuffer,
+  createValidRandomXlsxDonneesApprenants,
   sampleDonneesApprenantsXlsx,
 } from "../../utils/data/createRandomDonneesApprenants.js";
 import donneesApprenantsService from "../../../src/services/donneesApprenantsService.js";
@@ -28,7 +28,7 @@ describe("Service DonneesApprenants", () => {
 
       // Ajout via la factory de plusieurs donneesApprenants générées depuis un XLSX random
       for (let index = 0; index < nbItems; index++) {
-        const sampleDonneesApprenantFromXlsx = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const sampleDonneesApprenantFromXlsx = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const toAdd = await DonneesApprenantsFactory.create({ ...sampleDonneesApprenantFromXlsx, ...userFields });
         await dbCollection(COLLECTIONS_NAMES.DonneesApprenants).insertOne(toAdd);
       }
@@ -56,7 +56,7 @@ describe("Service DonneesApprenants", () => {
 
       // Ajout via la factory de plusieurs donneesApprenants générées depuis un XLSX random
       for (let index = 0; index < nbItems; index++) {
-        const sampleDonneesApprenantFromXlsx = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const sampleDonneesApprenantFromXlsx = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const toAdd = await DonneesApprenantsFactory.create({ ...sampleDonneesApprenantFromXlsx, ...userFields });
         await dbCollection(COLLECTIONS_NAMES.DonneesApprenants).insertOne(toAdd);
       }
@@ -144,8 +144,8 @@ describe("Service DonneesApprenants", () => {
           true
         );
         assert.equal(
-          donneesApprenants[key][DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] ===
-            sampleDonneesApprenantsXlsx[key][DONNEES_APPRENANT_XLSX_FIELDS.DateContrat],
+          donneesApprenants[key][DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat] ===
+            sampleDonneesApprenantsXlsx[key][DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat],
           true
         );
         assert.equal(
@@ -173,7 +173,7 @@ describe("Service DonneesApprenants", () => {
       const donneesApprenants = [];
       for (let index = 0; index < nbItems; index++) {
         donneesApprenants.push({
-          ...toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant()),
+          ...toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants()),
           ...userFields,
         });
       }

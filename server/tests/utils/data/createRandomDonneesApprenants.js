@@ -87,19 +87,23 @@ export const createRandomXlsxDonneesApprenant = (params) => {
     ? getRandomDateSortieFormation()
     : null;
 
-  // Gère une des 3 dates obligatoire
-  if (
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] === null &&
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] === null &&
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] === null
-  ) {
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = getRandomDateInscription();
-  }
-
   return {
     ...randomDonneesApprenant,
     ...params,
   };
+};
+
+export const createValidRandomXlsxDonneesApprenants = (params) => {
+  const random = createRandomXlsxDonneesApprenant(params);
+
+  // Remove all optional dates
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation];
+
+  return random;
 };
 
 export const createSampleXlsxBuffer = async (data, defaultSheetName = "Example") => {
@@ -125,7 +129,10 @@ export const sampleDonneesApprenantsXlsx = [
     [DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant]: "111111111AA",
     [DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant]: "35487",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]: "18/09/2022",
-    [DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]: "28/09/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]: "18/09/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]: "28/09/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]: "28/06/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]: "",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]: "30/09/2022",
   },
   {
@@ -142,7 +149,10 @@ export const sampleDonneesApprenantsXlsx = [
     [DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant]: "111111111BB",
     [DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant]: "77487",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]: "18/04/2022",
-    [DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]: "28/04/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]: "18/04/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]: "28/04/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]: "28/08/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]: "",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]: "30/04/2022",
   },
 ];

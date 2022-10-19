@@ -77,7 +77,7 @@ export const toDossiersApprenantsList = (donneesApprenant) => {
   currentDossierApprenant.annee_formation = donneesApprenant.annee_formation;
 
   // Evènements des dates de contrat
-  currentDossierApprenant.contrat_date_debut = donneesApprenant.date_contrat;
+  currentDossierApprenant.contrat_date_debut = donneesApprenant.date_debut_contrat;
   // currentDossierApprenant.contrat_date_fin = donneesApprenant.xxxxx; -- On ne remplis pas la date de fin car on ne l'a pas
   currentDossierApprenant.contrat_date_rupture = donneesApprenant.date_sortie_formation;
 
@@ -92,12 +92,12 @@ export const toDossiersApprenantsList = (donneesApprenant) => {
     dossiersApprenantsList.push(dossierInscrit);
   }
 
-  // S'il existe une date de contrat, on ajoute à la liste un dossierApprenant correspondant au statut apprenti avec la date de contrat
-  if (donneesApprenant.date_contrat) {
+  // S'il existe une date de début de contrat, on ajoute à la liste un dossierApprenant correspondant au statut apprenti avec la date de contrat
+  if (donneesApprenant.date_debut_contrat) {
     const dossierApprenti = {
       ...currentDossierApprenant,
       statut_apprenant: CODES_STATUT_APPRENANT.apprenti,
-      date_metier_mise_a_jour_statut: donneesApprenant.date_contrat,
+      date_metier_mise_a_jour_statut: donneesApprenant.date_debut_contrat,
     };
 
     dossiersApprenantsList.push(dossierApprenti);
