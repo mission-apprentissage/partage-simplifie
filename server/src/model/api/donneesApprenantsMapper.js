@@ -5,39 +5,42 @@
 import { parseFormattedDate } from "../../domain/date.js";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../domain/donneesApprenants.js";
 
-export const toDonneesApprenantsFromXlsx = (donneesApprenantsXlsx) => {
-  const mapped = {
-    cfd: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CFD],
-    annee_scolaire: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire],
-    annee_formation: parseInt(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation]),
-    nom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant],
-    prenom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant],
-    date_de_naissance_apprenant: parseFormattedDate(
-      donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]
-    ),
-    code_rncp: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeRNCP],
-    telephone_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.TelephoneApprenant],
-    email_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant],
-    ine_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant],
-    code_commune_insee_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant],
-  };
+export const toDonneesApprenantsFromXlsx = (donneesApprenantsXlsx) => ({
+  cfd: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CFD],
+  annee_scolaire: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire],
+  annee_formation: parseInt(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation]),
+  nom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant],
+  prenom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant],
+  date_de_naissance_apprenant: parseFormattedDate(
+    donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]
+  ),
+  code_rncp: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeRNCP],
+  telephone_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.TelephoneApprenant],
+  email_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant],
+  ine_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant],
+  code_commune_insee_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant],
+  date_inscription: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]),
 
-  const parsedDateInscription = parseFormattedDate(
-    donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]
-  );
-  const parsedDateDebutContrat = parseFormattedDate(
-    donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]
-  );
-  const parsedDateSortieFormation = parseFormattedDate(
-    donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]
-  );
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]) !== null && {
+    date_fin_formation: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]),
+  }),
 
-  if (parsedDateInscription !== null) mapped.date_inscription = parsedDateInscription;
-  if (parsedDateDebutContrat !== null) mapped.date_debut_contrat = parsedDateDebutContrat;
-  if (parsedDateSortieFormation !== null) mapped.date_sortie_formation = parsedDateSortieFormation;
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]) !== null && {
+    date_debut_contrat: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]),
+  }),
 
-  return mapped;
-};
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]) !== null && {
+    date_fin_contrat: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]),
+  }),
+
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]) !== null && {
+    date_rupture_contrat: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]),
+  }),
+
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]) !== null && {
+    date_sortie_formation: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]),
+  }),
+});
 
 export const CODES_STATUT_APPRENANT = {
   inscrit: 2,
