@@ -37,7 +37,7 @@ const readDonneesApprenantsFromXlsxBuffer = (
   headerNbLinesToRemove = DONNEES_APPRENANT_XLSX_FILE.NB_LINES_TO_REMOVE
 ) => {
   // Lecture des données depuis le buffer du fichier XLSX en gérant l'entête du fichier
-  const workbook = XLSX.read(fileBuffer, { cellDates: true });
+  const workbook = XLSX.read(fileBuffer, { cellText: false, cellDates: true });
   const aoa = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {
     header: DONNEES_APPRENANT_XLSX_FILE.HEADERS,
     raw: false,
