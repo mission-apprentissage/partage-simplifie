@@ -1,7 +1,7 @@
 import XLSX from "xlsx";
 import { faker } from "@faker-js/faker/locale/fr";
 import RandExp from "randexp";
-import { subMonths, subWeeks, subDays } from "date-fns";
+import { subMonths, subWeeks, subDays, addMonths } from "date-fns";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../../src/domain/donneesApprenants.js";
 import { format } from "date-fns";
 
@@ -28,8 +28,17 @@ const DATE_FORMAT = "dd/MM/yyyy";
 const getRandomDateInscription = () =>
   format(faker.date.between(subMonths(new Date(), 2), subMonths(new Date(), 1)), DATE_FORMAT).toString();
 
+const getRandomDateFinFormation = () =>
+  format(faker.date.between(addMonths(new Date(), 18), addMonths(new Date(), 24)), DATE_FORMAT).toString();
+
 const getRandomDateContrat = () =>
   format(faker.date.between(subWeeks(new Date(), 3), subWeeks(new Date(), 1)), DATE_FORMAT).toString();
+
+const getRandomDateFinContrat = () =>
+  format(faker.date.between(addMonths(new Date(), 12), addMonths(new Date(), 12)), DATE_FORMAT).toString();
+
+const getRandomDateRuptureContrat = () =>
+  format(faker.date.between(addMonths(new Date(), 1), addMonths(new Date(), 2)), DATE_FORMAT).toString();
 
 const getRandomDateSortieFormation = () =>
   format(faker.date.between(subDays(new Date(), 3), subDays(new Date(), 1)), DATE_FORMAT).toString();
@@ -60,29 +69,41 @@ export const createRandomXlsxDonneesApprenant = (params) => {
   randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant] = faker.datatype.boolean()
     ? faker.address.zipCode()
     : null;
-  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = faker.datatype.boolean()
-    ? getRandomDateInscription()
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = getRandomDateInscription();
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation] = faker.datatype.boolean()
+    ? getRandomDateFinFormation()
     : null;
-  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] = faker.datatype.boolean()
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat] = faker.datatype.boolean()
     ? getRandomDateContrat()
     : null;
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat] = faker.datatype.boolean()
+    ? getRandomDateFinContrat()
+    : null;
+  randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat] = faker.datatype.boolean()
+    ? getRandomDateRuptureContrat()
+    : null;
+
   randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] = faker.datatype.boolean()
     ? getRandomDateSortieFormation()
     : null;
-
-  // Gère une des 3 dates obligatoire
-  if (
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] === null &&
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat] === null &&
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation] === null
-  ) {
-    randomDonneesApprenant[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription] = getRandomDateInscription();
-  }
 
   return {
     ...randomDonneesApprenant,
     ...params,
   };
+};
+
+export const createValidRandomXlsxDonneesApprenants = (params) => {
+  const random = createRandomXlsxDonneesApprenant(params);
+
+  // Remove all optional dates
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat];
+  delete random[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation];
+
+  return random;
 };
 
 export const createSampleXlsxBuffer = async (data, defaultSheetName = "Example") => {
@@ -108,7 +129,10 @@ export const sampleDonneesApprenantsXlsx = [
     [DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant]: "111111111AA",
     [DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant]: "35487",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]: "18/09/2022",
-    [DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]: "28/09/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]: "18/09/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]: "28/09/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]: "28/06/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]: "",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]: "30/09/2022",
   },
   {
@@ -125,7 +149,10 @@ export const sampleDonneesApprenantsXlsx = [
     [DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant]: "111111111BB",
     [DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant]: "77487",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]: "18/04/2022",
-    [DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]: "28/04/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]: "18/04/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]: "28/04/2022",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]: "28/08/2023",
+    [DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]: "",
     [DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]: "30/04/2022",
   },
 ];

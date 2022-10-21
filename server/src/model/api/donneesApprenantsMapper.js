@@ -5,37 +5,49 @@
 import { parseFormattedDate } from "../../domain/date.js";
 import { DONNEES_APPRENANT_XLSX_FIELDS } from "../../domain/donneesApprenants.js";
 
-export const toDonneesApprenantsFromXlsx = (donneesApprenantsXlsx) => {
-  const mapped = {
-    cfd: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CFD],
-    annee_scolaire: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire],
-    annee_formation: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation],
-    nom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant],
-    prenom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant],
+export const toDonneesApprenantsFromXlsx = (donneesApprenantsXlsx) => ({
+  cfd: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CFD],
+  annee_scolaire: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeScolaire],
+  annee_formation: parseInt(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.AnneeFormation]),
+  nom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.NomApprenant],
+  prenom_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.PrenomApprenant],
+
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]) !== null && {
     date_de_naissance_apprenant: parseFormattedDate(
       donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDeNaissanceApprenant]
     ),
-    code_rncp: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeRNCP],
-    telephone_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.TelephoneApprenant],
-    email_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant],
-    ine_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant],
-    code_commune_insee_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant],
-  };
+  }),
 
-  const parsedDateInscription = parseFormattedDate(
-    donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]
-  );
-  const parsedDateContrat = parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateContrat]);
-  const parsedDateSortieFormation = parseFormattedDate(
-    donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]
-  );
+  code_rncp: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeRNCP],
+  telephone_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.TelephoneApprenant],
+  email_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.EmailApprenant],
+  ine_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.IneApprenant],
+  code_commune_insee_apprenant: donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.CodeCommuneInseeApprenant],
 
-  if (parsedDateInscription !== null) mapped.date_inscription = parsedDateInscription;
-  if (parsedDateContrat !== null) mapped.date_contrat = parsedDateContrat;
-  if (parsedDateSortieFormation !== null) mapped.date_sortie_formation = parsedDateSortieFormation;
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]) !== null && {
+    date_inscription: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateInscription]),
+  }),
 
-  return mapped;
-};
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]) !== null && {
+    date_fin_formation: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinFormation]),
+  }),
+
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]) !== null && {
+    date_debut_contrat: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateDebutContrat]),
+  }),
+
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]) !== null && {
+    date_fin_contrat: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateFinContrat]),
+  }),
+
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]) !== null && {
+    date_rupture_contrat: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateRuptureContrat]),
+  }),
+
+  ...(parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]) !== null && {
+    date_sortie_formation: parseFormattedDate(donneesApprenantsXlsx[DONNEES_APPRENANT_XLSX_FIELDS.DateSortieFormation]),
+  }),
+});
 
 export const CODES_STATUT_APPRENANT = {
   inscrit: 2,
@@ -72,9 +84,9 @@ export const toDossiersApprenantsList = (donneesApprenant) => {
   currentDossierApprenant.annee_formation = donneesApprenant.annee_formation;
 
   // Evènements des dates de contrat
-  currentDossierApprenant.contrat_date_debut = donneesApprenant.date_contrat;
-  // currentDossierApprenant.contrat_date_fin = donneesApprenant.xxxxx; -- On ne remplis pas la date de fin car on ne l'a pas
-  currentDossierApprenant.contrat_date_rupture = donneesApprenant.date_sortie_formation;
+  currentDossierApprenant.contrat_date_debut = donneesApprenant.date_debut_contrat;
+  currentDossierApprenant.contrat_date_fin = donneesApprenant.date_fin_contrat;
+  currentDossierApprenant.contrat_date_rupture = donneesApprenant.date_rupture_contrat;
 
   // S'il existe une date d'inscription , on ajoute à la liste un dossierApprenant correspondant au statut inscrit avec la date d'inscription
   if (donneesApprenant.date_inscription) {
@@ -87,12 +99,12 @@ export const toDossiersApprenantsList = (donneesApprenant) => {
     dossiersApprenantsList.push(dossierInscrit);
   }
 
-  // S'il existe une date de contrat, on ajoute à la liste un dossierApprenant correspondant au statut apprenti avec la date de contrat
-  if (donneesApprenant.date_contrat) {
+  // S'il existe une date de début de contrat, on ajoute à la liste un dossierApprenant correspondant au statut apprenti avec la date de contrat
+  if (donneesApprenant.date_debut_contrat) {
     const dossierApprenti = {
       ...currentDossierApprenant,
       statut_apprenant: CODES_STATUT_APPRENANT.apprenti,
-      date_metier_mise_a_jour_statut: donneesApprenant.date_contrat,
+      date_metier_mise_a_jour_statut: donneesApprenant.date_debut_contrat,
     };
 
     dossiersApprenantsList.push(dossierApprenti);
