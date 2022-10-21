@@ -1,12 +1,16 @@
 import { strict as assert } from "assert";
+import { addDays, addMonths, subDays } from "date-fns";
 import {
-  getValidationResultFromList,
   getValidationResult,
-  getFormattedErrors,
   DONNEES_APPRENANT_XLSX_FIELDS,
+  getValidationResultFromList,
+  getFormattedErrors,
 } from "../../../src/domain/donneesApprenants.js";
 import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesApprenantsMapper.js";
-import { createRandomXlsxDonneesApprenant } from "../../utils/data/createRandomDonneesApprenants.js";
+import {
+  createRandomXlsxDonneesApprenant,
+  createValidRandomXlsxDonneesApprenants,
+} from "../../utils/data/createRandomDonneesApprenants.js";
 
 describe("Domain DonneesApprenants", () => {
   describe("validate", () => {
@@ -33,20 +37,6 @@ describe("Domain DonneesApprenants", () => {
       const mappedInput = toDonneesApprenantsFromXlsx(input);
       const result = getValidationResult(mappedInput);
       assert.ok(result.error);
-    });
-
-    it("Vérifie qu'une donnée apprenant random mappée avec données du user est valide", () => {
-      const input = createRandomXlsxDonneesApprenant();
-      const mappedInput = toDonneesApprenantsFromXlsx(input);
-      const userFields = {
-        user_email: "test@test.fr",
-        user_uai: "0000001X",
-        user_siret: "00000000000002",
-        user_nom_etablissement: "Super Etablissement",
-      };
-      const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-      const result = getValidationResult(mappedInputWithUserFields);
-      assert.ok(!result.error);
     });
 
     it("Vérifie qu'une donnée apprenant random mappée avec données du user mais sans CFD est invalide", () => {
@@ -80,8 +70,329 @@ describe("Domain DonneesApprenants", () => {
       assert.ok(result.error);
     });
 
-    it("Vérifie qu'une donnée apprenant random mappée avec données du user mais sans l'une des 3 dates obligatoires est invalide", () => {
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user mais sans date d'inscription est invalide", () => {
       const input = createRandomXlsxDonneesApprenant();
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+      const mappedData = { ...toDonneesApprenantsFromXlsx(input), ...userFields };
+      delete mappedData.date_inscription;
+      const result = getValidationResult(mappedData);
+      assert.ok(result.error);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_debut_contrat mais sans date_fin_contrat est invalide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: addDays(new Date(), 5),
+      };
+
+      delete mappedData.date_fin_contrat;
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_rupture_contrat;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error.details[0].message, '"date_fin_contrat" is required');
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_debut_contrat après la date_fin_contrat est invalide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: new Date(),
+        date_fin_contrat: subDays(new Date(), 2),
+      };
+
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_rupture_contrat;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error.details[0].message, '"date_fin_contrat" is not allowed');
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_debut_contrat avant la date_fin_contrat est valide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: addDays(new Date(), 5),
+        date_fin_contrat: addMonths(new Date(), 12),
+      };
+
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_rupture_contrat;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(!result.error);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_rupture_contrat mais sans date_debut_contrat est invalide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_rupture_contrat: addDays(new Date(), 6),
+      };
+
+      delete mappedData.date_debut_contrat;
+      delete mappedData.date_fin_contrat;
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_debut_contrat" is required', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_rupture_contrat mais sans date_fin_contrat est invalide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: addDays(new Date(), 10),
+        date_rupture_contrat: addDays(new Date(), 20),
+      };
+
+      delete mappedData.date_fin_contrat;
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_fin_contrat" is required', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_rupture_contrat mais < date_inscription est invalide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: addDays(new Date(), 5),
+        date_fin_contrat: addMonths(new Date(), 12),
+        date_rupture_contrat: subDays(new Date(), 10),
+      };
+
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_rupture_contrat" is not allowed', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_rupture_contrat mais < date_debut_contrat est invalide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: addDays(new Date(), 5),
+        date_fin_contrat: addMonths(new Date(), 12),
+        date_rupture_contrat: addDays(new Date(), 1),
+      };
+
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_rupture_contrat" is not allowed', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user avec date_rupture_contrat mais > date_fin_contrat est invalide", () => {
+      const input = createRandomXlsxDonneesApprenant();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: addDays(new Date(), 5),
+        date_fin_contrat: addMonths(new Date(), 12),
+        date_rupture_contrat: addMonths(new Date(), 24),
+      };
+
+      delete mappedData.date_fin_formation;
+      delete mappedData.date_sortie_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_rupture_contrat" is not allowed', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user et date_sortie_formation mais sans date_rupture_contrat est invalide", () => {
+      const input = createValidRandomXlsxDonneesApprenants();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_sortie_formation: addDays(new Date(), 5),
+      };
+
+      delete mappedData.date_rupture_contrat;
+      delete mappedData.date_debut_contrat;
+      delete mappedData.date_fin_contrat;
+      delete mappedData.date_fin_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_rupture_contrat" is required', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user et date_sortie_formation mais < date_inscription est invalide", () => {
+      const input = createValidRandomXlsxDonneesApprenants();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_sortie_formation: subDays(new Date(), 5),
+        date_rupture_contrat: subDays(new Date(), 5),
+      };
+
+      delete mappedData.date_debut_contrat;
+      delete mappedData.date_fin_contrat;
+      delete mappedData.date_fin_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_sortie_formation" is not allowed', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user et date_sortie_formation mais < date_debut_contrat est invalide", () => {
+      const input = createValidRandomXlsxDonneesApprenants();
+
+      const userFields = {
+        user_email: "test@test.fr",
+        user_uai: "0000001X",
+        user_siret: "00000000000002",
+        user_nom_etablissement: "Super Etablissement",
+      };
+
+      const mappedData = {
+        ...toDonneesApprenantsFromXlsx(input),
+        ...userFields,
+        date_inscription: new Date(),
+        date_debut_contrat: addDays(new Date(), 2),
+        date_fin_contrat: addMonths(new Date(), 12),
+        date_sortie_formation: addDays(new Date(), 1),
+        date_rupture_contrat: addDays(new Date(), 5),
+      };
+
+      delete mappedData.date_fin_formation;
+
+      const result = getValidationResult(mappedData);
+
+      assert.ok(result.error);
+      assert.equal(result.error?.details[0]?.message === '"date_sortie_formation" is not allowed', true);
+    });
+
+    it("Vérifie qu'une donnée apprenant random mappée avec données du user est valide", () => {
+      const input = createValidRandomXlsxDonneesApprenants();
       const mappedInput = toDonneesApprenantsFromXlsx(input);
       const userFields = {
         user_email: "test@test.fr",
@@ -90,13 +401,8 @@ describe("Domain DonneesApprenants", () => {
         user_nom_etablissement: "Super Etablissement",
       };
       const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-
-      delete mappedInputWithUserFields.date_contrat;
-      delete mappedInputWithUserFields.date_inscription;
-      delete mappedInputWithUserFields.date_sortie_formation;
-
       const result = getValidationResult(mappedInputWithUserFields);
-      assert.ok(result.error);
+      assert.ok(!result.error);
     });
   });
 
@@ -112,7 +418,7 @@ describe("Domain DonneesApprenants", () => {
       const randomList = [];
 
       for (let index = 0; index < 2; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -124,7 +430,7 @@ describe("Domain DonneesApprenants", () => {
       }
 
       for (let index = 0; index < 8; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -143,11 +449,23 @@ describe("Domain DonneesApprenants", () => {
       assert.ok(result.error.details[1]?.context?.key === "cfd", true);
     });
 
-    it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans aucune des 3 dates nécessaire est invalide", () => {
+    it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans date d'inscription est invalide", () => {
       const randomList = [];
 
-      for (let index = 0; index < 10; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+      for (let index = 0; index < 2; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFieldsAndBadCfd = { ...mappedInput, ...userFields, date_inscription: undefined };
+        randomList.push(mappedInputWithUserFieldsAndBadCfd);
+      }
+
+      for (let index = 0; index < 8; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -155,26 +473,22 @@ describe("Domain DonneesApprenants", () => {
           user_nom_etablissement: "Super Etablissement",
         };
         const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-
-        delete mappedInputWithUserFields.date_contrat;
-        delete mappedInputWithUserFields.date_inscription;
-        delete mappedInputWithUserFields.date_sortie_formation;
-
         randomList.push(mappedInputWithUserFields);
       }
 
       const result = getValidationResultFromList(randomList);
 
       assert.ok(result.error);
-      assert.ok(result.error.details.length === 10, true);
-      assert.ok(result.error.details[0]?.context?.peers.length === 3, true);
+      assert.ok(result.error.details.length === 2, true);
+      assert.ok(result.error.details[0]?.context?.key === "date_inscription", true);
+      assert.ok(result.error.details[1]?.context?.key === "date_inscription", true);
     });
 
     it("Vérifie qu'une liste de données apprenants au bon format est valide", () => {
       const randomList = [];
 
       for (let index = 0; index < 10; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -195,7 +509,7 @@ describe("Domain DonneesApprenants", () => {
       const randomList = [];
 
       for (let index = 0; index < 2; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -211,7 +525,7 @@ describe("Domain DonneesApprenants", () => {
       }
 
       for (let index = 0; index < 8; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -239,7 +553,7 @@ describe("Domain DonneesApprenants", () => {
       const randomList = [];
 
       for (let index = 0; index < 2; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -256,7 +570,7 @@ describe("Domain DonneesApprenants", () => {
       }
 
       for (let index = 0; index < 8; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
@@ -284,25 +598,24 @@ describe("Domain DonneesApprenants", () => {
       assert.ok(errorsByFields[1].errorsForField[1]?.type === "date.base", true);
     });
 
-    it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans aucune des 3 dates nécessaire est invalide", () => {
+    it("Vérifie qu'une liste de données apprenants contenant des données apprenants avec date de début de contrat mais sans date fin contrat est invalide", () => {
       const randomList = [];
-      const nbItems = 10;
 
-      for (let index = 0; index < nbItems; index++) {
-        const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
+      for (let index = 0; index < 3; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
         const userFields = {
           user_email: "test@test.fr",
           user_uai: "0000001X",
           user_siret: "00000000000002",
           user_nom_etablissement: "Super Etablissement",
         };
-        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-
-        delete mappedInputWithUserFields.date_contrat;
-        delete mappedInputWithUserFields.date_inscription;
-        delete mappedInputWithUserFields.date_sortie_formation;
-
-        randomList.push(mappedInputWithUserFields);
+        const mappedInputWithUserFieldsAndBadCfdAndBadBirthDate = {
+          ...mappedInput,
+          ...userFields,
+          date_debut_contrat: new Date(),
+          date_fin_contrat: undefined,
+        };
+        randomList.push(mappedInputWithUserFieldsAndBadCfdAndBadBirthDate);
       }
 
       const result = getValidationResultFromList(randomList);
@@ -311,10 +624,11 @@ describe("Domain DonneesApprenants", () => {
       const errorsByFields = getFormattedErrors(result.error);
       assert.ok(errorsByFields.length === 1, true);
 
-      for (let index = 0; index < nbItems; index++) {
-        assert.ok(errorsByFields[0].errorField === "dates_inscription_contrat_sortie_formation", true);
-        assert.ok(errorsByFields[0].errorsForField[index]?.type === "object.missing", true);
-      }
+      assert.ok(errorsByFields[0].errorField === "date_fin_contrat", true);
+      assert.ok(errorsByFields[0].errorsForField.length === 3, true);
+      assert.ok(errorsByFields[0].errorsForField[0]?.type === "any.required", true);
+      assert.ok(errorsByFields[0].errorsForField[1]?.type === "any.required", true);
+      assert.ok(errorsByFields[0].errorsForField[2]?.type === "any.required", true);
     });
   });
 });
