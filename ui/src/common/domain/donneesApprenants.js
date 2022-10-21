@@ -41,10 +41,10 @@ export const donneesApprenantsFields = {
   },
   date_de_naissance_apprenant: {
     label: `la colonne "Date de naissance de l'apprenant"`,
-    format: "JJ-MM-AAAA",
+    format: "JJ/MM/AAAA",
     tooltip: {
       title: "Date de naissance",
-      text: "Le format attendu est JJ-MM-AAAA et correspond à la norme ISO 8601.\nExemple : 30-04-2003",
+      text: "Le format attendu est JJ/MM/AAAA et correspond à la norme ISO 8601.\nExemple : 30/04/2003",
     },
   },
   code_rncp: {
@@ -83,27 +83,51 @@ export const donneesApprenantsFields = {
     },
   },
   date_inscription: {
-    label: `la colonne "Date d'inscription"`,
-    format: "JJ-MM-AAAA",
+    label: `la colonne "Date d'inscription en formation"`,
+    format: "JJ/MM/AAAA",
     tooltip: {
-      title: "Date d’inscription en formation sans contrat",
-      text: "Soit l’apprenant n'a pas encore eu de contrat ; soit il n'a plus de contrat mais est toujours en formation.\nExemple : 10-09-2022",
+      title: "Date d’inscription ou de positionnement en formation",
+      text: "Soit l’apprenant n'a pas encore eu de contrat ; soit il n'a plus de contrat mais est toujours en formation.\nExemple : 10/09/2022",
     },
   },
-  date_contrat: {
-    label: `la colonne "Date de contrat"`,
-    format: "JJ-MM-AAAA",
+  date_fin_formation: {
+    label: `la colonne "Date de fin de formation"`,
+    format: "JJ/MM/AAAA",
     tooltip: {
-      title: "Date de contrat",
-      text: "Il s’agit de la date de début de contrat, celle indiquée sur le CERFA ou la Convention.\nExemple : 16-10-2022",
+      title: "Date de fin prévue de la formation",
+      text: "",
+    },
+  },
+  date_debut_contrat: {
+    label: `la colonne "Date de début contrat"`,
+    format: "JJ/MM/AAAA",
+    tooltip: {
+      title: "Date de début de contrat en cours",
+      text: "À remplir obligatoirement si un contrat d’apprentissage est signé. Nous gérerons bientôt plusieurs contrats successifs, mais pour le moment veuillez renseigner le dernier contrat en date.\nExemple : 10/09/2022",
+    },
+  },
+  date_fin_contrat: {
+    label: `la colonne "Date de fin de contrat"`,
+    format: "JJ/MM/AAAA",
+    tooltip: {
+      title: "Date de fin de contrat prévue du contrat en cours",
+      text: "A remplir obligatoirement si un contrat d'apprentissage est signé.\nExemple : 10/09/2022",
+    },
+  },
+  date_rupture_contrat: {
+    label: `la colonne "Date de rupture de contrat"`,
+    format: "JJ/MM/AAAA",
+    tooltip: {
+      title: "Date de rupture de contrat ",
+      text: "À remplir obligatoirement dès qu’il y a une rupture de contrat.\nExemple : 26/06/2022",
     },
   },
   date_sortie_formation: {
     label: `la colonne "Date de sortie de formation"`,
-    format: "JJ-MM-AAAA",
+    format: "JJ/MM/AAAA",
     tooltip: {
-      title: "Date de sortie de la formation",
-      text: "Il s’agit de l’arrêt du contrat et de cette formation, et un départ de l’OF.\nExemple : 26-06-2022",
+      title: "Sortie de la formation",
+      text: "Il s’agit de l’arrêt du contrat et de cette formation en apprentissage. À remplir obligatoirement dès qu’il y a une sortie définitive.\nExemple : 26/06/2022",
     },
   },
   dates_inscription_contrat_sortie_formation: {

@@ -70,7 +70,7 @@ export default ({ userEvents, donneesApprenantsService }) => {
           uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.SUCCESS;
         }
 
-        return res.json({ message: uploadStatus, originalUploadLength, errors });
+        return res.json({ message: uploadStatus, originalUploadLength: originalUploadLength?.toString(), errors });
       } catch (err) {
         uploadStatus = USER_EVENTS_ACTIONS.UPLOAD.ERROR;
         return res.status(500).json({ message: "Could not upload file !", errors });
