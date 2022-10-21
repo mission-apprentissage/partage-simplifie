@@ -1,6 +1,11 @@
 import { strict as assert } from "assert";
 import { addDays, addMonths, subDays } from "date-fns";
-import { getValidationResult, DONNEES_APPRENANT_XLSX_FIELDS } from "../../../src/domain/donneesApprenants.js";
+import {
+  getValidationResult,
+  DONNEES_APPRENANT_XLSX_FIELDS,
+  getValidationResultFromList,
+  getFormattedErrors,
+} from "../../../src/domain/donneesApprenants.js";
 import { toDonneesApprenantsFromXlsx } from "../../../src/model/api/donneesApprenantsMapper.js";
 import {
   createRandomXlsxDonneesApprenant,
@@ -401,161 +406,229 @@ describe("Domain DonneesApprenants", () => {
     });
   });
 
-  // describe("getValidationResultFromList", () => {
-  //   it("Vérifie qu'une liste contenant une donnée apprenants de valeur null est invalide", () => {
-  //     const randomDonneeApprenant = createRandomXlsxDonneesApprenant();
-  //     const input = [null, randomDonneeApprenant];
-  //     const result = getValidationResultFromList(input);
-  //     assert.ok(result.error);
-  //   });
+  describe("getValidationResultFromList", () => {
+    it("Vérifie qu'une liste contenant une donnée apprenants de valeur null est invalide", () => {
+      const randomDonneeApprenant = createRandomXlsxDonneesApprenant();
+      const input = [null, randomDonneeApprenant];
+      const result = getValidationResultFromList(input);
+      assert.ok(result.error);
+    });
 
-  //   it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans cfd est invalide", () => {
-  //     const randomList = [];
+    it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans cfd est invalide", () => {
+      const randomList = [];
 
-  //     for (let index = 0; index < 2; index++) {
-  //       const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
-  //       const userFields = {
-  //         user_email: "test@test.fr",
-  //         user_uai: "0000001X",
-  //         user_siret: "00000000000002",
-  //         user_nom_etablissement: "Super Etablissement",
-  //       };
-  //       const mappedInputWithUserFieldsAndBadCfd = { ...mappedInput, ...userFields, cfd: undefined };
-  //       randomList.push(mappedInputWithUserFieldsAndBadCfd);
-  //     }
+      for (let index = 0; index < 2; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFieldsAndBadCfd = { ...mappedInput, ...userFields, cfd: undefined };
+        randomList.push(mappedInputWithUserFieldsAndBadCfd);
+      }
 
-  //     for (let index = 0; index < 8; index++) {
-  //       const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
-  //       const userFields = {
-  //         user_email: "test@test.fr",
-  //         user_uai: "0000001X",
-  //         user_siret: "00000000000002",
-  //         user_nom_etablissement: "Super Etablissement",
-  //       };
-  //       const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-  //       randomList.push(mappedInputWithUserFields);
-  //     }
+      for (let index = 0; index < 8; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+        randomList.push(mappedInputWithUserFields);
+      }
 
-  //     const result = getValidationResultFromList(randomList);
+      const result = getValidationResultFromList(randomList);
 
-  //     assert.ok(result.error);
-  //     assert.ok(result.error.details.length === 2, true);
-  //     assert.ok(result.error.details[0]?.context?.key === "cfd", true);
-  //     assert.ok(result.error.details[1]?.context?.key === "cfd", true);
-  //   });
+      assert.ok(result.error);
+      assert.ok(result.error.details.length === 2, true);
+      assert.ok(result.error.details[0]?.context?.key === "cfd", true);
+      assert.ok(result.error.details[1]?.context?.key === "cfd", true);
+    });
 
-  //   it("Vérifie qu'une liste de données apprenants au bon format est valide", () => {
-  //     const randomList = [];
+    it("Vérifie qu'une liste 10 données apprenants contenant des données apprenants sans date d'inscription est invalide", () => {
+      const randomList = [];
 
-  //     for (let index = 0; index < 10; index++) {
-  //       const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
-  //       const userFields = {
-  //         user_email: "test@test.fr",
-  //         user_uai: "0000001X",
-  //         user_siret: "00000000000002",
-  //         user_nom_etablissement: "Super Etablissement",
-  //       };
-  //       const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-  //       randomList.push(mappedInputWithUserFields);
-  //     }
+      for (let index = 0; index < 2; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFieldsAndBadCfd = { ...mappedInput, ...userFields, date_inscription: undefined };
+        randomList.push(mappedInputWithUserFieldsAndBadCfd);
+      }
 
-  //     const result = getValidationResultFromList(randomList);
-  //     assert.ok(!result.error);
-  //   });
-  // });
+      for (let index = 0; index < 8; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+        randomList.push(mappedInputWithUserFields);
+      }
 
-  // describe("getFormattedErrors", () => {
-  //   it("Vérifie qu'une liste de données apprenants contenant des données apprenants avec cfd au mauvais format est invalide", () => {
-  //     const randomList = [];
+      const result = getValidationResultFromList(randomList);
 
-  //     for (let index = 0; index < 2; index++) {
-  //       const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
-  //       const userFields = {
-  //         user_email: "test@test.fr",
-  //         user_uai: "0000001X",
-  //         user_siret: "00000000000002",
-  //         user_nom_etablissement: "Super Etablissement",
-  //       };
-  //       const mappedInputWithUserFieldsAndBadCfd = {
-  //         ...mappedInput,
-  //         ...userFields,
-  //         cfd: 123,
-  //       };
-  //       randomList.push(mappedInputWithUserFieldsAndBadCfd);
-  //     }
+      assert.ok(result.error);
+      assert.ok(result.error.details.length === 2, true);
+      assert.ok(result.error.details[0]?.context?.key === "date_inscription", true);
+      assert.ok(result.error.details[1]?.context?.key === "date_inscription", true);
+    });
 
-  //     for (let index = 0; index < 8; index++) {
-  //       const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
-  //       const userFields = {
-  //         user_email: "test@test.fr",
-  //         user_uai: "0000001X",
-  //         user_siret: "00000000000002",
-  //         user_nom_etablissement: "Super Etablissement",
-  //       };
-  //       const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-  //       randomList.push(mappedInputWithUserFields);
-  //     }
+    it("Vérifie qu'une liste de données apprenants au bon format est valide", () => {
+      const randomList = [];
 
-  //     const result = getValidationResultFromList(randomList);
-  //     assert.ok(result.error);
+      for (let index = 0; index < 10; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+        randomList.push(mappedInputWithUserFields);
+      }
 
-  //     const errorsByFields = getFormattedErrors(result.error);
+      const result = getValidationResultFromList(randomList);
+      assert.ok(!result.error);
+    });
+  });
 
-  //     assert.ok(errorsByFields.length === 1, true);
-  //     assert.ok(errorsByFields[0].errorField === "cfd", true);
-  //     assert.ok(errorsByFields[0].errorsForField.length === 2, true);
+  describe("getFormattedErrors", () => {
+    it("Vérifie qu'une liste de données apprenants contenant des données apprenants avec cfd au mauvais format est invalide", () => {
+      const randomList = [];
 
-  //     assert.ok(errorsByFields[0].errorsForField[0]?.type === "string.base", true);
-  //     assert.ok(errorsByFields[0].errorsForField[1]?.type === "string.base", true);
-  //   });
+      for (let index = 0; index < 2; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFieldsAndBadCfd = {
+          ...mappedInput,
+          ...userFields,
+          cfd: 123,
+        };
+        randomList.push(mappedInputWithUserFieldsAndBadCfd);
+      }
 
-  //   it("Vérifie qu'une liste de données apprenants contenant des données apprenants sans cfd et avec date de naissance au mauvais format est invalide", () => {
-  //     const randomList = [];
+      for (let index = 0; index < 8; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+        randomList.push(mappedInputWithUserFields);
+      }
 
-  //     for (let index = 0; index < 2; index++) {
-  //       const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
-  //       const userFields = {
-  //         user_email: "test@test.fr",
-  //         user_uai: "0000001X",
-  //         user_siret: "00000000000002",
-  //         user_nom_etablissement: "Super Etablissement",
-  //       };
-  //       const mappedInputWithUserFieldsAndBadCfdAndBadBirthDate = {
-  //         ...mappedInput,
-  //         ...userFields,
-  //         cfd: undefined,
-  //         date_de_naissance_apprenant: 123,
-  //       };
-  //       randomList.push(mappedInputWithUserFieldsAndBadCfdAndBadBirthDate);
-  //     }
+      const result = getValidationResultFromList(randomList);
+      assert.ok(result.error);
 
-  //     for (let index = 0; index < 8; index++) {
-  //       const mappedInput = toDonneesApprenantsFromXlsx(createRandomXlsxDonneesApprenant());
-  //       const userFields = {
-  //         user_email: "test@test.fr",
-  //         user_uai: "0000001X",
-  //         user_siret: "00000000000002",
-  //         user_nom_etablissement: "Super Etablissement",
-  //       };
-  //       const mappedInputWithUserFields = { ...mappedInput, ...userFields };
-  //       randomList.push(mappedInputWithUserFields);
-  //     }
+      const errorsByFields = getFormattedErrors(result.error);
 
-  //     const result = getValidationResultFromList(randomList);
-  //     assert.ok(result.error);
+      assert.ok(errorsByFields.length === 1, true);
+      assert.ok(errorsByFields[0].errorField === "cfd", true);
+      assert.ok(errorsByFields[0].errorsForField.length === 2, true);
 
-  //     const errorsByFields = getFormattedErrors(result.error);
-  //     assert.ok(errorsByFields.length === 2, true);
+      assert.ok(errorsByFields[0].errorsForField[0]?.type === "string.base", true);
+      assert.ok(errorsByFields[0].errorsForField[1]?.type === "string.base", true);
+    });
 
-  //     assert.ok(errorsByFields[0].errorField === "cfd", true);
-  //     assert.ok(errorsByFields[0].errorsForField.length === 2, true);
-  //     assert.ok(errorsByFields[0].errorsForField[0]?.type === "any.required", true);
-  //     assert.ok(errorsByFields[0].errorsForField[1]?.type === "any.required", true);
+    it("Vérifie qu'une liste de données apprenants contenant des données apprenants sans cfd et avec date de naissance au mauvais format est invalide", () => {
+      const randomList = [];
 
-  //     assert.ok(errorsByFields[1].errorField === "date_de_naissance_apprenant", true);
-  //     assert.ok(errorsByFields[1].errorsForField.length === 2, true);
-  //     assert.ok(errorsByFields[1].errorsForField[0]?.type === "date.base", true);
-  //     assert.ok(errorsByFields[1].errorsForField[1]?.type === "date.base", true);
-  //   });
-  // });
+      for (let index = 0; index < 2; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFieldsAndBadCfdAndBadBirthDate = {
+          ...mappedInput,
+          ...userFields,
+          cfd: undefined,
+          date_de_naissance_apprenant: 123,
+        };
+        randomList.push(mappedInputWithUserFieldsAndBadCfdAndBadBirthDate);
+      }
+
+      for (let index = 0; index < 8; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFields = { ...mappedInput, ...userFields };
+        randomList.push(mappedInputWithUserFields);
+      }
+
+      const result = getValidationResultFromList(randomList);
+      assert.ok(result.error);
+
+      const errorsByFields = getFormattedErrors(result.error);
+      assert.ok(errorsByFields.length === 2, true);
+
+      assert.ok(errorsByFields[0].errorField === "cfd", true);
+      assert.ok(errorsByFields[0].errorsForField.length === 2, true);
+      assert.ok(errorsByFields[0].errorsForField[0]?.type === "any.required", true);
+      assert.ok(errorsByFields[0].errorsForField[1]?.type === "any.required", true);
+
+      assert.ok(errorsByFields[1].errorField === "date_de_naissance_apprenant", true);
+      assert.ok(errorsByFields[1].errorsForField.length === 2, true);
+      assert.ok(errorsByFields[1].errorsForField[0]?.type === "date.base", true);
+      assert.ok(errorsByFields[1].errorsForField[1]?.type === "date.base", true);
+    });
+
+    it("Vérifie qu'une liste de données apprenants contenant des données apprenants avec date de début de contrat mais sans date fin contrat est invalide", () => {
+      const randomList = [];
+
+      for (let index = 0; index < 3; index++) {
+        const mappedInput = toDonneesApprenantsFromXlsx(createValidRandomXlsxDonneesApprenants());
+        const userFields = {
+          user_email: "test@test.fr",
+          user_uai: "0000001X",
+          user_siret: "00000000000002",
+          user_nom_etablissement: "Super Etablissement",
+        };
+        const mappedInputWithUserFieldsAndBadCfdAndBadBirthDate = {
+          ...mappedInput,
+          ...userFields,
+          date_debut_contrat: new Date(),
+          date_fin_contrat: undefined,
+        };
+        randomList.push(mappedInputWithUserFieldsAndBadCfdAndBadBirthDate);
+      }
+
+      const result = getValidationResultFromList(randomList);
+      assert.ok(result.error);
+
+      const errorsByFields = getFormattedErrors(result.error);
+      assert.ok(errorsByFields.length === 1, true);
+
+      assert.ok(errorsByFields[0].errorField === "date_fin_contrat", true);
+      assert.ok(errorsByFields[0].errorsForField.length === 3, true);
+      assert.ok(errorsByFields[0].errorsForField[0]?.type === "any.required", true);
+      assert.ok(errorsByFields[0].errorsForField[1]?.type === "any.required", true);
+      assert.ok(errorsByFields[0].errorsForField[2]?.type === "any.required", true);
+    });
+  });
 });

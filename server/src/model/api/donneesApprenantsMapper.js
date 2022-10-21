@@ -78,8 +78,8 @@ export const toDossiersApprenantsList = (donneesApprenant) => {
 
   // Evènements des dates de contrat
   currentDossierApprenant.contrat_date_debut = donneesApprenant.date_debut_contrat;
-  // currentDossierApprenant.contrat_date_fin = donneesApprenant.xxxxx; -- On ne remplis pas la date de fin car on ne l'a pas
-  currentDossierApprenant.contrat_date_rupture = donneesApprenant.date_sortie_formation;
+  currentDossierApprenant.contrat_date_fin = donneesApprenant.date_fin_contrat;
+  currentDossierApprenant.contrat_date_rupture = donneesApprenant.date_rupture_contrat;
 
   // S'il existe une date d'inscription , on ajoute à la liste un dossierApprenant correspondant au statut inscrit avec la date d'inscription
   if (donneesApprenant.date_inscription) {
