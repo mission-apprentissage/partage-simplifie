@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 
-import { connectToMongodb, getDatabase } from "../../src/model/db/mongodbClient.js";
+import { connectToMongodb } from "../../src/model/db/mongodbClient.js";
 import { configureValidation, clearAllCollections } from "../../src/model/db/mongodbUtils.js";
 import { createIndexes } from "../../src/model/indexes/index.js";
 
@@ -11,12 +11,12 @@ let mongodHolder;
  * On ne démarre pas l'initialisation de la collection logs capped car inutile pour les tests
  */
 export const startMongodb = async () => {
-  mongodHolder = await MongoMemoryServer.create({ binary: { version: "5.0.2" } });
+  mongodHolder = await MongoMemoryServer.create();
   let uri = mongodHolder.getUri();
   let client = await connectToMongodb(uri);
 
   await configureValidation();
-  await createIndexes(getDatabase());
+  await createIndexes();
   return client;
 };
 

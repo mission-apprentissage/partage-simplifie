@@ -7,7 +7,7 @@ import Section from "../Section/Section";
 const ContactSection = () => {
   return (
     <Section background="galt" paddingY="4w">
-      <Heading color="grey.800" as="h2" fontSize="beta">
+      <Heading color="grey.800" variant="h2">
         Une question ?
       </Heading>
       <Flex marginTop="1w">
@@ -15,7 +15,7 @@ const ContactSection = () => {
           Le service {PRODUCT_NAME} est porté par la Mission interministérielle pour l’apprentissage. Vous avez besoin
           d’en savoir plus sur les données collectées, les différents types d’accès aux données, etc... Contacter
           l’équipe&nbsp;:&nbsp;
-          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance" whiteSpace="nowrap">
+          <Link href={`mailto:${CONTACT_ADDRESS}`} color="bluefrance">
             {CONTACT_ADDRESS}
           </Link>
         </Text>

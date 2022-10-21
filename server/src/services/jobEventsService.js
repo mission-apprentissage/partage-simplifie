@@ -7,7 +7,7 @@ import { COLLECTIONS_NAMES } from "../model/collections/index.js";
  * @param {*} param0
  * @returns
  */
-const create = async ({ jobname, action, data = {} }) => {
+const createJobEvent = async ({ jobname, action, data = {} }) => {
   const JobEventEntity = JobEventsFactory.create({ jobname, action, data });
   await dbCollection(COLLECTIONS_NAMES.JobEvents).insertOne(JobEventEntity);
   return;
@@ -27,4 +27,4 @@ const isJobInAction = async (jobname, action) => {
   return lastJobEvent?.action === action ?? false;
 };
 
-export default () => ({ create, isJobInAction });
+export default () => ({ createJobEvent, isJobInAction });

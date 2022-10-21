@@ -3,7 +3,10 @@ import { date, object, objectId, string } from "./jsonSchema/jsonSchemaTypes.js"
 const name = "jobEvents";
 
 const indexes = () => {
-  return [[{ jobname: 1 }, { name: "jobname" }]];
+  return [
+    [{ jobname: 1 }, { name: "jobname" }],
+    [{ action: 1 }, { name: "action" }],
+  ];
 };
 
 const schema = () => {

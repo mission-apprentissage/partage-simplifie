@@ -3,13 +3,15 @@ import jobEventsService from "../../../src/services/jobEventsService.js";
 import { JOB_STATUS } from "../../../src/common/constants/jobsConstants.js";
 import { dbCollection } from "../../../src/model/db/mongodbClient.js";
 import { COLLECTIONS_NAMES } from "../../../src/model/collections/index.js";
+import MockDate from "mockdate";
+import { addMinutes } from "date-fns";
 
 describe("Service JobEvents", () => {
-  describe("create", () => {
+  describe("createJobEvent", () => {
     it("Permet de créer un jobEvent et de le sauver en base", async () => {
-      const { create } = jobEventsService();
+      const { createJobEvent } = jobEventsService();
 
-      await create({ jobname: "testJob", action: "any", data: { hello: "world" } });
+      await createJobEvent({ jobname: "testJob", action: "any", data: { hello: "world" } });
       const foundInDb = await dbCollection(COLLECTIONS_NAMES.JobEvents).findOne({ jobname: "testJob" });
 
       assert.ok(foundInDb);
@@ -23,27 +25,33 @@ describe("Service JobEvents", () => {
 
   describe("isJobInAction", () => {
     it("Permet de vérifier si le job courant est dans l'action terminée", async () => {
-      const { create, isJobInAction } = await jobEventsService();
+      const { createJobEvent, isJobInAction } = jobEventsService();
 
       const testJobName = "TEST-JOB";
 
+      MockDate.set(new Date());
+
       // Add started then executed and finally ended event
-      await create({ jobname: testJobName, action: JOB_STATUS.started });
-      await create({ jobname: testJobName, action: JOB_STATUS.executed });
-      await create({ jobname: testJobName, action: JOB_STATUS.ended });
+      await createJobEvent({ jobname: testJobName, action: JOB_STATUS.started });
+      MockDate.set(addMinutes(new Date(), 5));
+
+      await createJobEvent({ jobname: testJobName, action: JOB_STATUS.executed });
+      MockDate.set(addMinutes(new Date(), 5));
+
+      await createJobEvent({ jobname: testJobName, action: JOB_STATUS.ended });
 
       const isEnded = await isJobInAction(testJobName, JOB_STATUS.ended);
       assert.equal(isEnded, true);
     });
 
     it("Permet de vérifier si le job courant n'est pas dans l'action terminée", async () => {
-      const { create, isJobInAction } = await jobEventsService();
+      const { createJobEvent, isJobInAction } = jobEventsService();
 
       const testJobName = "TEST-JOB";
 
       // Add started then executed event
-      await create({ jobname: testJobName, action: JOB_STATUS.started });
-      await create({ jobname: testJobName, action: JOB_STATUS.executed });
+      await createJobEvent({ jobname: testJobName, action: JOB_STATUS.started });
+      await createJobEvent({ jobname: testJobName, action: JOB_STATUS.executed });
 
       const isEnded = await isJobInAction(testJobName, JOB_STATUS.ended);
       assert.equal(isEnded, false);
